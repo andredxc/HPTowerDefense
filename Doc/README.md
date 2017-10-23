@@ -1,2 +1,0 @@
-# HPTowerDefense
-Trabalho de MLP
