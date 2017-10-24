@@ -1,0 +1,5 @@
+
+class Soldier: public AttackUnit{
+
+
+};
