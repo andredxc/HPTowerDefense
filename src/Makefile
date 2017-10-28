@@ -1,17 +1,25 @@
+GAME_NAME=HPTowerDefense
+CC=g++
 
-all: main.cpp Game.o
+all: main.cpp Game.o Unit.o
 
-	g++ -o HPTowerDefense main.cpp Game.o -lSDL2
+	$(CC) -o $(GAME_NAME) main.cpp Game.o -lSDL2
 
-debug: debugGame.o debugMain.o
+debug: debugMain.o debugGame.o debugUnit.o
 
-	g++ -o HPTowerDefense main.cpp Game.o -g -lSDL2
+	$(CC) -o $(GAME_NAME) main.cpp Game.o -lSDL2 -g
 
 Game.o:
-	g++ -c Game.cpp -Wall -lSDL2
+	$(CC) -c Game.cpp -Wall -lSDL2
+
+Unit.o:
+	$(CC) -c Unit.cpp -Wall -lSDL2
 
 debugGame.o:
-	g++ -c Game.cpp -Wall -g -lSDL2
+	$(CC) -c Game.cpp -Wall -lSDL2 -g
+
+debugUnit.o:
+	$(CC) -c Unit.cpp -Wall -lSDL2 -g
 
 clean:
-	rm *.o HPTowerDefense
+	rm *.o $(GAME_NAME)
