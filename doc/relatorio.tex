@@ -117,8 +117,10 @@
 % Sumario
 \tableofcontents
 
+\bibliographystyle{abntex2-alf}
 
 
+%\bibliography{biblio} % arquivo que contém as referências (no formato bib). Colocar as suas 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Aqui comeca o texto propriamente dito
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,21 +136,26 @@
 % Introdução
 %
 \chapter{Introdução} \label{intro}
-Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. 
+Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Iniciaremos com uma breve resenha histórica sobre linguagens de programação para logo abordar os temas relacionados ao trabalho. 
 
 \section{Historia das Linguagens de Programação}
 As primeiras linguagens de programação eram simples códigos, utilizados para automatizar processos nem sempre relacionadas à computação. Na década de 1940, com a criação do primeiro computador moderno, eram utilizados cartões perfurados para facilitar o processo de programação e diminuir a quantidade de erros introduzidos pelo programador. Não foi até mediados de 1950 que surgiu a primeira linguagem de programação moderna, FORTRAN criada por John Backus. Os seguintes anos foram frutíferos, vieram acompanhados de duas novas linguagens de programação LISP - John McCarthy e COBOL - Grace Hopper.
 
 No começo todas as linguagens de programação somente permitiam a criação de programas monolíticos e careciam de recursos que facilitassem sua utilização. Somente no fim da década de 1970 que foram estabelecidos os principais paradigmas de programação conhecidos hoje em dia, imperativo, funcional e lógico.
-Durante estos anos surgiu o termo de Programação estruturada, que visava restringir o uso de desvios incondicionais (GoTo).
+Durante estos anos surgiu o termo de Programação estruturada, que visava restringir o uso de desvios incondicionais (GoTo) \cite{organick2014programming}.
 
 Em 1980 apareceu C++, que combinava orientação a objetos e programação de sistemas, também foi introduzida uma mudança de pensamento na concepção de linguagens de programação, junto com o movimento RISC em arquitetura de computadores,despertou-se maior interesse no uso de compiladores para linguagens de alto nível.
 
-Com a chegada da internet, sugiram as linguagens de scripting que não são evolução direta de nenhuma linguagem já estabelecida anteriormente, senão que foram concebidas com novas sintaxes e novas funções.
- 
+Com a chegada da internet, sugiram as linguagens de scripting que não são evolução direta de nenhuma linguagem já estabelecida anteriormente, senão que foram concebidas com novas sintaxes e novas funções \cite{ceruzzi1998history}.
+\section{Linguagem de Desenvolvimento}
+Como o objetivo deste trabalho é aproximar os alunos com as linguagens de programação modernas, sabemos que devemos escolher uma linguagem de programação que seja amplamente usada na atualidade, também sabemos que a mesma deve ser multi paradigma já que devemos implementar soluções baixo dois paradigmas diferentes.
+Pelos motivos citados previamente, escolhemos \textbf{C++}.
+\section{Problema a ser Resolvido}
+A intensão inicial sempre foi resolver um problema que já era conhecido pelos integrantes do grupo, assim escolhemos \textbf {Tower Defence}.
 
- 
+\chapter{C++} \label{C++}
 
+\chapter{Tower Defence} \label{Tower Defence}
 
 \begin{comment}
 Este capítulo tem o objetivo de descrever os detalhes necessários à correta formatação do documento. As informações aqui apresentadas devem ser suficientes para formatar corretamente o documento no ambiente \LaTeX.
@@ -156,7 +163,7 @@ Este capítulo tem o objetivo de descrever os detalhes necessários à correta f
 Os \textbf{Capítulos} são sempre iniciados com o comando \texttt{\char'134chapter}, que coloca-os em uma nova folha, em letras maiúsculas, numerados e  alinhados à esquerda. Para os \textbf{capítulos não-numerados} (Listas, Resumo, Abstract, Referências, etc.), o título é centralizado na linha Para tanto, usar o comando \texttt{\char'134chapter*}. Para ambos, são deixados 90 pt de espaçamento anterior (ou seja, distância da margem superior) e 42 pt de espaçamento posterior (espaço até o início do texto ou primeira subdivisão). 
 
 Todos os \textbf{demais parágrafos de texto} são escritos em espaçamento simples, com observância de 6 pt de espaçamento em relação ao parágrafo seguinte. O estilo atual já considera essas retrições. 
-\end{comment}
+
 
 \section{Sobre os Títulos e Capítulos}
 
@@ -443,7 +450,7 @@ Temos aí palavras de Harunari que foram citadas por Guaranga e que estão sendo
 
 \noindent 
 
-
+\end{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusões
 %
@@ -461,12 +468,12 @@ Apresentar conclusão do trabalho...
 
 %\bibliographystyle{abnt}
 
-\bibliographystyle{abntex2-alf}
+%\bibliographystyle{abntex2-alf}
 
 
 \bibliography{biblio} % arquivo que contém as referências (no formato bib). Colocar as suas lá (se tiver dúvida sobre como adicionar novas referências, usar o software JabRef ou Medley)
 
-
+\begin{comment}
 
 \noindent {\\\bf Se tiver alguma dúvida, veja os exemplos seguintes:}\\
 
@@ -556,7 +563,7 @@ Quando o local e a editora não puderem ser identificados, utilizam-se [S.l.:s.n
 
 
 
-
+\end{comment}
 \end{document}
 © 2017 GitHub, Inc.
 Terms
