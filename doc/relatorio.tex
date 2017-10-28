@@ -42,7 +42,7 @@
 %\usepackage[breaklinks]{hyperref}
 
 \usepackage[alf,abnt-emphasize=bf]{abntex2cite}	% pacote para usar citações abnt
-
+\usepackage{verbatim}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Macros, ajustes e definições
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,11 +74,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % título
-\title{Um Modelo de Relatório para a Disciplina de MLP do Instituto de Informática da UFRGS} 
+\title{Trabalho Final para a Disciplina de MLP do Instituto de Informática da UFRGS} 
 
 % autor
-\author{Autores(s)}{Aluno(s)} % {sobrenome}{nome}
-%\author{Autor2}{Aluno} % {sobrenome}{nome} 1 para cada aluno
+\author{Dexheimer}{André} % {sobrenome}{nome}
+\author{Piscoya}{Gabriel} % {sobrenome}{nome} 1 para cada aluno
+\author{Wiebbelling}{Rodrigo} % {sobrenome}{nome} 1 para cada aluno
 
 % Professor orientador da disciplina
 \advisor[Prof.~Dr.]{Mello Schnorr}{Lucas}
@@ -94,9 +95,11 @@
 
 
 % Palavras chave
-\keyword{Palavra-chave1}
-\keyword{Palavra-chave2}
-\keyword{Palavra-chave3}
+\keyword{Tower Defence}
+\keyword{Orientação a Objetos}
+\keyword{Functional}
+\keyword{C++}
+\keyword{MLP}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,22 +125,38 @@
 
 %espaçamento entre parágrafos
 %\setlength{\parskip}{6 pt}
+%\setlength{\parskip}{6 pt}
 
-\selectlanguage{brazilian}
+%\selectlanguage{brazilian}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%a%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introdução
 %
 \chapter{Introdução} \label{intro}
+Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. 
 
+\section{Historia das Linguagens de Programação}
+As primeiras linguagens de programação eram simples códigos, utilizados para automatizar processos nem sempre relacionadas à computação. Na década de 1940, com a criação do primeiro computador moderno, eram utilizados cartões perfurados para facilitar o processo de programação e diminuir a quantidade de erros introduzidos pelo programador. Não foi até mediados de 1950 que surgiu a primeira linguagem de programação moderna, FORTRAN criada por John Backus. Os seguintes anos foram frutíferos, vieram acompanhados de duas novas linguagens de programação LISP - John McCarthy e COBOL - Grace Hopper.
+
+No começo todas as linguagens de programação somente permitiam a criação de programas monolíticos e careciam de recursos que facilitassem sua utilização. Somente no fim da década de 1970 que foram estabelecidos os principais paradigmas de programação conhecidos hoje em dia, imperativo, funcional e lógico.
+Durante estos anos surgiu o termo de Programação estruturada, que visava restringir o uso de desvios incondicionais (GoTo).
+
+Em 1980 apareceu C++, que combinava orientação a objetos e programação de sistemas, também foi introduzida uma mudança de pensamento na concepção de linguagens de programação, junto com o movimento RISC em arquitetura de computadores,despertou-se maior interesse no uso de compiladores para linguagens de alto nível.
+
+Com a chegada da internet, sugiram as linguagens de scripting que não são evolução direta de nenhuma linguagem já estabelecida anteriormente, senão que foram concebidas com novas sintaxes e novas funções.
+ 
+
+ 
+
+
+\begin{comment}
 Este capítulo tem o objetivo de descrever os detalhes necessários à correta formatação do documento. As informações aqui apresentadas devem ser suficientes para formatar corretamente o documento no ambiente \LaTeX.
 
 Os \textbf{Capítulos} são sempre iniciados com o comando \texttt{\char'134chapter}, que coloca-os em uma nova folha, em letras maiúsculas, numerados e  alinhados à esquerda. Para os \textbf{capítulos não-numerados} (Listas, Resumo, Abstract, Referências, etc.), o título é centralizado na linha Para tanto, usar o comando \texttt{\char'134chapter*}. Para ambos, são deixados 90 pt de espaçamento anterior (ou seja, distância da margem superior) e 42 pt de espaçamento posterior (espaço até o início do texto ou primeira subdivisão). 
 
 Todos os \textbf{demais parágrafos de texto} são escritos em espaçamento simples, com observância de 6 pt de espaçamento em relação ao parágrafo seguinte. O estilo atual já considera essas retrições. 
-
+\end{comment}
 
 \section{Sobre os Títulos e Capítulos}
 
