@@ -1,0 +1,12 @@
+\select@language {brazilian}
+\select@language {brazilian}
+\contentsline {chapter}{1~Introdu\IeC {\c c}\IeC {\~a}o}{3}{CHAPTER.1}
+\contentsline {section}{\numberline {1.1}Historia das Linguagens de Programa\IeC {\c c}\IeC {\~a}o}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}Ambiente e Linguagem de Programa\IeC {\c c}\IeC {\~a}o}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}Problema Abordado}{4}{section.1.3}
+\contentsline {chapter}{2~A Linguagem C++}{5}{CHAPTER.2}
+\contentsline {section}{\numberline {2.1}Algumas caracter\IeC {\'\i }sticas do C++}{5}{section.2.1}
+\contentsline {chapter}{3~Tower Defense}{6}{CHAPTER.3}
+\contentsline {section}{\numberline {3.1}Objetivo do jogo}{6}{section.3.1}
+\contentsline {chapter}{4~CONCLUS\IeC {\~A}O}{7}{CHAPTER.4}
+\contentsfinish 
