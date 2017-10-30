@@ -1,0 +1,18 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.1 }
+
+\bibitem[Ceruzzi 1998]{ceruzzi1998history}
+\abntrefinfo{Ceruzzi}{CERUZZI}{1998}
+{CERUZZI, P. \textbf{A History of Modern Computing (Cambridge, MA \& London}.
+  [S.l.]: MIT Press, 1998.}
+
+\bibitem[Organick, Forsythe e Plummer 2014]{organick2014programming}
+\abntrefinfo{Organick, Forsythe e Plummer}{ORGANICK; FORSYTHE; PLUMMER}{2014}
+{ORGANICK, E.~I.; FORSYTHE, A.~I.; PLUMMER, R.~P. \textbf{Programming language
+  structures}. [S.l.]: Academic Press, 2014.}
+
+\end{thebibliography}
