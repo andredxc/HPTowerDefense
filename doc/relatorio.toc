@@ -8,5 +8,6 @@
 \contentsline {section}{\numberline {2.1}Algumas caracter\IeC {\'\i }sticas do C++}{5}{section.2.1}
 \contentsline {chapter}{3~Tower Defense}{6}{CHAPTER.3}
 \contentsline {section}{\numberline {3.1}Objetivo do jogo}{6}{section.3.1}
-\contentsline {chapter}{4~CONCLUS\IeC {\~A}O}{7}{CHAPTER.4}
+\contentsline {section}{\numberline {3.2}Os inimigos}{6}{section.3.2}
+\contentsline {chapter}{4~Conclus\IeC {\~a}o}{7}{CHAPTER.4}
 \contentsfinish 
