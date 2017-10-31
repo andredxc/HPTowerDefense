@@ -9,6 +9,5 @@
 \contentsline {chapter}{3~Tower Defense}{6}{CHAPTER.3}
 \contentsline {section}{\numberline {3.1}Objetivo do jogo}{6}{section.3.1}
 \contentsline {section}{\numberline {3.2}Os inimigos}{6}{section.3.2}
-\contentsline {chapter}{4~Conclus\IeC {\~a}o}{7}{CHAPTER.4}
-\contentsline {chapter}{\xspace {}Refer{\^e}ncias}{8}{schapter.2}
+\contentsline {chapter}{\xspace {}Refer{\^e}ncias}{7}{schapter.2}
 \contentsfinish 
