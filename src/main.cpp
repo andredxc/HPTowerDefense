@@ -14,7 +14,7 @@ int main(int argc, char **argv){
         game.handleEvents();
         game.update();
         game.render();
-        usleep(5000);	
+        sleep(2);	
     }
 
     game.clean();

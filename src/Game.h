@@ -11,7 +11,7 @@ public:
     void clean();
     void newRound(){
     		Archer atacante;
-    		atacante.spawn(5,5);
+    		atacante.spawn(800,600);
     };
     int getIsRunning(){ return _isRunning; };
 
