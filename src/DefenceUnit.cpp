@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include "DefenceUnit.h"
 
-DefenseUnit::spawn(uint maxX, uint maxY){
+void DefenceUnit::spawn(uint maxX, uint maxY){
 
 	_xPos = maxX;
 	_yPos = maxY;
+
+}
+void DefenceUnit::move(){
 
 }

@@ -5,9 +5,9 @@
 int main(int argc, char **argv){
 
     Game game;
-
+    //DefenceUnit tower;
     game.initialize("HPTowerDefense", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
-
+   // tower = 
     while(game.getIsRunning()){
    
    		game.newRound();

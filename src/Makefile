@@ -1,9 +1,9 @@
 GAME_NAME=HPTowerDefense
 CC=g++
 
-all: main.cpp Game.o Unit.o AttackUnit.o Soldier.o Archer.o
+all: main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o
 
-	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o Soldier.o Archer.o -lSDL2
+	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o -lSDL2
 
 debug: main.cpp debugGame debugUnit debugAttackUnit debugSoldier debugArcher
 
@@ -17,6 +17,9 @@ Unit.o:
 
 AttackUnit.o:
 	$(CC) -c AttackUnit.cpp -Wall -lSDL2
+
+DefenceUnit.o:
+	$(CC) -c DefenceUnit.cpp -Wall -lSDL2
 
 Soldier.o:
 	$(CC) -c Soldier.cpp -Wall -lSDL2

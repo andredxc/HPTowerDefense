@@ -9,6 +9,7 @@ public:
     void update();
     void render();
     void clean();
+    
     void newRound(){
     		Archer atacante;
     		atacante.spawn(800,600);
