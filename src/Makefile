@@ -3,7 +3,7 @@ CC=g++
 
 all: main.cpp Game.o Unit.o AttackUnit.o Soldier.o Archer.o
 
-	$(CC) -o $(GAME_NAME) main.cpp Game.o -lSDL2
+	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o Soldier.o Archer.o -lSDL2
 
 debug: main.cpp debugGame debugUnit debugAttackUnit debugSoldier debugArcher
 

@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-
+#include "Archer.h"
 class Game{
 
 //--------------Funções
@@ -9,7 +9,10 @@ public:
     void update();
     void render();
     void clean();
-
+    void newRound(){
+    		Archer atacante;
+    		atacante.spawn(5,5);
+    };
     int getIsRunning(){ return _isRunning; };
 
 //--------------Variáveis

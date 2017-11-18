@@ -8,12 +8,11 @@ protected:
     //Falta algum tipo de representação, SDL_Texture provavelmente
 
 public:
-    virtual void spawn() = 0;
-    virtual void update() = 0;
+    virtual void spawn(uint maxX, uint maxY) = 0;  // Classe Abstrata
+    //virtual void update() = 0; // Classe Abstrata
 
     void render();
     void takeDamage(uint attackDamage);
-
     void setHealth(uint value);
     void setArmour(uint value);
     void setDps(uint value);

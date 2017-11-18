@@ -8,6 +8,7 @@ void AttackUnit::spawn(uint maxX, uint maxY){
 
     //Define a parede da tela
     wall = rand() % 4;
+    printf(" Wall: %d\n",wall);
     if(wall == 0 || wall == 1){
         //Paredes verticais
         _yPos = rand() % (maxY+1);

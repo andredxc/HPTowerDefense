@@ -3,5 +3,7 @@
 
 class Archer: public AttackUnit{
 
+public:
     Archer();
-};
+   // void update();
+};	
