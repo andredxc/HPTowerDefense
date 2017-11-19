@@ -2,10 +2,15 @@
 #include <stdlib.h>
 #include "DefenceUnit.h"
 
-void DefenceUnit::spawn(uint maxX, uint maxY){
+DefenceUnit::DefenceUnit(){
 
-	_xPos = maxX;
-	_yPos = maxY;
+    setColor(255, 255, 255);
+}
+
+void DefenceUnit::spawn(){
+
+	_xPos = GAME_WIDTH/2;
+	_yPos = GAME_HEIGHT/2;
 
 }
 void DefenceUnit::move(){

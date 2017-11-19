@@ -61,6 +61,7 @@ void Game::update(){
 */
 void Game::render(){
     SDL_RenderClear(_renderer);
+    
     SDL_RenderPresent(_renderer);
 }
 

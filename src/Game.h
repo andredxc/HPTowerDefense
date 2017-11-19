@@ -19,7 +19,7 @@ public:
     troopList() {
       Filaptr = new TipoGenerico [100];
       maxLen = 99;
-      fim = -1; 
+      fim = -1;
     };
 
     troopList(int size) {
@@ -73,7 +73,7 @@ public:
 };
 
 
-class Game{	
+class Game{
 
 //--------------Funções
 public:
@@ -91,9 +91,9 @@ public:
 
     void newRound(){
     		// Insere elementos nas listas 1 de cada tipo
-    		// Os parametro devem aumentar progressivamente de algum jeito	  
+    		// Os parametro devem aumentar progressivamente de algum jeito
     		Archer archer;
-    		archer.spawn(800,600);
+    		archer.spawn();
     		archer.setHealth(150);
     		archer.setArmour(50);
     		archer.setDps(15);
@@ -102,7 +102,7 @@ public:
     		archer.setAttackRange(50);
 
  			archerList.insere(archer);
- 			archerList.imprime();	 			
+ 			archerList.imprime();
 
     		_emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
     };

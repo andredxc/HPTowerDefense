@@ -5,12 +5,13 @@
 
 class DefenceUnit: public Unit{
 
-protected: 
+protected:
 	int _side;
 
 public:
+    DefenceUnit();
 	void move();
-	void spawn(uint maxX, uint maxY);
+	void spawn();
 
 };
 #endif

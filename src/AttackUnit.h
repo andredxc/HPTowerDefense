@@ -11,6 +11,6 @@ protected:
 public:
     //virtual void update() = 0;
     void move();
-    void spawn(uint maxX, uint maxY);
+    void spawn();
 };
-#endif 
+#endif
