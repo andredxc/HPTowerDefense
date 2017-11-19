@@ -1,3 +1,5 @@
+#ifndef X_Archer_h
+#define X_Archer_h
 #include <stdio.h>
 #include "AttackUnit.h"
 
@@ -7,3 +9,4 @@ public:
     Archer();
    // void update();
 };	
+#endif

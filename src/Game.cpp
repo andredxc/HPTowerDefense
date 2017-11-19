@@ -29,6 +29,7 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
         return false;
     }
     _isRunning = true;
+    _emptyList = true;
     return true;
 }
 

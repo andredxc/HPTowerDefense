@@ -1,3 +1,5 @@
+#ifndef X_Attack_h
+#define X_Attack_h
 #include <stdio.h>
 #include "Unit.h"
 
@@ -11,4 +13,4 @@ public:
     void move();
     void spawn(uint maxX, uint maxY);
 };
- 
+#endif 

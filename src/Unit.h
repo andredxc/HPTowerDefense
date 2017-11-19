@@ -1,3 +1,5 @@
+#ifndef X_Unit_h
+#define X_Unit_h
 #include <stdlib.h>
 
 class Unit{
@@ -29,3 +31,4 @@ public:
     uint getYPos();
     uint getAttackRange();
 };
+#endif
