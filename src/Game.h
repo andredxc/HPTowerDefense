@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <iostream>
+#include <vector>
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include "Archer.h"
@@ -17,6 +18,7 @@ private:
     bool _isRunning;
     bool _emptyList; // Variavel para controlar os rounds
     int _troops;	// Bixinhos que estão ativos na rodada
+    int _screenWidth, _screenHeight;
 
 public:
 	// criar 3e listas -> utilizar template cada uma do tipo correspondente ao bixinho que tem tamanho maximo 100
@@ -29,13 +31,9 @@ public:
     int getIsRunning();
     int getListStatus();
 
-	TroopList<Archer> archerList;
+	TroopList<Archer> _archerList;
 	//TroopList<Horseman> horsemanList;
-//	TroopList<Soldier> soldierList;
-
-
-
-//--------------Variáveis
+    //TroopList<Soldier> soldierList;
 
 };
 #endif

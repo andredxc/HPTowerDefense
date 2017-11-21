@@ -3,10 +3,14 @@
 Soldier::Soldier()
 {
     _rangedAttack = 0;
-    setColor(0, 0, 255);
 }
 
 Soldier::~Soldier()
 {
     SDL_DestroyTexture(_visualTex);
+}
+
+void Soldier::print()
+{
+    printf("Archer at (%d,%d)\n", _xPos, _yPos);
 }

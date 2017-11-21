@@ -26,6 +26,8 @@ public:
     TipoGenerico last();
     int isEmpty();
     void print();
+    int size();
+    TipoGenerico at(int i);
 };
 
 template class TroopList<Archer>;

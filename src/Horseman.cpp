@@ -2,10 +2,14 @@
 
 Horseman::Horseman()
 {
-    setColor(0, 255, 0);
 }
 
 Horseman::~Horseman()
 {
     SDL_DestroyTexture(_visualTex);
+}
+
+void Horseman::print()
+{
+    printf("Archer at (%d,%d)\n", _xPos, _yPos);
 }

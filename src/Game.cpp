@@ -30,6 +30,8 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
     }
     _isRunning = true;
     _emptyList = true;
+    //Dimensões da tela podem ser alteradas para acomodar os menus
+    SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
     return true;
 }
 
@@ -60,7 +62,15 @@ void Game::update(){
 *   Coloca coisas na tela
 */
 void Game::render(){
+
+    int i;
+
     SDL_RenderClear(_renderer);
+    for(i = 0; i < _archerList.size(); i++)
+    {
+        fprintf(stderr, "Rendering archer %d of %d\n", i+1, _archerList.size());
+        _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
+    }
 
     SDL_RenderPresent(_renderer);
 }
@@ -77,17 +87,15 @@ void Game::clean(){
 void Game::newRound(){
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-        Archer archer;
-        archer.spawn();
+        Archer archer(_renderer);
+        archer.spawn(_screenWidth, _screenHeight);
         archer.setHealth(150);
         archer.setArmour(50);
         archer.setDps(15);
         archer.setRangedAttack(12);
         archer.setMeleeAttack(0);
         archer.setAttackRange(50);
-
-        archerList.append(archer);
-        archerList.print();
+        _archerList.append(archer);
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };

@@ -5,7 +5,7 @@
 int main(int argc, char **argv){
 
     Game game;
-    const int fps = 60;
+    const int fps = 1;
     const int frameDelay = 1000/fps;
     Uint32 frameStart;
     int frameTime;
@@ -20,6 +20,7 @@ int main(int argc, char **argv){
             // Se todas as listas de enimigos estão vazias -> new round
 	   		game.newRound();
    		}
+
         game.handleEvents();
         game.update();
         game.render();

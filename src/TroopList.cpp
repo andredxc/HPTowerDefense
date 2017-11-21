@@ -36,6 +36,8 @@ void TroopList<TipoGenerico>::append(TipoGenerico number)
     {
         _fim = _fim + 1;
         _filaptr[_fim] = number;
+        printf("Colocando no fim da lista\n");
+        number.print();
     }
 };
 
@@ -82,3 +84,19 @@ void TroopList<TipoGenerico>::print()
         printf ("pos[%d]:%u\n", i, _filaptr[i].getHealth());
     }
 };
+
+template <class TipoGenerico>
+int TroopList<TipoGenerico>::size()
+{
+    return _fim+1;
+}
+
+template <class TipoGenerico>
+TipoGenerico TroopList<TipoGenerico>::at(int i)
+{
+    if(i < 0 || i >= size())
+    {
+        printf("TroopList: tentativa de acesso a um índice fora de alcance (%d)\n", i);
+    }
+    return _filaptr[i];
+}

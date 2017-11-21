@@ -4,13 +4,12 @@
 
 DefenceUnit::DefenceUnit()
 {
-    setColor(255, 255, 255);
 }
 
-void DefenceUnit::spawn()
+void DefenceUnit::spawn(int screenWidth, int screenHeight)
 {
-	_xPos = GAME_WIDTH/2;
-	_yPos = GAME_HEIGHT/2;
+	_xPos = screenWidth/2;
+	_yPos = screenHeight/2;
 }
 void DefenceUnit::move()
 {

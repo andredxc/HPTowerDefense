@@ -9,7 +9,9 @@ class Archer: public AttackUnit{
 
 public:
     Archer();
+    Archer(SDL_Renderer* renderer);
     virtual ~Archer();
+    void print();
    // void update();
 };
 #endif

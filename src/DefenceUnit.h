@@ -11,7 +11,7 @@ protected:
 public:
     DefenceUnit();
 	void move();
-	void spawn();
+	void spawn(int screenWidth, int screenHeight);
 
 };
 #endif

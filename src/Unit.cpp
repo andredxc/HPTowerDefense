@@ -9,27 +9,26 @@ void Unit::takeDamage(uint damage){
 void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight){
 
     SDL_Rect destRect;
-    int widthRatio, heightRatio;
 
-    //Permite que a lógica do independa da resolução real da tela
-    widthRatio = screenWidth/GAME_WIDTH;
-    heightRatio = screenHeight/GAME_HEIGHT;
+    destRect.w = _width;
+    destRect.h = _height;
+    destRect.x = _xPos;
+    destRect.y = _yPos;
 
-    destRect.w = _width*widthRatio;
-    destRect.h = _height*heightRatio;
-    destRect.x = _xPos*widthRatio;
-    destRect.y = _yPos*widthRatio;
-
-    if(!renderer || !_visualTex){
-        fprintf(stderr, "Unit - Error rendering unit\n");
+    if(!renderer){
+        printf("Error rendering unit, renderer is NULL\n");
+    }
+    if(!_visualTex){
+        printf("Error rendering unit, visual texture is NULL\n");
     }
     else{
+        printf("Rendering archer to X: %d, Y: %d, width: %d, height: %d\n", destRect.x, destRect.y, destRect.w, destRect.h);
         SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
     }
 }
 
+
 void Unit::setSize(uint width, uint height){ _width = width; _height = height; }
-void Unit::setColor(uint r, uint g, uint b){ SDL_SetTextureColorMod(_visualTex, r, g, b); }
 void Unit::setHealth(uint value){ _health = value; }
 void Unit::setArmour(uint value){ _armour = value; }
 void Unit::setDps(uint value){ _dps = value; }

@@ -11,6 +11,6 @@ protected:
 public:
     //virtual void update() = 0;
     void move();
-    void spawn();
+    void spawn(int screenWidth, int screenHeight);
 };
 #endif
