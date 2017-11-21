@@ -1,5 +1,5 @@
 # HPTowerDefense
-Taaaaaarabalho de MLPaaa
+Trabalho de MLP
 
 # Como instalar:
 

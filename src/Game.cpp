@@ -61,7 +61,7 @@ void Game::update(){
 */
 void Game::render(){
     SDL_RenderClear(_renderer);
-    
+
     SDL_RenderPresent(_renderer);
 }
 
@@ -73,3 +73,23 @@ void Game::clean(){
     SDL_DestroyWindow(_window);
     SDL_DestroyRenderer(_renderer);
 }
+
+void Game::newRound(){
+        // Insere elementos nas listas 1 de cada tipo
+        // Os parametro devem aumentar progressivamente de algum jeito
+        Archer archer;
+        archer.spawn();
+        archer.setHealth(150);
+        archer.setArmour(50);
+        archer.setDps(15);
+        archer.setRangedAttack(12);
+        archer.setMeleeAttack(0);
+        archer.setAttackRange(50);
+
+        archerList.append(archer);
+        archerList.print();
+
+        _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
+};
+int Game::getIsRunning(){ return _isRunning; };
+int Game::getListStatus(){ return _emptyList ; };

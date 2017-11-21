@@ -5,4 +5,5 @@ class Soldier: public AttackUnit{
 
 public:
     Soldier();
+    virtual ~Soldier();
 };

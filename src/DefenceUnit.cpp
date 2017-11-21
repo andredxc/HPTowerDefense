@@ -2,17 +2,17 @@
 #include <stdlib.h>
 #include "DefenceUnit.h"
 
-DefenceUnit::DefenceUnit(){
-
+DefenceUnit::DefenceUnit()
+{
     setColor(255, 255, 255);
 }
 
-void DefenceUnit::spawn(){
-
+void DefenceUnit::spawn()
+{
 	_xPos = GAME_WIDTH/2;
 	_yPos = GAME_HEIGHT/2;
-
 }
-void DefenceUnit::move(){
+void DefenceUnit::move()
+{
 
 }

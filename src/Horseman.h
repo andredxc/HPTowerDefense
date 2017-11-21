@@ -7,5 +7,6 @@ class Horseman: public AttackUnit{
 
 public:
     Horseman();
+    virtual ~Horseman();
 };
 #endif
