@@ -31,7 +31,8 @@ public:
     int getIsRunning();
     int getListStatus();
 
-	TroopList<Archer> _archerList;
+	// TroopList<Archer> _archerList;
+	std::vector<Archer> _archerList;
 	//TroopList<Horseman> horsemanList;
     //TroopList<Soldier> soldierList;
 

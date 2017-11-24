@@ -12,7 +12,7 @@ class TroopList
 {
 
 private:
-    TipoGenerico* _filaptr;
+    TipoGenerico* _listPtr;
     int _maxLen;
     int _fim;
 
@@ -21,7 +21,7 @@ public:
     TroopList();
     TroopList(int size);
     ~TroopList();
-    void append(TipoGenerico number);
+    void append(TipoGenerico unit);
     void remove();
     TipoGenerico last();
     int isEmpty();

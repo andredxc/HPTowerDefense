@@ -1,9 +1,11 @@
+#include <SDL2/SDL.h>
+
 #include "TroopList.h"
 
 template <class TipoGenerico>
 TroopList<TipoGenerico>::TroopList()
 {
-    _filaptr = new TipoGenerico[100];
+    _listPtr = new TipoGenerico[100];
     _maxLen = 99;
     _fim = -1;
 };
@@ -11,7 +13,7 @@ TroopList<TipoGenerico>::TroopList()
 template <class TipoGenerico>
 TroopList<TipoGenerico>::TroopList(int size)
 {
-    _filaptr = new TipoGenerico[size];
+    _listPtr = new TipoGenerico[size];
     _maxLen = size - 1;
     _fim = -1;
 };
@@ -19,25 +21,23 @@ TroopList<TipoGenerico>::TroopList(int size)
 template <class TipoGenerico>
 TroopList<TipoGenerico>::~TroopList()
 {
-    if(_filaptr){
+    if(_listPtr){
         //TODO: Consertar
-        //delete _filaptr;
+        //delete _listPtr;
     }
 };
 
 template <class TipoGenerico>
-void TroopList<TipoGenerico>::append(TipoGenerico number)
+void TroopList<TipoGenerico>::append(TipoGenerico unit)
 {
     if (_fim == _maxLen)
     {
-        std::cerr << "Fila llena" << std::endl;
+        std::cerr << "TroopList is full" << std::endl;
     }
     else
     {
         _fim = _fim + 1;
-        _filaptr[_fim] = number;
-        printf("Colocando no fim da lista\n");
-        number.print();
+        _listPtr[_fim] = unit;
     }
 };
 
@@ -59,12 +59,12 @@ TipoGenerico TroopList<TipoGenerico>::last()
 {
     if (isEmpty())
     {
-        std::cerr << "Fila vazia" << std::endl;
-        return _filaptr[0];
+        std::cerr << "TroopList is empty" << std::endl;
+        return _listPtr[0];
     }
     else
     {
-        return _filaptr[_fim];
+        return _listPtr[_fim];
     }
 };
 
@@ -81,7 +81,7 @@ void TroopList<TipoGenerico>::print()
     for (i = 0; i <= _fim; i++)
     {
         //printf("%d\n",i);
-        printf ("pos[%d]:%u\n", i, _filaptr[i].getHealth());
+        printf ("pos[%d]:%u\n", i, _listPtr[i].getHealth());
     }
 };
 
@@ -96,7 +96,7 @@ TipoGenerico TroopList<TipoGenerico>::at(int i)
 {
     if(i < 0 || i >= size())
     {
-        printf("TroopList: tentativa de acesso a um índice fora de alcance (%d)\n", i);
+        printf("TroopList: index %d is out of bounds\n", i);
     }
-    return _filaptr[i];
+    return _listPtr[i];
 }

@@ -3,24 +3,16 @@
 
 Archer::Archer()
 {
-}
-
-Archer::Archer(SDL_Renderer* renderer)
-{
-    SDL_Surface *tempSurface;
-
-    //Inicializa atributos
     _width = 10;
     _height = 10;
-    //Inicializa texture do boneco
-    tempSurface = IMG_Load("../img/archer.bmp");
-    _visualTex = SDL_CreateTextureFromSurface(renderer, tempSurface);
-    SDL_FreeSurface(tempSurface);
+    _xPos = -1;
+    _yPos = -1;
+    _unitType = ARCHER;
 }
 
 Archer::~Archer()
 {
-	SDL_DestroyTexture(_visualTex);
+	//SDL_DestroyTexture(_visualTex);
 }
 
 void Archer::print()
