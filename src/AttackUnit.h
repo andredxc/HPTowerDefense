@@ -2,7 +2,6 @@
 #define ATTACK_UNIT_H
 #include <stdio.h>
 #include "Unit.h"
-#include "Projectile.h"
 
 class AttackUnit : public Unit{
 
@@ -11,12 +10,12 @@ protected:
 
 public:
     ~AttackUnit();
-    void update(Unit* target);
+    int update(Unit* target);
 
 protected:
     void spawn(int screenWidth, int screenHeight);
     void move(int distance, int directionX, int directionY);
-    Projectile attack(Unit* target);
+    int attack(Unit* target);
 
 };
 #endif

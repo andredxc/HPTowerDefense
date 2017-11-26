@@ -10,8 +10,8 @@ Projectile::Projectile()
     _yPos = -1;
     _destXPos = -1;
     _destYPos = -1;
-    _width = 4;
-    _height = 4;
+    _width = -1;
+    _height = -1;
     _target = NULL;
     _visualTex = NULL;
 }
@@ -58,7 +58,6 @@ void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeigh
         return;
     }
     if(!_visualTex){
-        fprintf(stderr, "Error rendering unit, visual texture is NULL\n");
         //Define a texture da unidade
         tempSurface = IMG_Load("../img/projectile.bmp");
         if(tempSurface){
@@ -69,6 +68,8 @@ void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeigh
         }
         SDL_FreeSurface(tempSurface);
     }
-    printf("(%p)Rendering projectile to X: %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
+    // printf("(%p)Rendering projectile to X %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
     SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
 }
+
+Unit* Projectile::getTarget(){ return _target; }

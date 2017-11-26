@@ -20,7 +20,7 @@ protected:
 
 public:
     virtual void spawn(int screenWidth, int screenHeight) = 0;
-    virtual void update(Unit* target) = 0;
+    virtual int update(Unit* target) = 0;
     //virtual void update() = 0;
 
     Unit();

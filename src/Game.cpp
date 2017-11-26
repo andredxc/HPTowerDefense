@@ -62,13 +62,25 @@ void Game::handleEvents(){
 void Game::update()
 {
     uint i;
+    int rangedAttackDamage;
+    Projectile projectileBuffer;
 
     if(_archerList.size() == 0){
         _emptyList = true;
     }
-
+    //Atualiza os projéteis
+    for(i = 0; i < _projectileList.size(); i++){
+        _projectileList.at(i).update();
+    }
+    //Atualiza os arqueiros
     for(i = 0; i < _archerList.size(); i++){
-        _archerList.at(i).update(&_defenceUnit);
+        rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
+
+        if(rangedAttackDamage > 0){
+            //Projétil não vazio em direção à torre
+            Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
+            _projectileList.push_back(projectileBuffer);
+        }
     }
 }
 
@@ -77,7 +89,7 @@ void Game::update()
 */
 void Game::render()
 {
-    int i;
+    uint i;
 
 
     SDL_RenderClear(_renderer);
@@ -88,10 +100,16 @@ void Game::render()
     // Projectile projectile(10, 10, 4, 4, 90, 90, NULL);
     // projectile.render(_renderer, _screenWidth, _screenHeight);
 
+
     for(i = 0; i < _archerList.size(); i++)
     {
-        // fprintf(stderr, "Rendering archer %d of %d\n", i+1, _archerList.size());
         _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        // fprintf(stderr, "Rendering archer %d of %d\n", i+1, _archerList.size());
+    }
+    for(i = 0; i < _projectileList.size(); i++)
+    {
+        _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
     }
 
     SDL_RenderPresent(_renderer);

@@ -5,7 +5,7 @@
 int main(int argc, char **argv){
 
     Game game;
-    const int fps = 60;
+    const int fps = 1;
     const int frameDelay = 1000/fps;
     Uint32 frameStart;
     int frameTime;

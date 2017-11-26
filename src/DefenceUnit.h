@@ -9,10 +9,10 @@ protected:
 
 public:
     DefenceUnit();
-    void update(Unit* target);
+    int update(Unit* target);
 
 protected:
-    void attack(Unit* target);
+    int attack(Unit* target);
     void spawn(int screenWidth, int screenHeight);
 };
 #endif

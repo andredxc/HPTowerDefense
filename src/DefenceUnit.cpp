@@ -15,9 +15,9 @@ DefenceUnit::DefenceUnit()
     _unitType = DEFENCE;
 }
 
-void DefenceUnit::update(Unit* target)
+int DefenceUnit::update(Unit* target)
 {
-
+    return 0;
 }
 
 void DefenceUnit::spawn(int screenWidth, int screenHeight)

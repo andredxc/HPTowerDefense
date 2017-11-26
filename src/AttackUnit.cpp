@@ -8,12 +8,12 @@ AttackUnit::~AttackUnit()
     SDL_DestroyTexture(_visualTex);
 }
 
-void AttackUnit::update(Unit* target)
+int AttackUnit::update(Unit* target)
 {
     int elapsedTime;
     int distanceToMove, distanceToTower;
     int defenceTowerX, defenceTowerY;
-    Projectile projectile;
+    int rangedAttackDamage = 0;
 
     //Calculo da posição da torre deve levar em consideração o tamanho
     //Para que a unidade não fique em cima ou embaixo dela
@@ -59,12 +59,14 @@ void AttackUnit::update(Unit* target)
     // fprintf(stderr, "distanceToTower: %d, distanceToMove: %d, _attackRange: %d\n", distanceToTower, distanceToMove, _attackRange);
     if(distanceToTower <= _attackRange){
         //Para de andar e ataca a torre
-        attack(target);
+        rangedAttackDamage = attack(target);
     }
     else{
         //Percorre distanceToMove
         move(distanceToMove, target->getXPos(), target->getYPos());
     }
+
+    return rangedAttackDamage;
 }
 
 void AttackUnit::spawn(int screenWidth, int screenHeight)
@@ -92,19 +94,15 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
     else{
         printf("Erro fatal - %s\n", __FUNCTION__);
     }
-
-    _xPos = 40;
-    _yPos = 40;
 }
 
 void AttackUnit::move(int distance, int directionX, int directionY)
 {
 }
 
-Projectile AttackUnit::attack(Unit* target)
+int AttackUnit::attack(Unit* target)
 {
     int elapsedTime;
-    Projectile projectile;
 
     elapsedTime = SDL_GetTicks() - _lastAttackTime;
     // fprintf(stderr, "Elapsed time since last attack: %d\n", elapsedTime);
@@ -122,9 +120,10 @@ Projectile AttackUnit::attack(Unit* target)
     }
     else if(_rangedDamage > 0 && elapsedTime >= _attackDelay){
         //Ataque a longa distância
-        Projectile projectile(5, _rangedDamage, 4, 4, _xPos, _yPos, target);
         _lastAttackTime = SDL_GetTicks();
         printf("Launching projectile with damage = %d [AttackUnit]\n", _rangedDamage);
+        return _rangedDamage;
     }
-    return projectile;
+
+    return 0;
 }

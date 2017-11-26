@@ -6,10 +6,11 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include "Archer.h"
-// #include "Soldier.h"
+#include "Soldier.h"
 #include "Horseman.h"
-#include "TroopList.h"
 #include "DefenceUnit.h"
+#include "Projectile.h"
+
 
 class Game{
 
@@ -33,6 +34,7 @@ public:
 
     DefenceUnit _defenceUnit;
 	// TroopList<Archer> _archerList;
+    std::vector<Projectile> _projectileList;
 	std::vector<Archer> _archerList;
 	//TroopList<Horseman> horsemanList;
     //TroopList<Soldier> soldierList;

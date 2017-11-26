@@ -1,4 +1,4 @@
-GAME_NAME=HPTowerDefence
+GAME_NAME=hp
 CC=g++
 
 all: main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o

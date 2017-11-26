@@ -1,8 +1,8 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include <stdio.h>
 #include <SDL2/SDL.h>
+#include <stdio.h>
 #include "Unit.h"
 
 class Projectile{
@@ -20,6 +20,8 @@ public:
 
     void update();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+
+    Unit* getTarget();
 
 protected:
     void move(int distance, int directionX, int directionY);
