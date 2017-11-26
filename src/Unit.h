@@ -11,11 +11,12 @@ enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER};
 class Unit{
 
 protected:
-    int _health, _armour, _dps, _xPos, _yPos, _width, _height;
-    int _rangedDps, _meleeDps, _attackRange;
-    UNIT_TYPE _unitType;
+    int _health, _armour;
+    int _xPos, _yPos, _width, _height, _quadrant;
+    int _rangedDamage, _meleeDamage, _attackRange, _attackDelay;    //_attackDelay em ms
+    Uint32 _lastIterationTime, _lastAttackTime;
     SDL_Texture *_visualTex;
-    //Falta algum tipo de representação, SDL_Texture provavelmente
+    UNIT_TYPE _unitType;
 
 public:
     virtual void spawn(int screenWidth, int screenHeight) = 0;
@@ -25,7 +26,7 @@ public:
     Unit();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     void takeDamage(int attackDamage);
-    
+
     void setSize(int width, int height);
     void setHealth(int value);
     void setArmour(int value);
@@ -34,7 +35,12 @@ public:
     int getArmour();
     int getXPos();
     int getYPos();
+    int getWidth();
+    int getHeight();
     UNIT_TYPE getUnitType();
     SDL_Texture* getTexture();
+
+protected:
+    void setQuadrant(int destX, int destY);
 };
 #endif

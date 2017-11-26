@@ -5,7 +5,7 @@ all: main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horsem
 
 	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o -lSDL2 -lSDL2_image
 
-debug: main.cpp debugGame debugUnit debugAttackUnit debugSoldier debugArher debugDefenceUnit debugHorseman debugProjectile
+debug: main.cpp debugGame debugUnit debugAttackUnit debugSoldier debugArcher debugDefenceUnit debugHorseman debugProjectile
 
 	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o -lSDL2 -g -lSDL2_image
 

@@ -2,5 +2,4 @@
 
 Soldier::Soldier()
 {
-    _rangedDps = 0;
 }

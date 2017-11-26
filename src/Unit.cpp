@@ -8,6 +8,8 @@ Unit::Unit()
     _xPos = -1;
     _yPos = -1;
     _visualTex = NULL;
+    _lastIterationTime = SDL_GetTicks();
+    _lastAttackTime = _lastIterationTime;
 }
 
 void Unit::takeDamage(int damage)
@@ -34,7 +36,6 @@ void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
         return;
     }
     if(!_visualTex){
-        fprintf(stderr, "Error rendering unit, visual texture is NULL\n");
         //Define a texture da unidade
         switch(_unitType){
             case SOLDIER: tempSurface = IMG_Load("../img/soldier.bmp"); break;
@@ -51,7 +52,7 @@ void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
         }
         SDL_FreeSurface(tempSurface);
     }
-    printf("(%p)Rendering unit to X: %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
+    // printf("(%p)Rendering unit to X: %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
     SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
 }
 
@@ -64,5 +65,21 @@ int Unit::getHealth(){ return _health; }
 int Unit::getArmour(){ return _health; }
 int Unit::getXPos(){ return _xPos; }
 int Unit::getYPos(){ return _yPos; }
+int Unit::getWidth(){ return _width; }
+int Unit::getHeight(){ return _height; }
 UNIT_TYPE Unit::getUnitType(){ return _unitType; }
 SDL_Texture* Unit::getTexture(){ return _visualTex; }
+
+void Unit::setQuadrant(int destX, int destY)
+{
+    if(_xPos >= destX && _yPos >= destY)
+        _quadrant = 0;
+    else if(_xPos < destX && _yPos >= destY)
+        _quadrant = 1;
+    else if(_xPos < destX && _yPos < destY)
+        _quadrant = 2;
+    else if(_xPos > destX && _yPos < destY)
+        _quadrant = 3;
+    else
+        printf("Internal error defining quadrant\n");
+}

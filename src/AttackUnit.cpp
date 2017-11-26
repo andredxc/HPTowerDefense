@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "AttackUnit.h"
 
 AttackUnit::~AttackUnit()
@@ -9,6 +10,61 @@ AttackUnit::~AttackUnit()
 
 void AttackUnit::update(Unit* target)
 {
+    int elapsedTime;
+    int distanceToMove, distanceToTower;
+    int defenceTowerX, defenceTowerY;
+    Projectile projectile;
+
+    //Calculo da posição da torre deve levar em consideração o tamanho
+    //Para que a unidade não fique em cima ou embaixo dela
+    if(_quadrant < 0 || _quadrant > 3){
+        //Define o quadrante em que se encontra a unidade
+        setQuadrant(target->getXPos(), target->getYPos());
+    }
+
+    switch(_quadrant){
+        case 0:
+            defenceTowerX = target->getXPos() + target->getWidth()/2;
+            defenceTowerY = target->getYPos() - target->getHeight()/2;
+            break;
+        case 1:
+            defenceTowerX = target->getXPos() + target->getWidth()/2;
+            defenceTowerY = target->getYPos() + target->getHeight()/2;
+            break;
+        case 2:
+            defenceTowerX = target->getXPos() - target->getWidth()/2;
+            defenceTowerY = target->getYPos() - target->getHeight()/2;
+            break;
+        case 3:
+            defenceTowerX = target->getXPos() - target->getWidth()/2;
+            defenceTowerY = target->getYPos() + target->getHeight()/2;
+            break;
+    }
+
+    //Calcula a distância entre a unidade e a torre
+    distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
+    // fprintf(stderr, "DISTANCE TO TOWER: %d\n", distanceToTower);
+
+    //Calcula a distância que a unidade deve percorrer
+    elapsedTime = SDL_GetTicks() - _lastIterationTime;
+    distanceToMove = elapsedTime*_speed/1000;
+    _lastIterationTime = SDL_GetTicks();
+    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    if(distanceToMove >= distanceToTower){
+        //Caso a distância passe da torre
+        distanceToMove = distanceToTower;
+    }
+
+    //Define a ação da unidade
+    // fprintf(stderr, "distanceToTower: %d, distanceToMove: %d, _attackRange: %d\n", distanceToTower, distanceToMove, _attackRange);
+    if(distanceToTower <= _attackRange){
+        //Para de andar e ataca a torre
+        attack(target);
+    }
+    else{
+        //Percorre distanceToMove
+        move(distanceToMove, target->getXPos(), target->getYPos());
+    }
 }
 
 void AttackUnit::spawn(int screenWidth, int screenHeight)
@@ -36,14 +92,39 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
     else{
         printf("Erro fatal - %s\n", __FUNCTION__);
     }
+
+    _xPos = 40;
+    _yPos = 40;
 }
 
 void AttackUnit::move(int distance, int directionX, int directionY)
 {
-    printf("Oi\n");
 }
 
-void AttackUnit::attack(Unit* target)
+Projectile AttackUnit::attack(Unit* target)
 {
-    printf("Oi\n");
+    int elapsedTime;
+    Projectile projectile;
+
+    elapsedTime = SDL_GetTicks() - _lastAttackTime;
+    // fprintf(stderr, "Elapsed time since last attack: %d\n", elapsedTime);
+
+    if(_meleeDamage > 0 && elapsedTime >= _attackDelay){
+        //Ataque a curta distância
+        if((_xPos == target->getXPos() + target->getWidth()/2 || _xPos == target->getXPos() - target->getWidth()/2) &&
+            (_yPos == target->getYPos() + target->getHeight()/2 || _yPos == target->getYPos() - target->getHeight()/2))
+        {
+            //Unidade esta em posição
+            target->takeDamage(_meleeDamage);
+            _lastAttackTime = SDL_GetTicks();
+            printf("Dealing melee damage = %d [AttackUnit]", _meleeDamage);
+        }
+    }
+    else if(_rangedDamage > 0 && elapsedTime >= _attackDelay){
+        //Ataque a longa distância
+        Projectile projectile(5, _rangedDamage, 4, 4, _xPos, _yPos, target);
+        _lastAttackTime = SDL_GetTicks();
+        printf("Launching projectile with damage = %d [AttackUnit]\n", _rangedDamage);
+    }
+    return projectile;
 }
