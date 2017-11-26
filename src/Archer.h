@@ -1,5 +1,5 @@
-#ifndef X_Archer_h
-#define X_Archer_h
+#ifndef ARCHER_H
+#define ARCHER_H
 
 #include <stdio.h>
 #include <iostream>

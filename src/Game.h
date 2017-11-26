@@ -9,6 +9,7 @@
 // #include "Soldier.h"
 #include "Horseman.h"
 #include "TroopList.h"
+#include "DefenceUnit.h"
 
 class Game{
 
@@ -21,7 +22,6 @@ private:
     int _screenWidth, _screenHeight;
 
 public:
-	// criar 3e listas -> utilizar template cada uma do tipo correspondente ao bixinho que tem tamanho maximo 100
     bool initialize(const char* title, int xPos, int yPos, int width, int height, bool fullscreen);
     void handleEvents();
     void update();
@@ -31,6 +31,7 @@ public:
     int getIsRunning();
     int getListStatus();
 
+    DefenceUnit _defenceUnit;
 	// TroopList<Archer> _archerList;
 	std::vector<Archer> _archerList;
 	//TroopList<Horseman> horsemanList;

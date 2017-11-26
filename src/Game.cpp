@@ -43,8 +43,10 @@ void Game::handleEvents(){
     SDL_Event event;
 
     SDL_PollEvent(&event);
-    switch (event.type){
+    switch (event.type)
+    {
         case SDL_QUIT:
+            fprintf(stderr, "SDL_QUIT\n");
             _isRunning = false;
             break;
         default:
@@ -55,8 +57,8 @@ void Game::handleEvents(){
 /*
 *   Atualiza o renderer que será mostrado na tela
 */
-void Game::update(){
-
+void Game::update()
+{
     uint i;
 
     if(_archerList.size() == 0){
@@ -71,8 +73,8 @@ void Game::update(){
 /*
 *   Coloca coisas na tela
 */
-void Game::render(){
-
+void Game::render()
+{
     int i;
 
     // Archer newArcher;
@@ -80,6 +82,8 @@ void Game::render(){
 
     SDL_RenderClear(_renderer);
     // _archerList.at(0).render(_renderer, _screenWidth, _screenHeight);
+
+    _defenceUnit.render(_renderer, _screenWidth, _screenHeight);
 
     for(i = 0; i < _archerList.size(); i++)
     {
@@ -93,25 +97,22 @@ void Game::render(){
 /*
 *   Desaloca coisas
 */
-void Game::clean(){
-
+void Game::clean()
+{
     SDL_DestroyWindow(_window);
     SDL_DestroyRenderer(_renderer);
 }
 
-void Game::newRound(){
+void Game::newRound()
+{
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
         Archer archer;
         archer.setHealth(150);
         archer.setArmour(50);
-        archer.setDps(15);
-        archer.setRangedAttack(12);
-        archer.setMeleeAttack(0);
-        archer.setAttackRange(50);
         _archerList.push_back(archer);
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };
 int Game::getIsRunning(){ return _isRunning; };
-int Game::getListStatus(){ return _emptyList ; };
+int Game::getListStatus(){ return _emptyList; };

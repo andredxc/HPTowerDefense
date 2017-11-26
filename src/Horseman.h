@@ -1,6 +1,8 @@
-#ifndef X_Horseman_h
-#define X_Horseman_h
+#ifndef HORSEMAN_H
+#define HORSEMAN_H
+
 #include <stdio.h>
+#include <iostream>
 #include "AttackUnit.h"
 
 class Horseman: public AttackUnit{

@@ -1,5 +1,5 @@
-#ifndef X_Attack_h
-#define X_Attack_h
+#ifndef ATTACK_UNIT_H
+#define ATTACK_UNIT_H
 #include <stdio.h>
 #include "Unit.h"
 
@@ -9,7 +9,7 @@ protected:
     uint _speed, _directionX, _directionY;
 
 public:
-    //virtual void update() = 0;
+    // void update(DefenceUnit* defenceUnit); Dar um jeito de fazer isso
     void move();
     void spawn(int screenWidth, int screenHeight);
 };
