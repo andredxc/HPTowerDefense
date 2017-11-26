@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Projectile.h"
 
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
@@ -80,13 +81,14 @@ void Game::render()
 {
     int i;
 
-    // Archer newArcher;
-    // _archerList.append(newArcher, _renderer);
 
     SDL_RenderClear(_renderer);
     // _archerList.at(0).render(_renderer, _screenWidth, _screenHeight);
 
     _defenceUnit.render(_renderer, _screenWidth, _screenHeight);
+    //Testando projectile
+    // Projectile projectile(10, 10, 4, 4, 90, 90, NULL);
+    // projectile.render(_renderer, _screenWidth, _screenHeight);
 
     for(i = 0; i < _archerList.size(); i++)
     {

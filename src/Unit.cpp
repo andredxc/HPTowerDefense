@@ -53,7 +53,6 @@ void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
     }
     printf("(%p)Rendering unit to X: %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
     SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
-
 }
 
 
