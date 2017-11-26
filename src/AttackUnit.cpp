@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include "AttackUnit.h"
 
+AttackUnit::~AttackUnit()
+{
+    SDL_DestroyTexture(_visualTex);
+}
+
+void AttackUnit::update(Unit* target)
+{
+}
+
 void AttackUnit::spawn(int screenWidth, int screenHeight)
 {
     int wall;
@@ -29,7 +38,12 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
     }
 }
 
-void AttackUnit::move()
+void AttackUnit::move(int distance, int directionX, int directionY)
 {
+    printf("Oi\n");
+}
 
+void AttackUnit::attack(Unit* target)
+{
+    printf("Oi\n");
 }

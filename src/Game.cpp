@@ -32,6 +32,11 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
     _emptyList = true;
     //Dimensões da tela podem ser alteradas para acomodar os menus
     SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
+
+    //Testando destrutor
+    fprintf(stderr, "CREATED INSTANCE OF ARCHER\n");
+    Archer newArcher;
+
     return true;
 }
 
@@ -59,15 +64,13 @@ void Game::handleEvents(){
 */
 void Game::update()
 {
-    uint i;
-
     if(_archerList.size() == 0){
         _emptyList = true;
     }
 
-    for(i = 0; i < _archerList.size(); i++){
-        _archerList.at(i).move();
-    }
+    // for(i = 0; i < _archerList.size(); i++){
+    //     _archerList.at(i).update();
+    // }
 }
 
 /*

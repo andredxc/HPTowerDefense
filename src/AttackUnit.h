@@ -9,8 +9,13 @@ protected:
     uint _speed, _directionX, _directionY;
 
 public:
-    // void update(DefenceUnit* defenceUnit); Dar um jeito de fazer isso
-    void move();
+    ~AttackUnit();
+    void update(Unit* target);
+
+protected:
+    void move(int distance, int directionX, int directionY);
+    void attack(Unit* target);
     void spawn(int screenWidth, int screenHeight);
+
 };
 #endif

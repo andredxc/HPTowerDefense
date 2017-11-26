@@ -19,11 +19,13 @@ protected:
 
 public:
     virtual void spawn(int screenWidth, int screenHeight) = 0;
+    virtual void update(Unit* target) = 0;
     //virtual void update() = 0;
 
     Unit();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     void takeDamage(int attackDamage);
+    
     void setSize(int width, int height);
     void setHealth(int value);
     void setArmour(int value);

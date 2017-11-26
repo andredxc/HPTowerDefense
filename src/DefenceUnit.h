@@ -9,9 +9,10 @@ protected:
 
 public:
     DefenceUnit();
-    // void update(AttackUnit* attackUnit); Dar um jeito de fazer isso
-	void move();
-	void spawn(int screenWidth, int screenHeight);
+    void update(Unit* target);
 
+protected:
+    void attack(Unit* target);
+    void spawn(int screenWidth, int screenHeight);
 };
 #endif

@@ -9,8 +9,5 @@ class Archer: public AttackUnit{
 
 public:
     Archer();
-    virtual ~Archer();
-    void print();
-   // void update();
 };
 #endif

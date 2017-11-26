@@ -9,7 +9,5 @@ class Horseman: public AttackUnit{
 
 public:
     Horseman();
-    virtual ~Horseman();
-    void print();
 };
 #endif
