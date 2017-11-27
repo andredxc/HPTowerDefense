@@ -10,11 +10,21 @@ Unit::Unit()
     _visualTex = NULL;
     _lastIterationTime = SDL_GetTicks();
     _lastAttackTime = _lastIterationTime;
+    _healthBarWidth = -1;
+    _healthBarHeight = -1;
 }
 
 void Unit::takeDamage(int damage)
 {
     _health = (damage - _armour) < 0 ? (_health) : _health - (damage - _armour);
+}
+
+void Unit::setHealthBar(int xPos, int yPos, int width, int height)
+{
+    _healthBarX = xPos;
+    _healthBarY = yPos;
+    _healthBarWidth = width;
+    _healthBarHeight = height;
 }
 
 void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
@@ -54,8 +64,60 @@ void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
     }
     // printf("(%p)Rendering unit to X: %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
     SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
+    renderHealthBar(renderer);
 }
 
+void Unit::renderHealthBar(SDL_Renderer* renderer)
+{
+    int currentHealthWidth = 0, healthLostWidth = 0;
+    SDL_Rect destRect;
+    SDL_Surface* tempSurface;
+    SDL_Texture* tempTexture;
+
+    if(_healthBarX < 0 || _healthBarY < 0 || _healthBarWidth < 0 || _healthBarHeight < 0)
+    {
+        //Barra de vida não foi definida
+        return;
+    }
+
+    //Desenha a vida atual
+    currentHealthWidth = (_health/_healthBarWidth) * _currentHealth;
+    tempSurface = IMG_Load("../img/healthBarGreen.bmp");
+    tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+    if(!tempTexture){
+        printf("Error loading healthBarGreen\n");
+        return;
+    }
+    destRect.x = _healthBarX;
+    destRect.y = _healthBarY;
+    destRect.w = currentHealthWidth;
+    destRect.h = _healthBarHeight;
+    SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
+    //Desenha a vida perdida, se for maior que 0
+    healthLostWidth = _healthBarWidth - currentHealthWidth;
+    if(healthLostWidth == 0)
+    {
+        //Vida está cheia
+        SDL_FreeSurface(tempSurface);
+        SDL_DestroyTexture(tempTexture);
+        return;
+    }
+    SDL_FreeSurface(tempSurface);
+    SDL_DestroyTexture(tempTexture);
+    tempSurface = IMG_Load("../img/healthBarRed.bmp");
+    tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+    if(!tempTexture){
+        printf("Error loading healthBarRed\n");
+        SDL_FreeSurface(tempSurface);
+        SDL_DestroyTexture(tempTexture);
+        return;
+    }
+    destRect.x = _healthBarX + currentHealthWidth;
+    destRect.y = _healthBarY;
+    destRect.w = healthLostWidth;
+    destRect.h = _healthBarHeight;
+    SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
+}
 
 void Unit::setSize(int width, int height){ _width = width; _height = height; }
 void Unit::setHealth(int value){ _health = value; }

@@ -33,6 +33,10 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
     _emptyList = true;
     //Dimensões da tela podem ser alteradas para acomodar os menus
     SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
+    //Define o tamanho e posicionamento da barra de vida da torre de defesa
+    //20 de padding nas laterais e 4 em cima e embaixo
+    _screenHeight -= 28;
+    _defenceUnit.setHealthBar(20, _screenHeight+4, _screenWidth - 40, 20);
 
     return true;
 }

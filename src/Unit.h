@@ -11,9 +11,10 @@ enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER};
 class Unit{
 
 protected:
-    int _health, _armour;
+    int _health, _currentHealth, _armour;
     int _xPos, _yPos, _width, _height, _quadrant;
     int _rangedDamage, _meleeDamage, _attackRange, _attackDelay;    //_attackDelay em ms
+    int _healthBarX, _healthBarY, _healthBarWidth, _healthBarHeight;
     Uint32 _lastIterationTime, _lastAttackTime;
     SDL_Texture *_visualTex;
     UNIT_TYPE _unitType;
@@ -25,7 +26,9 @@ public:
 
     Unit();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    void renderHealthBar(SDL_Renderer* renderer);
     void takeDamage(int attackDamage);
+    void setHealthBar(int xPos, int yPos, int width, int height);
 
     void setSize(int width, int height);
     void setHealth(int value);
