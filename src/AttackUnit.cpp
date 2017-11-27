@@ -10,8 +10,6 @@ AttackUnit::~AttackUnit()
 
 int AttackUnit::update(Unit* target)
 {
-
-    fprintf(stderr, "Entrando no update!\n");
     int elapsedTime;
     int distanceToMove, distanceToTower;
     int defenceTowerX, defenceTowerY;
@@ -43,16 +41,15 @@ int AttackUnit::update(Unit* target)
             break;
     }
 
-
     //Calcula a distância entre a unidade e a torre
     distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
-    fprintf(stderr, "DISTANCE TO TOWER: %d\n", distanceToTower);
+    // fprintf(stderr, "DISTANCE TO TOWER: %d\n", distanceToTower);
 
     //Calcula a distância que a unidade deve percorrer
     elapsedTime = SDL_GetTicks() - _lastIterationTime;
-    distanceToMove = elapsedTime*_speed/1000;
+    distanceToMove = (elapsedTime*_speed)/1000;
     _lastIterationTime = SDL_GetTicks();
-    fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
     if(distanceToMove >= distanceToTower){
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
@@ -126,8 +123,6 @@ void AttackUnit::move(int distanceToTower, int distance, int directionX, int dir
                 break;
         }
     }
-
-    
 }
 
 int AttackUnit::attack(Unit* target)

@@ -35,7 +35,7 @@ Projectile::~Projectile()
 
 void Projectile::update()
 {
-
+    
 }
 
 void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)

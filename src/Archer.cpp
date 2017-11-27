@@ -11,6 +11,6 @@ Archer::Archer()
     _height = 10;
     _xPos = -1;
     _yPos = -1;
-    _speed = 5;
+    _speed = 20;
     _unitType = ARCHER;
 }
