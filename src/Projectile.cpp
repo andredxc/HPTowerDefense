@@ -93,6 +93,7 @@ void Projectile::update()
         //Percorre distanceToMove
         move(distanceToTarget, distanceToMove, _target->getXPos(), _target->getYPos());
     }
+
 }
 
 void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)

@@ -81,7 +81,7 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     }
 
     //Desenha a vida atual
-    currentHealthWidth = (_health/_healthBarWidth) * _currentHealth;
+    currentHealthWidth = ((float)_healthBarWidth/(float)_health) * _currentHealth;
     tempSurface = IMG_Load("../img/healthBarGreen.bmp");
     tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     if(!tempTexture){
