@@ -20,6 +20,7 @@ public:
 
     void update();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    void attack();
 
     Unit* getTarget();
 

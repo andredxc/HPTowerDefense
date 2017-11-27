@@ -91,7 +91,6 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
         //Define y de acordo com a parede de baixo(wall==2) ou a de cima(wall==3)
         _yPos = (wall == 2) ? 0 : screenHeight - _height;
         //printf(" 2 3 X: %d Y: %d\n",_xPos,_yPos);
-        _yPos = 0;
 
     }
     else{

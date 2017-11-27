@@ -33,9 +33,66 @@ Projectile::~Projectile()
     SDL_DestroyTexture(_visualTex);
 }
 
+void Projectile::attack()
+{
+    
+}
+
 void Projectile::update()
 {
+    fprintf(stderr, "Entrando no update projectile!\n");
+    int elapsedTime;
+    int distanceToMove, distanceToTarget;
+    int defenceTargetX, defenceTargetY;
 
+    //Calculo da posição da torre deve levar em consideração o tamanho
+    //Para que a unidade não fique em cima ou embaixo dela
+    
+    if(_target->getXPos() > _xPos)
+    {
+        defenceTargetX = _target->getXPos() - _target->getWidth()/2;
+    }
+    else
+    {
+        defenceTargetX = _target->getXPos() + _target->getWidth()/2;
+    }
+
+    if(_target->getYPos() > _yPos)
+    {
+        defenceTargetY = _target->getYPos() - _target->getHeight()/2;
+    }
+    else
+    {
+        defenceTargetY = _target->getYPos() + _target->getHeight()/2;
+    }
+
+
+    //Calcula a distância entre a unidade e a torre
+    distanceToTarget = sqrt(pow((_xPos - defenceTargetX), 2) + pow((_yPos - defenceTargetY), 2));
+    fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
+
+    //Calcula a distância que a unidade deve percorrer
+    // elapsedTime = SDL_GetTicks() - _lastIterationTime;
+    // distanceToMove = elapsedTime*_speed/1000;
+    // _lastIterationTime = SDL_GetTicks();
+
+    distanceToMove = 1;
+    fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    if(distanceToMove >= distanceToTarget){
+        //Caso a distância passe da torre
+        distanceToMove = distanceToTarget;
+    }
+
+    //Define a ação da unidade
+    
+    if(distanceToTarget <= 0){
+        //Para de andar e ataca a torre
+        attack();
+    }
+    else{
+        //Percorre distanceToMove
+        move(distanceToTarget, distanceToMove, _target->getXPos(), _target->getYPos());
+    }
 }
 
 void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
