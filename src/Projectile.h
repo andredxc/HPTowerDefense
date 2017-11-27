@@ -24,7 +24,7 @@ public:
     Unit* getTarget();
 
 protected:
-    void move(int distance, int directionX, int directionY);
+    void move(int distanceToTarget, int distance, int directionX, int directionY);
 };
 
 #endif

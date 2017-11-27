@@ -38,6 +38,15 @@ void Projectile::update()
     
 }
 
+void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
+{
+    if(distance > 0)
+    {
+        _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTarget;
+        _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTarget;
+    }
+}
+
 void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
     SDL_Rect destRect;
