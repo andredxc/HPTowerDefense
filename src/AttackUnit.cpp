@@ -106,28 +106,9 @@ void AttackUnit::move(int distanceToTower, int distance, int directionX, int dir
 
     if(distance > 0)
     {
-        switch(_quadrant)
-        {
-            case 0:
-                _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
-                _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
-                break;
-            case 1:
-                _xPos = _xPos - (distance * (_xPos - directionX))/ distanceToTower;
-                _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
-                break;
-            case 2:
-                _xPos = _xPos - (distance * (_xPos - directionX))/ distanceToTower;
-                _yPos = _yPos - (distance * (_yPos - directionY))/ distanceToTower;
-                break;
-            case 3:
-                _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
-                _yPos = _yPos - (distance * (_yPos - directionY))/ distanceToTower;
-                break;
-        }
+        _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
+        _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
     }
-
-    
 }
 
 int AttackUnit::attack(Unit* target)
