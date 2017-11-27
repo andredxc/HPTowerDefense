@@ -104,7 +104,7 @@ void Game::render()
     for(i = 0; i < _archerList.size(); i++)
     {
         _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
-        // fprintf(stderr, "Rendering archer %d of %d\n", i+1, _archerList.size());
+        fprintf(stderr, "Rendering archer %d of %d\n", i+1, _archerList.size());
     }
     for(i = 0; i < _projectileList.size(); i++)
     {

@@ -5,7 +5,7 @@ Archer::Archer()
 {
     _meleeDamage = 0;
     _rangedDamage = 10;
-    _attackRange = 600;
+    _attackRange = 60;
     _attackDelay = 500;
     _width = 10;
     _height = 10;

@@ -10,6 +10,8 @@ AttackUnit::~AttackUnit()
 
 int AttackUnit::update(Unit* target)
 {
+
+    fprintf(stderr, "Entrando no update!\n");
     int elapsedTime;
     int distanceToMove, distanceToTower;
     int defenceTowerX, defenceTowerY;
@@ -41,29 +43,30 @@ int AttackUnit::update(Unit* target)
             break;
     }
 
+
     //Calcula a distância entre a unidade e a torre
     distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
-    // fprintf(stderr, "DISTANCE TO TOWER: %d\n", distanceToTower);
+    fprintf(stderr, "DISTANCE TO TOWER: %d\n", distanceToTower);
 
     //Calcula a distância que a unidade deve percorrer
     elapsedTime = SDL_GetTicks() - _lastIterationTime;
     distanceToMove = elapsedTime*_speed/1000;
     _lastIterationTime = SDL_GetTicks();
-    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
     if(distanceToMove >= distanceToTower){
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
 
     //Define a ação da unidade
-    // fprintf(stderr, "distanceToTower: %d, distanceToMove: %d, _attackRange: %d\n", distanceToTower, distanceToMove, _attackRange);
+    fprintf(stderr, "distanceToTower: %d, distanceToMove: %d, _attackRange: %d\n", distanceToTower, distanceToMove, _attackRange);
     if(distanceToTower <= _attackRange){
         //Para de andar e ataca a torre
         rangedAttackDamage = attack(target);
     }
     else{
         //Percorre distanceToMove
-        move(distanceToMove, target->getXPos(), target->getYPos());
+        move(distanceToTower, distanceToMove, target->getXPos(), target->getYPos());
     }
 
     return rangedAttackDamage;
@@ -96,8 +99,35 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
     }
 }
 
-void AttackUnit::move(int distance, int directionX, int directionY)
+void AttackUnit::move(int distanceToTower, int distance, int directionX, int directionY)
 {
+    fprintf(stderr, "Distance %d, directionX: %d, directionY: %d\n", distance, directionX, directionY);
+    fprintf(stderr, "DistanceToTower: %d PosX: %d, PosY: %d, Quadrant: %d",distanceToTower, _xPos, _yPos, _quadrant);
+
+    if(distance > 0)
+    {
+        switch(_quadrant)
+        {
+            case 0:
+                _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
+                _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
+                break;
+            case 1:
+                _xPos = _xPos - (distance * (_xPos - directionX))/ distanceToTower;
+                _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
+                break;
+            case 2:
+                _xPos = _xPos - (distance * (_xPos - directionX))/ distanceToTower;
+                _yPos = _yPos - (distance * (_yPos - directionY))/ distanceToTower;
+                break;
+            case 3:
+                _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
+                _yPos = _yPos - (distance * (_yPos - directionY))/ distanceToTower;
+                break;
+        }
+    }
+
+    
 }
 
 int AttackUnit::attack(Unit* target)
