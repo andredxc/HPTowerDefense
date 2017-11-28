@@ -81,7 +81,8 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     }
 
     //Desenha a vida atual
-    currentHealthWidth = ((float)_healthBarWidth/(float)_health) * _currentHealth;
+    // currentHealthWidth = ((float)_healthBarWidth/(float)_health) * _currentHealth;
+    currentHealthWidth = ((float)_healthBarWidth/(float)_currentHealth) * _health;
     tempSurface = IMG_Load("../img/healthBarGreen.bmp");
     tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     if(!tempTexture){
@@ -117,6 +118,9 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     destRect.w = healthLostWidth;
     destRect.h = _healthBarHeight;
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
+    if(currentHealthWidth == 0){
+          printf("VIDA È ZEROOOO\n\n\n\n\n");  
+    }
 }
 
 void Unit::setSize(int width, int height){ _width = width; _height = height; }

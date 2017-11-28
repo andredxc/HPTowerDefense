@@ -35,6 +35,9 @@ Projectile::~Projectile()
 
 void Projectile::attack()
 {
+    printf("Atacando\n");
+    _target->takeDamage(_damage);
+
 
 }
 
@@ -78,8 +81,10 @@ void Projectile::update()
     // distanceToMove = elapsedTime*_speed/1000;
     // _lastIterationTime = SDL_GetTicks();
 
-    distanceToMove = 5;
+    distanceToMove = 5;   
     fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
+
     if(distanceToMove >= distanceToTarget){
         //Caso a distância passe da torre
         distanceToMove = distanceToTarget;
@@ -90,6 +95,8 @@ void Projectile::update()
     if(distanceToTarget <= 0){
         //Para de andar e ataca a torre
         attack();
+        // O projetil tem que ser eliminado e retirado da lista
+
     }
     else{
         //Percorre distanceToMove
@@ -101,13 +108,17 @@ void Projectile::update()
 void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
 {
     fprintf(stderr, "DirectionX: %d, DirectionY: %d\nXPOS: %d, YPOS%d\n", directionX, directionY, _xPos, _yPos);
+    //int proportion = 0;
 
     if(distance > 0)
-    {
+    {   
+         //proportion = distance / distanceToTarget ; // % que temos que andar em X e Y   
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTarget;
         _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTarget;
     }
+    fprintf(stderr, "New X: %d, New Y: %d\n\n", _xPos, _yPos);
 }
+
 
 void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {

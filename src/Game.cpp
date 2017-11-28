@@ -75,11 +75,12 @@ void Game::update()
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
         _projectileList.at(i).update();
+        fprintf(stderr, "\tSou o projetil %d\n",i);    
     }
     //Atualiza os arqueiros
     for(i = 0; i < _archerList.size(); i++){
         rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
-
+        fprintf(stderr, "\t\tSou o arqueiro %d\n",i);    
         if(rangedAttackDamage > 0){
             //Projétil não vazio em direção à torre
             Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
