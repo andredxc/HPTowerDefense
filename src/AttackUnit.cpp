@@ -16,30 +16,52 @@ int AttackUnit::update(Unit* target)
     int rangedAttackDamage = 0;
 
     //Calculo da posição da torre deve levar em consideração o tamanho
-    //Para que a unidade não fique em cima ou embaixo dela
-    if(_quadrant < 0 || _quadrant > 3){
-        //Define o quadrante em que se encontra a unidade
-        setQuadrant(target->getXPos(), target->getYPos());
-    }
+    // //Para que a unidade não fique em cima ou embaixo dela
+    // if(_quadrant < 0 || _quadrant > 3){
+    //     //Define o quadrante em que se encontra a unidade
+    //     setQuadrant(target->getXPos(), target->getYPos());
+    // }
 
-    switch(_quadrant){
-        case 0:
-            defenceTowerX = target->getXPos() + target->getWidth()/2;
-            defenceTowerY = target->getYPos() - target->getHeight()/2;
-            break;
-        case 1:
-            defenceTowerX = target->getXPos() + target->getWidth()/2;
-            defenceTowerY = target->getYPos() + target->getHeight()/2;
-            break;
-        case 2:
-            defenceTowerX = target->getXPos() - target->getWidth()/2;
-            defenceTowerY = target->getYPos() - target->getHeight()/2;
-            break;
-        case 3:
-            defenceTowerX = target->getXPos() - target->getWidth()/2;
-            defenceTowerY = target->getYPos() + target->getHeight()/2;
-            break;
-    }
+    // switch(_quadrant){
+    //     case 0:
+    //         defenceTowerX = target->getXPos() + target->getWidth()/2;
+    //         defenceTowerY = target->getYPos() - target->getHeight()/2;
+    //         break;
+    //     case 1:
+    //         defenceTowerX = target->getXPos() + target->getWidth()/2;
+    //         defenceTowerY = target->getYPos() + target->getHeight()/2;
+    //         break;
+    //     case 2:
+    //         defenceTowerX = target->getXPos() - target->getWidth()/2;
+    //         defenceTowerY = target->getYPos() - target->getHeight()/2;
+    //         break;
+    //     case 3:
+    //         defenceTowerX = target->getXPos() - target->getWidth()/2;
+    //         defenceTowerY = target->getYPos() + target->getHeight()/2;
+    //         break;
+    // }
+
+
+    // if(_xPos > target->getXPos())
+    // {
+    //     defenceTowerX = target->getXPos() + target->getWidth()/2;
+    // }
+    // else
+    // {
+    //     defenceTowerX = target->getXPos() - target->getWidth()/2;
+    // }
+
+    // if(_yPos > target->getYPos())
+    // {
+    //     defenceTowerY = target->getYPos() + target->getHeight()/2;
+    // }
+    // else
+    // {
+    //     defenceTowerY = target->getYPos() - target->getHeight()/2;
+    // }
+
+    defenceTowerY = target->getYPos() + target->getHeight()/2;
+    defenceTowerX = target->getXPos() + target->getWidth()/2;
 
     //Calcula a distância entre a unidade e a torre
     distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
@@ -63,7 +85,7 @@ int AttackUnit::update(Unit* target)
     }
     else{
         //Percorre distanceToMove
-        move(distanceToTower, distanceToMove, target->getXPos(), target->getYPos());
+        move(distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
     }
 
     return rangedAttackDamage;
