@@ -46,23 +46,27 @@ void Projectile::update()
     //Calculo da posição da torre deve levar em consideração o tamanho
     //Para que a unidade não fique em cima ou embaixo dela
 
-    if(_target->getXPos() > _xPos)
-    {
-        defenceTargetX = _target->getXPos() - _target->getWidth()/2;
-    }
-    else
-    {
-        defenceTargetX = _target->getXPos() + _target->getWidth()/2;
-    }
+    // if(_target->getXPos() > _xPos)
+    // {
+    //     defenceTargetX = _target->getXPos() - _target->getWidth()/2;
+    // }
+    // else
+    // {
+    //     defenceTargetX = _target->getXPos() + _target->getWidth()/2;
+    // }
 
-    if(_target->getYPos() > _yPos)
-    {
-        defenceTargetY = _target->getYPos() - _target->getHeight()/2;
-    }
-    else
-    {
-        defenceTargetY = _target->getYPos() + _target->getHeight()/2;
-    }
+    // if(_target->getYPos() > _yPos)
+    // {
+    //     defenceTargetY = _target->getYPos() - _target->getHeight()/2;
+    // }
+    // else
+    // {
+    //     defenceTargetY = _target->getYPos() + _target->getHeight()/2;
+    // }
+    fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
+    fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
+    defenceTargetY = _target->getYPos() + _target->getWidth()/2;
+    defenceTargetX = _target->getXPos() + _target->getHeight()/2;
 
 
     //Calcula a distância entre a unidade e a torre
@@ -73,8 +77,9 @@ void Projectile::update()
     // elapsedTime = SDL_GetTicks() - _lastIterationTime;
     // distanceToMove = elapsedTime*_speed/1000;
     // _lastIterationTime = SDL_GetTicks();
-    // distanceToMove = 1;
-    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+
+    distanceToMove = 5;
+    fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
     if(distanceToMove >= distanceToTarget){
         //Caso a distância passe da torre
         distanceToMove = distanceToTarget;
@@ -88,13 +93,15 @@ void Projectile::update()
     }
     else{
         //Percorre distanceToMove
-        move(distanceToTarget, distanceToMove, _target->getXPos(), _target->getYPos());
+        move(distanceToTarget, distanceToMove, defenceTargetX, defenceTargetY);
     }
 
 }
 
 void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
 {
+    fprintf(stderr, "DirectionX: %d, DirectionY: %d\nXPOS: %d, YPOS%d\n", directionX, directionY, _xPos, _yPos);
+
     if(distance > 0)
     {
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTarget;

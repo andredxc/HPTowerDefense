@@ -136,26 +136,7 @@ void Game::newRound()
         archer.setHealth(150);
         archer.setArmour(50);
         _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
-        // _archerList.push_back(archer);
+
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };
