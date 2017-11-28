@@ -11,7 +11,7 @@ AttackUnit::~AttackUnit()
 int AttackUnit::update(Unit* target)
 {
     int elapsedTime;
-    int distanceToMove, distanceToTower;
+    float distanceToMove, distanceToTower;
     int defenceTowerX, defenceTowerY;
     int rangedAttackDamage = 0;
 
@@ -43,27 +43,26 @@ int AttackUnit::update(Unit* target)
 
     //Calcula a distância entre a unidade e a torre
     distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
-    // fprintf(stderr, "DISTANCE TO TOWER: %d\n", distanceToTower);
 
     //Calcula a distância que a unidade deve percorrer
     elapsedTime = SDL_GetTicks() - _lastIterationTime;
-    distanceToMove = (elapsedTime*_speed)/1000;
-    _lastIterationTime = SDL_GetTicks();
-    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    distanceToMove = (float)(elapsedTime*_speed)/1000;
+
     if(distanceToMove >= distanceToTower){
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
 
     //Define a ação da unidade
-    fprintf(stderr, "distanceToTower: %d, distanceToMove: %d, _attackRange: %d\n", distanceToTower, distanceToMove, _attackRange);
-    if(distanceToTower <= _attackRange){
+    if((int)distanceToTower <= _attackRange){
         //Para de andar e ataca a torre
         rangedAttackDamage = attack(target);
     }
-    else{
-        //Percorre distanceToMove
+    else if(distanceToMove >= 1.4){
+        //Distancia percorrida movendo-se em uma unidade no eixo X e Y
+        fprintf(stderr, "elapsedTime: %d, _speed: %d, distanceToMove: %f, distanceToTower: %f\n", elapsedTime, _speed, distanceToMove, distanceToTower);
         move(distanceToTower, distanceToMove, target->getXPos(), target->getYPos());
+        _lastIterationTime = SDL_GetTicks();
     }
 
     return rangedAttackDamage;
@@ -95,11 +94,8 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
     }
 }
 
-void AttackUnit::move(int distanceToTower, int distance, int directionX, int directionY)
+void AttackUnit::move(float distanceToTower, float distance, int directionX, int directionY)
 {
-    fprintf(stderr, "Distance %d, directionX: %d, directionY: %d\n", distance, directionX, directionY);
-    fprintf(stderr, "DistanceToTower: %d PosX: %d, PosY: %d, Quadrant: %d",distanceToTower, _xPos, _yPos, _quadrant);
-
     if(distance > 0)
     {
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;

@@ -108,12 +108,12 @@ void Game::render()
     for(i = 0; i < _archerList.size(); i++)
     {
         _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
-        fprintf(stderr, "Rendering archer %d of %ld\n", i+1, _archerList.size());
+        // fprintf(stderr, "Rendering archer %d of %ld\n", i+1, _archerList.size());
     }
     for(i = 0; i < _projectileList.size(); i++)
     {
         _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
-        fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
+        // fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
     }
 
     SDL_RenderPresent(_renderer);
@@ -136,26 +136,26 @@ void Game::newRound()
         archer.setHealth(150);
         archer.setArmour(50);
         _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
-        _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
+        // _archerList.push_back(archer);
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };
