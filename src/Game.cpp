@@ -66,16 +66,24 @@ void Game::handleEvents(){
 void Game::update()
 {
     uint i;
+    int killPos;
+    int kill;
     int rangedAttackDamage;
     Projectile projectileBuffer;
-
     if(_archerList.size() == 0){
         _emptyList = true;
     }
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
-        _projectileList.at(i).update();
         fprintf(stderr, "\tSou o projetil %d\n",i);    
+        kill = _projectileList.at(i).update();
+        if(kill){    
+            fprintf(stderr, "****** KILL ME ***** \n");
+            killItem item;
+            item._pos = i;
+            item._type = PROJECTILE;   
+            _killList.push_back(item);
+         }       
     }
     //Atualiza os arqueiros
     for(i = 0; i < _archerList.size(); i++){
@@ -87,6 +95,18 @@ void Game::update()
             _projectileList.push_back(projectileBuffer);
         }
     }
+    for(i = 0; i < _killList.size(); i++){
+        killPos = _killList.at(i)._pos;
+        //printf("KILLPOS: %d\n",killPos);
+        //printf("LIST SIZE: %d\n",_killList.size() );    
+        switch(_killList.at(i)._type){
+
+            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos);      
+            case ARCHER: break;
+            default: printf("Fatal internal error deleting object\n");
+        }
+     }
+     _killList.clear();     // Desaloca toda a lista de unidades por matar
 }
 
 /*
@@ -133,11 +153,13 @@ void Game::newRound()
 {
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-        Archer archer;
-        archer.setHealth(150);
-        archer.setArmour(50);
-        _archerList.push_back(archer);
-
+    for (int i = 0; i < 10 ; ++i)
+    {
+            Archer archer;
+            archer.setHealth(150);
+            archer.setArmour(50);
+            _archerList.push_back(archer);
+    }
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };

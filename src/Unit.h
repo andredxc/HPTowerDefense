@@ -6,7 +6,7 @@
 #define GAME_WIDTH      100000
 #define GAME_HEIGHT     100000
 
-enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER};
+enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER,PROJECTILE};
 
 class Unit{
 
@@ -18,6 +18,7 @@ protected:
     Uint32 _lastIterationTime, _lastAttackTime;
     SDL_Texture *_visualTex;
     UNIT_TYPE _unitType;
+
 
 public:
     virtual void spawn(int screenWidth, int screenHeight) = 0;

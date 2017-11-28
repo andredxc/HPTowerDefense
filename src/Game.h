@@ -11,7 +11,6 @@
 #include "DefenceUnit.h"
 #include "Projectile.h"
 
-
 class Game{
 
 private:
@@ -32,10 +31,16 @@ public:
     int getIsRunning();
     int getListStatus();
 
+    struct killItem {
+      int _pos;
+      UNIT_TYPE _type;
+    } ;
+
     DefenceUnit _defenceUnit;
 	// TroopList<Archer> _archerList;
     std::vector<Projectile> _projectileList;
 	std::vector<Archer> _archerList;
+    std::vector<killItem> _killList;
 	//TroopList<Horseman> horsemanList;
     //TroopList<Soldier> soldierList;
 

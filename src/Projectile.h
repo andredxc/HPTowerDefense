@@ -18,7 +18,7 @@ public:
     Projectile(int speed, int damage, int witdh, int height, int xPos, int yPos, Unit* target);
     ~Projectile();
 
-    void update();
+    int update();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     void attack();
 

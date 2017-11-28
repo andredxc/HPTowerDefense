@@ -41,7 +41,7 @@ void Projectile::attack()
 
 }
 
-void Projectile::update()
+int Projectile::update()
 {
     int distanceToMove, distanceToTarget;
     int defenceTargetX, defenceTargetY;
@@ -96,13 +96,13 @@ void Projectile::update()
         //Para de andar e ataca a torre
         attack();
         // O projetil tem que ser eliminado e retirado da lista
-
+        return 1; // Devemos Inserir an killList
     }
     else{
         //Percorre distanceToMove
         move(distanceToTarget, distanceToMove, defenceTargetX, defenceTargetY);
     }
-
+    return 0; // Não deve ser inserido na killList
 }
 
 void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
