@@ -4,7 +4,7 @@
 #include "Unit.h"
 
 Unit::Unit()
-{
+{    
     _xPos = -1;
     _yPos = -1;
     _visualTex = NULL;
@@ -124,9 +124,35 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
 }
 
 void Unit::setSize(int width, int height){ _width = width; _height = height; }
-void Unit::setHealth(int value){ _health = value; }
-void Unit::setArmour(int value){ _armour = value; }
-void Unit::setPosition(int x, int y){ _xPos = x; _yPos = y; }
+void Unit::setHealth(int value)
+{ 
+    if(value < 0){
+        throw "Negative Health Value !!!";
+    }
+    else
+        _health = value;
+
+
+}
+void Unit::setArmour(int value)
+{ 
+    if (value <0){
+       throw "Negative Armour Value !!!";     
+    }
+    else
+        _armour = value;
+
+}
+void Unit::setPosition(int x, int y)
+{   
+     if (x != -1 && y != -1 && (x < 0 || y < 0))    {
+            throw "Negative X or Y position !!!";   
+    }   
+    else {
+        _xPos = x; 
+        _yPos = y; 
+    }
+}
 int Unit::getHealth(){ return _health; }
 int Unit::getArmour(){ return _health; }
 int Unit::getXPos(){ return _xPos; }

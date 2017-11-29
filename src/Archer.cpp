@@ -2,7 +2,7 @@
 #include <SDL2/SDL_image.h>
 
 Archer::Archer()
-{
+{   
     _meleeDamage = 0;
     _rangedDamage = 10;
     _attackRange = 60;

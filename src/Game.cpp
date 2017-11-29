@@ -95,10 +95,12 @@ void Game::update()
             _projectileList.push_back(projectileBuffer);
         }
     }
+
     for(i = 0; i < _killList.size(); i++){
         killPos = _killList.at(i)._pos;
         //printf("KILLPOS: %d\n",killPos);
         //printf("LIST SIZE: %d\n",_killList.size() );    
+
         switch(_killList.at(i)._type){
 
             case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos);      
@@ -153,12 +155,20 @@ void Game::newRound()
 {
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-    for (int i = 0; i < 10 ; ++i)
+    for (int i = 0; i < 1 ; ++i)
     {
+        try{
             Archer archer;
             archer.setHealth(150);
             archer.setArmour(50);
-            _archerList.push_back(archer);
+            _archerList.push_back(archer);            
+        }
+        catch(const char* e){
+             std::cerr << "Erro: " << e << std::endl;   
+        }
+        catch(...){
+            std::cerr << "Unexpected Fatal Error !!" << std::endl;
+        }    
     }
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
