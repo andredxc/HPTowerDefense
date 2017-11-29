@@ -88,6 +88,10 @@ int AttackUnit::update(Unit* target)
         _lastIterationTime = SDL_GetTicks();
     }
 
+    if(_health == 0){
+        return -1; // Devemos eliminar a unidade pois está morta 
+    }
+
     return rangedAttackDamage;
 }
 

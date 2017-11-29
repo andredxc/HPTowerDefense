@@ -9,7 +9,7 @@ DefenceUnit::DefenceUnit()
     _currentHealth = _health;
     _armour = 5;
     _meleeDamage = 0;
-    _rangedDamage = 5;
+    _rangedDamage = 15;
     _attackDelay = 500;
     _width = 40;
     _height = 40;

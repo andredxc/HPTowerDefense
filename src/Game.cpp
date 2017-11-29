@@ -78,7 +78,7 @@ void Game::update()
         fprintf(stderr, "\tSou o projetil %d\n",i);    
         kill = _projectileList.at(i).update();
         if(kill){    
-            fprintf(stderr, "****** KILL ME ***** \n");
+            fprintf(stderr, "****** KILL ME PROJECTILE ***** \n");
             killItem item;
             item._pos = i;
             item._type = PROJECTILE;   
@@ -94,8 +94,19 @@ void Game::update()
             Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
             _projectileList.push_back(projectileBuffer);
         }
+        else
+            if (rangedAttackDamage == -1) // Inserir na killList
+             {
+                fprintf(stderr, "****** KILL ME ARCHER ***** \n");
+                killItem item;
+                item._pos = i;
+                item._type = ARCHER;   
+                _killList.push_back(item);
+             } 
+
     }
 
+    // Elimina os objetos com _health == 0 e os projéteis que já explodiram
     for(i = 0; i < _killList.size(); i++){
         killPos = _killList.at(i)._pos;
         //printf("KILLPOS: %d\n",killPos);
@@ -103,8 +114,8 @@ void Game::update()
 
         switch(_killList.at(i)._type){
 
-            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos);      
-            case ARCHER: break;
+            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos); break;      
+            case ARCHER:_archerList.erase(_archerList.begin() + killPos);  break;
             default: printf("Fatal internal error deleting object\n");
         }
      }
@@ -155,7 +166,7 @@ void Game::newRound()
 {
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-    for (int i = 0; i < 1 ; ++i)
+    for (int i = 0; i < 10 ; ++i)
     {
         try{
             Archer archer;
