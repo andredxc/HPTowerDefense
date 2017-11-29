@@ -60,6 +60,7 @@ int Projectile::update()
     // }
     fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
     fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
+    fprintf(stderr, "DAMAGE: %d\n", _damage);
     defenceTargetY = _target->getYPos() + _target->getWidth()/2;
     defenceTargetX = _target->getXPos() + _target->getHeight()/2;
 
@@ -74,8 +75,8 @@ int Projectile::update()
     // _lastIterationTime = SDL_GetTicks();
 
     distanceToMove = 5;
-    fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
-    fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
+    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
+    // fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
 
     if(distanceToMove >= distanceToTarget){
         //Caso a distância passe da torre

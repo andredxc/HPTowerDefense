@@ -4,7 +4,7 @@
 #include "Unit.h"
 
 Unit::Unit()
-{    
+{
     _xPos = -1;
     _yPos = -1;
     _visualTex = NULL;
@@ -16,7 +16,10 @@ Unit::Unit()
 
 void Unit::takeDamage(int damage)
 {
-    _health = (damage - _armour) < 0 ? (_health) : _health - (damage - _armour);
+    int damageBlock;
+
+    damageBlock = (float)damage/100 * _armour;
+    _health -= (damage - damageBlock);
 }
 
 void Unit::setHealthBar(int xPos, int yPos, int width, int height)
@@ -119,13 +122,13 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     destRect.h = _healthBarHeight;
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
     if(currentHealthWidth == 0){
-          printf("VIDA È ZEROOOO\n\n\n\n\n");  
+          printf("VIDA È ZEROOOO\n\n\n\n\n");
     }
 }
 
 void Unit::setSize(int width, int height){ _width = width; _height = height; }
 void Unit::setHealth(int value)
-{ 
+{
     if(value < 0){
         throw "Negative Health Value !!!";
     }
@@ -135,26 +138,26 @@ void Unit::setHealth(int value)
 
 }
 void Unit::setArmour(int value)
-{ 
+{
     if (value <0){
-       throw "Negative Armour Value !!!";     
+       throw "Negative Armour Value !!!";
     }
     else
         _armour = value;
 
 }
 void Unit::setPosition(int x, int y)
-{   
+{
      if (x != -1 && y != -1 && (x < 0 || y < 0))    {
-            throw "Negative X or Y position !!!";   
-    }   
+            throw "Negative X or Y position !!!";
+    }
     else {
-        _xPos = x; 
-        _yPos = y; 
+        _xPos = x;
+        _yPos = y;
     }
 }
 int Unit::getHealth(){ return _health; }
-int Unit::getArmour(){ return _health; }
+int Unit::getArmour(){ return _armour; }
 int Unit::getXPos(){ return _xPos; }
 int Unit::getYPos(){ return _yPos; }
 int Unit::getWidth(){ return _width; }

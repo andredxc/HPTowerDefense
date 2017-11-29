@@ -16,6 +16,5 @@ protected:
     void spawn(int screenWidth, int screenHeight);
     void move(float distanceToTower, float distance, int directionX, int directionY);
     int attack(Unit* target);
-
 };
 #endif

@@ -3,6 +3,7 @@
 
 Archer::Archer()
 {
+    _health = 20;
     _meleeDamage = 0;
     _rangedDamage = 10;
     _attackRange = 60;
@@ -13,4 +14,5 @@ Archer::Archer()
     _yPos = -1;
     _speed = 25;
     _unitType = ARCHER;
+    _armour = 0;
 }

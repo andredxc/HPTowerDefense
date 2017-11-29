@@ -74,7 +74,6 @@ int AttackUnit::update(Unit* target)
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
-    fprintf(stderr, "distanceToMove Archer: %d\n",distanceToMove);
 
     //Define a ação da unidade
     if((int)distanceToTower <= _attackRange){
@@ -86,6 +85,10 @@ int AttackUnit::update(Unit* target)
         fprintf(stderr, "elapsedTime: %d, _speed: %d, distanceToMove: %f, distanceToTower: %f\n", elapsedTime, _speed, distanceToMove, distanceToTower);
         move(distanceToTower, distanceToMove, target->getXPos(), target->getYPos());
         _lastIterationTime = SDL_GetTicks();
+    }
+
+    if(_health == 0){
+        return -1; // Devemos eliminar a unidade pois está morta
     }
 
     return rangedAttackDamage;

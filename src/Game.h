@@ -37,10 +37,12 @@ public:
     } ;
 
     DefenceUnit _defenceUnit;
-	// TroopList<Archer> _archerList;
     std::vector<Projectile> _projectileList;
 	std::vector<Archer> _archerList;
+	std::vector<Horseman> _horsemanList;
+	std::vector<Soldier> _soldierList;
     std::vector<killItem> _killList;
+    // TroopList<Archer> _archerList;
 	//TroopList<Horseman> horsemanList;
     //TroopList<Soldier> soldierList;
 

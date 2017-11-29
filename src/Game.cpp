@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Projectile.h"
+#include <stdexcept>
 
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
@@ -70,46 +71,75 @@ void Game::update()
     int kill;
     int rangedAttackDamage;
     Projectile projectileBuffer;
+
     if(_archerList.size() == 0){
         _emptyList = true;
     }
+
+    //Atualiza a torre de defesa
+    _defenceUnit.attackClosestUnits(&_archerList, &_horsemanList, &_soldierList, &_projectileList);
+
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
+
         fprintf(stderr, "\tSou o projetil %d\n",i);
-        kill = _projectileList.at(i).update();
+        try{
+            kill = _projectileList.at(i).update();
+        }
+        catch (const std::out_of_range& oor) {
+                std::cerr << "[PROJECTILE] Out of Range error: " << oor.what() << '\n';
+        }
+
         if(kill){
-            fprintf(stderr, "****** KILL ME ***** \n");
+            //O projetil deve ser excluído das estruturas
+            fprintf(stderr, "****** KILL ME PROJECTILE ***** \n");
             killItem item;
             item._pos = i;
             item._type = PROJECTILE;
             _killList.push_back(item);
          }
     }
+
     //Atualiza os arqueiros
     for(i = 0; i < _archerList.size(); i++){
-        rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
+
         fprintf(stderr, "\t\tSou o arqueiro %d\n",i);
-        if(rangedAttackDamage > 0){
-            //Projétil não vazio em direção à torre
+        rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
+        fprintf(stderr, "ARCHER HAS %d LIFE\n", _archerList.at(i).getHealth());
+        if(_archerList.at(i).getHealth() <= 0){
+            //Unidade morta
+            killItem item;
+            item._pos = i;
+            item._type = ARCHER;
+            _killList.push_back(item);
+            fprintf(stderr, "COLOCANDO ARCHER NA KILLLIST\n");
+        }
+        else if(rangedAttackDamage > 0){
+            //Projétil em direção à torre
             Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
-            //_projectileList.push_back(projectileBuffer);
+            _projectileList.push_back(projectileBuffer);
+        }
+        else if(rangedAttackDamage == -1){
+                //Inserir na killList
+                fprintf(stderr, "****** KILL ME ARCHER ***** \n");
+                killItem item;
+                item._pos = i;
+                item._type = ARCHER;
+                _killList.push_back(item);
         }
     }
 
+    // Elimina os objetos dentro da killList
     for(i = 0; i < _killList.size(); i++){
-        killPos = _killList.at(i)._pos;
-        //printf("KILLPOS: %d\n",killPos);
-        //printf("LIST SIZE: %d\n",_killList.size() );
 
+        killPos = _killList.at(i)._pos;
         switch(_killList.at(i)._type){
 
-            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos);
-            case ARCHER: break;
+            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos); break;
+            case ARCHER:_archerList.erase(_archerList.begin() + killPos); fprintf(stderr, "MATANDO ARCHER\n");break;
             default: printf("Fatal internal error deleting object\n");
         }
      }
-
-
      _killList.clear();     // Desaloca toda a lista de unidades por matar
 }
 
@@ -161,8 +191,6 @@ void Game::newRound()
     {
         try{
             Archer archer;
-            archer.setHealth(150);
-            archer.setArmour(50);
             _archerList.push_back(archer);
         }
         catch(const char* e){
