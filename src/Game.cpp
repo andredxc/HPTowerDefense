@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Projectile.h"
+#include <stdexcept>
 
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
@@ -76,7 +77,14 @@ void Game::update()
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
         fprintf(stderr, "\tSou o projetil %d\n",i);    
-        kill = _projectileList.at(i).update();
+
+         try{   
+            kill = _projectileList.at(i).update();
+        }
+        catch (const std::out_of_range& oor) {
+                std::cerr << "[PROJECTILE] Out of Range error: " << oor.what() << '\n';
+        }
+
         if(kill){    
             fprintf(stderr, "****** KILL ME PROJECTILE ***** \n");
             killItem item;
@@ -166,7 +174,7 @@ void Game::newRound()
 {
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-    for (int i = 0; i < 10 ; ++i)
+    for (int i = 0; i < 1 ; ++i)
     {
         try{
             Archer archer;
