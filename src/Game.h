@@ -28,6 +28,7 @@ public:
     void render();
     void clean();
     void newRound();
+    void addToKillList(int position, UNIT_TYPE unit);
     int getIsRunning();
     int getListStatus();
 

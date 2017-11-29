@@ -66,10 +66,11 @@ void Game::handleEvents(){
 */
 void Game::update()
 {
-    uint i;
+    uint i, j;
     int killPos;
     int kill;
     int rangedAttackDamage;
+    int projectileIndex=0, archerIndex=0;
     Projectile projectileBuffer;
 
     if(_archerList.size() == 0){
@@ -93,10 +94,7 @@ void Game::update()
         if(kill){
             //O projetil deve ser excluído das estruturas
             fprintf(stderr, "****** KILL ME PROJECTILE ***** \n");
-            killItem item;
-            item._pos = i;
-            item._type = PROJECTILE;
-            _killList.push_back(item);
+            addToKillList(i, PROJECTILE);
          }
     }
 
@@ -108,24 +106,18 @@ void Game::update()
         fprintf(stderr, "ARCHER HAS %d LIFE\n", _archerList.at(i).getHealth());
         if(_archerList.at(i).getHealth() <= 0){
             //Unidade morta
-            killItem item;
-            item._pos = i;
-            item._type = ARCHER;
-            _killList.push_back(item);
-            fprintf(stderr, "COLOCANDO ARCHER NA KILLLIST\n");
+            addToKillList(i, ARCHER);
+            //Atualiza a lista de projéteis
+            for(j = 0; j < _projectileList.size(); j++){
+                if(_projectileList.at(j).getTarget() == &_archerList.at(i)){
+                    addToKillList(j, PROJECTILE);
+                }
+            }
         }
         else if(rangedAttackDamage > 0){
             //Projétil em direção à torre
             Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
             _projectileList.push_back(projectileBuffer);
-        }
-        else if(rangedAttackDamage == -1){
-                //Inserir na killList
-                fprintf(stderr, "****** KILL ME ARCHER ***** \n");
-                killItem item;
-                item._pos = i;
-                item._type = ARCHER;
-                _killList.push_back(item);
         }
     }
 
@@ -135,12 +127,31 @@ void Game::update()
         killPos = _killList.at(i)._pos;
         switch(_killList.at(i)._type){
 
-            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos); break;
-            case ARCHER:_archerList.erase(_archerList.begin() + killPos); fprintf(stderr, "MATANDO ARCHER\n");break;
+            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
+            case ARCHER:_archerList.erase(_archerList.begin() + killPos - archerIndex); archerIndex++; break;
             default: printf("Fatal internal error deleting object\n");
         }
      }
      _killList.clear();     // Desaloca toda a lista de unidades por matar
+}
+
+void Game::addToKillList(int position, UNIT_TYPE unit){
+
+    uint i;
+    bool itemFound = false;
+    killItem item;
+
+    for(i = 0; i < _killList.size(); i++){
+        if(_killList.at(i)._pos == position && _killList.at(i)._type == unit){
+            itemFound = true;
+        }
+    }
+
+    if(!itemFound){
+        item._pos = position;
+        item._type = unit;
+        _killList.push_back(item);
+    }
 }
 
 /*

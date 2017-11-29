@@ -25,12 +25,16 @@ Projectile::Projectile(int speed, int damage, int width, int height, int xPos, i
     _width = width;
     _height = height;
     _target = target;
+    _destXPos = target->getXPos();
+    _destYPos = target->getYPos();
     _visualTex = NULL;
 }
 
 Projectile::~Projectile()
 {
-    SDL_DestroyTexture(_visualTex);
+    if(_visualTex){
+        SDL_DestroyTexture(_visualTex);
+    }
 }
 
 int Projectile::update()
@@ -58,6 +62,7 @@ int Projectile::update()
     // {
     //     defenceTargetY = _target->getYPos() + _target->getHeight()/2;
     // }
+
     fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
     fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
     fprintf(stderr, "DAMAGE: %d\n", _damage);
