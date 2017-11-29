@@ -75,39 +75,41 @@ void Game::update()
     }
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
-        fprintf(stderr, "\tSou o projetil %d\n",i);    
+        fprintf(stderr, "\tSou o projetil %d\n",i);
         kill = _projectileList.at(i).update();
-        if(kill){    
+        if(kill){
             fprintf(stderr, "****** KILL ME ***** \n");
             killItem item;
             item._pos = i;
-            item._type = PROJECTILE;   
+            item._type = PROJECTILE;
             _killList.push_back(item);
-         }       
+         }
     }
     //Atualiza os arqueiros
     for(i = 0; i < _archerList.size(); i++){
         rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
-        fprintf(stderr, "\t\tSou o arqueiro %d\n",i);    
+        fprintf(stderr, "\t\tSou o arqueiro %d\n",i);
         if(rangedAttackDamage > 0){
             //Projétil não vazio em direção à torre
             Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
-            _projectileList.push_back(projectileBuffer);
+            //_projectileList.push_back(projectileBuffer);
         }
     }
 
     for(i = 0; i < _killList.size(); i++){
         killPos = _killList.at(i)._pos;
         //printf("KILLPOS: %d\n",killPos);
-        //printf("LIST SIZE: %d\n",_killList.size() );    
+        //printf("LIST SIZE: %d\n",_killList.size() );
 
         switch(_killList.at(i)._type){
 
-            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos);      
+            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos);
             case ARCHER: break;
             default: printf("Fatal internal error deleting object\n");
         }
      }
+
+
      _killList.clear();     // Desaloca toda a lista de unidades por matar
 }
 
@@ -161,14 +163,14 @@ void Game::newRound()
             Archer archer;
             archer.setHealth(150);
             archer.setArmour(50);
-            _archerList.push_back(archer);            
+            _archerList.push_back(archer);
         }
         catch(const char* e){
-             std::cerr << "Erro: " << e << std::endl;   
+             std::cerr << "Erro: " << e << std::endl;
         }
         catch(...){
             std::cerr << "Unexpected Fatal Error !!" << std::endl;
-        }    
+        }
     }
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true

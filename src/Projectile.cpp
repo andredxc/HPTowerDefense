@@ -33,14 +33,6 @@ Projectile::~Projectile()
     SDL_DestroyTexture(_visualTex);
 }
 
-void Projectile::attack()
-{
-    printf("Atacando\n");
-    _target->takeDamage(_damage);
-
-
-}
-
 int Projectile::update()
 {
     int distanceToMove, distanceToTarget;
@@ -81,7 +73,7 @@ int Projectile::update()
     // distanceToMove = elapsedTime*_speed/1000;
     // _lastIterationTime = SDL_GetTicks();
 
-    distanceToMove = 5;   
+    distanceToMove = 5;
     fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
     fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
 
@@ -111,14 +103,19 @@ void Projectile::move(int distanceToTarget, int distance, int directionX, int di
     //int proportion = 0;
 
     if(distance > 0)
-    {   
-         //proportion = distance / distanceToTarget ; // % que temos que andar em X e Y   
+    {
+         //proportion = distance / distanceToTarget ; // % que temos que andar em X e Y
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTarget;
         _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTarget;
     }
     fprintf(stderr, "New X: %d, New Y: %d\n\n", _xPos, _yPos);
 }
 
+void Projectile::attack()
+{
+    printf("Atacando\n");
+    _target->takeDamage(_damage);
+}
 
 void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {

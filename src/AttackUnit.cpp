@@ -74,7 +74,7 @@ int AttackUnit::update(Unit* target)
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
-    fprintf(stderr, "distanceToMove Archer: %d\n",distanceToMove);    
+    fprintf(stderr, "distanceToMove Archer: %d\n",distanceToMove);
 
     //Define a ação da unidade
     if((int)distanceToTower <= _attackRange){
