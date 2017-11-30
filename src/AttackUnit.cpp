@@ -133,20 +133,18 @@ int AttackUnit::attack(Unit* target)
 {
     int elapsedTime;
 
-/*
-    if(_xPos >= _target->getXPos() && _xPos <= _target->getXPos() + _target->getWidth()){
-        if(_yPos >= _target->getYPos() && _yPos <= _target->getYPos() + _target->getHeight()){
-           
-*/
 
     elapsedTime = SDL_GetTicks() - _lastAttackTime;
     // fprintf(stderr, "Elapsed time since last attack: %d\n", elapsedTime);
 
     if(_meleeDamage > 0 && elapsedTime >= _attackDelay){
         //Ataque a curta distância
-        if((_xPos == target->getXPos() + target->getWidth()/2 || _xPos == target->getXPos() - target->getWidth()/2) &&
-            (_yPos == target->getYPos() + target->getHeight()/2 || _yPos == target->getYPos() - target->getHeight()/2))
+         printf("Ataque a curta distancia \n");   
+        if(_xPos >= target->getXPos() && _xPos <= target->getXPos() + target->getWidth())
+            if(_yPos >= target->getYPos() && _yPos <= target->getYPos() + target->getHeight())
+
         {
+            printf("Unidade em posição\n");
             //Unidade esta em posição
             target->takeDamage(_meleeDamage);
             _lastAttackTime = SDL_GetTicks();
