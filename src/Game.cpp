@@ -105,9 +105,10 @@ void Game::update()
         rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
         fprintf(stderr, "ARCHER HAS %d LIFE\n", _archerList.at(i).getHealth());
         if(_archerList.at(i).getHealth() <= 0){
+            fprintf(stderr, "****** KILL ME ARCHER ***** \n");
             //Unidade morta
             addToKillList(i, ARCHER);
-            //Atualiza a lista de projéteis
+            //Atualiza a lista de projéteis em direção ao archer morto
             for(j = 0; j < _projectileList.size(); j++){
                 if(_projectileList.at(j).getTarget() == &_archerList.at(i)){
                     addToKillList(j, PROJECTILE);
@@ -127,8 +128,31 @@ void Game::update()
         killPos = _killList.at(i)._pos;
         switch(_killList.at(i)._type){
 
-            case PROJECTILE: _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
-            case ARCHER:_archerList.erase(_archerList.begin() + killPos - archerIndex); archerIndex++; break;
+            case PROJECTILE:{
+
+                 try{   
+                    _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;    
+                 }
+                catch(const char* e){
+                    std::cerr << "Deallocation Error Projectile: " << e << std::endl;
+                }
+                catch(...){
+                    std::cerr << "Unexpected Fatal Deallocation Error Projectile!!" << std::endl;
+                }     
+
+            }
+            case ARCHER:{
+                try{
+                    _archerList.erase(_archerList.begin() + killPos - archerIndex); archerIndex++; break;
+                }
+                catch(const char* e){
+                    std::cerr << "Deallocation Error ARCHER: " << e << std::endl;
+                }
+                catch(...){
+                    std::cerr << "Unexpected Fatal Deallocation Error ARCHER!!" << std::endl;
+                }                     
+            }
+
             default: printf("Fatal internal error deleting object\n");
         }
      }

@@ -75,7 +75,7 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
         //Define qual das unidades é a mais próxima
         if(archerIndex >= 0 && archerDistance <= horsemanDistance && archerDistance <= soldierDistance){
             //Ataca o archer e o marca como utilizado
-            fprintf(stderr, "TORRE ATACA ARCHER");
+            fprintf(stderr, "---------  TORRE ATACA ARCHER --------\n");
             attackDamage = update(&archerList->at(i));
             if(attackDamage > 0){
                 Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &archerList->at(i));
@@ -85,7 +85,7 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
         }
         else if(horsemanIndex >= 0 && horsemanDistance <= archerDistance && horsemanDistance <= soldierDistance){
             //Ataca o horseman e o marca como utilizado
-            fprintf(stderr, "TORRE ATACA HORSEMAN\n");
+            fprintf(stderr, "---------  TORRE ATACA HORSEMAN --------\n");
             attackDamage = update(&horsemanList->at(i));
             if(attackDamage > 0){
                 Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &horsemanList->at(i));
@@ -95,7 +95,7 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
         }
         else if(soldierIndex >= 0 && soldierDistance <= horsemanDistance && soldierDistance <= archerDistance){
             //Ataca o soldier e o marca como utilizado
-            fprintf(stderr, "TORRE ATACA SOLDIER\n");
+            fprintf(stderr, "---------  TORRE ATACA SOLDIER --------\n");
             attackDamage = update(&soldierList->at(i));
             fprintf(stderr, "LAUNCHING PROJECTILE WITH %d DAMAGE\n", attackDamage);
             if(attackDamage > 0){
@@ -115,7 +115,7 @@ int DefenceUnit::attack(Unit* target)
 
     if(elapsedTime >= _attackDelay){
         //Pode atacar novamente
-        fprintf(stderr, "ATTACKING TARGET\n");
+        fprintf(stderr, "[TOWER] ATTACKING TARGET\n");
         _lastAttackTime = SDL_GetTicks();
         return _rangedDamage;
     }
