@@ -70,10 +70,11 @@ void Game::update()
     int killPos;
     int kill;
     int rangedAttackDamage;
-    int projectileIndex=0, archerIndex=0;
+    int meleeAttackDamage;
+    int projectileIndex=0, archerIndex=0, horsemanIndex=0, soldierIndex=0;
     Projectile projectileBuffer;
 
-    if(_archerList.size() == 0){
+    if(_archerList.size() == 0 && _horsemanList.size() == 0){
         _emptyList = true;
     }
 
@@ -122,6 +123,28 @@ void Game::update()
         }
     }
 
+    // Atualiza Horseman
+    for (i = 0; i < _horsemanList.size(); i++){
+        
+        fprintf(stderr, "\t\tSou o Horseman %d\n",i);
+        meleeAttackDamage = _horsemanList.at(i).update(&_defenceUnit);
+        fprintf(stderr, "HORSEMAN HAS %d LIFE\n", _horsemanList.at(i).getHealth());
+        if(_horsemanList.at(i).getHealth() <= 0){
+            fprintf(stderr, "****** KILL ME HORSEMAN ***** \n");
+            //Unidade morta
+            addToKillList(i, HORSEMAN);
+            //Atualiza a lista de projéteis em direção ao archer morto
+            for(j = 0; j < _projectileList.size(); j++){
+                if(_projectileList.at(j).getTarget() == &_horsemanList.at(i)){
+                    addToKillList(j, PROJECTILE);
+                }
+            }
+        }             
+
+    }
+
+
+
     // Elimina os objetos dentro da killList
     for(i = 0; i < _killList.size(); i++){
 
@@ -151,6 +174,19 @@ void Game::update()
                 catch(...){
                     std::cerr << "Unexpected Fatal Deallocation Error ARCHER!!" << std::endl;
                 }                     
+            }
+            case HORSEMAN:{
+                try{
+                    _horsemanList.erase(_horsemanList.begin() + killPos - horsemanIndex); horsemanIndex++; break;
+                }
+                catch(const char* e){
+                    std::cerr << "Deallocation Error HORSEMAN: " << e << std::endl;
+                }
+                catch(...){
+                    std::cerr << "Unexpected Fatal Deallocation Error HORSEMAN!!" << std::endl;
+                }                     
+
+
             }
 
             default: printf("Fatal internal error deleting object\n");
@@ -200,6 +236,12 @@ void Game::render()
         _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
         // fprintf(stderr, "Rendering archer %d of %ld\n", i+1, _archerList.size());
     }
+    for(i = 0; i < _horsemanList.size(); i++)
+    {
+        _horsemanList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        // fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
+    }
+
     for(i = 0; i < _projectileList.size(); i++)
     {
         _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
@@ -226,7 +268,9 @@ void Game::newRound()
     {
         try{
             Archer archer;
+            Horseman horseman;
             _archerList.push_back(archer);
+            _horsemanList.push_back(horseman);
         }
         catch(const char* e){
              std::cerr << "Erro: " << e << std::endl;

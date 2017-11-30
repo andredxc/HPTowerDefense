@@ -133,6 +133,12 @@ int AttackUnit::attack(Unit* target)
 {
     int elapsedTime;
 
+/*
+    if(_xPos >= _target->getXPos() && _xPos <= _target->getXPos() + _target->getWidth()){
+        if(_yPos >= _target->getYPos() && _yPos <= _target->getYPos() + _target->getHeight()){
+           
+*/
+
     elapsedTime = SDL_GetTicks() - _lastAttackTime;
     // fprintf(stderr, "Elapsed time since last attack: %d\n", elapsedTime);
 
@@ -145,6 +151,7 @@ int AttackUnit::attack(Unit* target)
             target->takeDamage(_meleeDamage);
             _lastAttackTime = SDL_GetTicks();
             printf("Dealing melee damage = %d [AttackUnit]", _meleeDamage);
+            return _meleeDamage;
         }
     }
     else if(_rangedDamage > 0 && elapsedTime >= _attackDelay){
