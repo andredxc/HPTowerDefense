@@ -63,9 +63,9 @@ int Projectile::update()
     //     defenceTargetY = _target->getYPos() + _target->getHeight()/2;
     // }
 
-    fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
-    fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
-    fprintf(stderr, "DAMAGE: %d\n", _damage);
+    // fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
+    // fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
+    // fprintf(stderr, "DAMAGE: %d\n", _damage);
     defenceTargetY = _target->getYPos() + _target->getWidth()/2;
     defenceTargetX = _target->getXPos() + _target->getHeight()/2;
 
@@ -89,12 +89,12 @@ int Projectile::update()
     }
 
     //Define a ação da unidade
-
-    if(distanceToTarget <= 0){
-        //Para de andar e ataca a torre
-        attack();
-        // O projetil tem que ser eliminado e retirado da lista
-        return 1; // Devemos Inserir an killList
+    if(_xPos >= _target->getXPos() && _xPos <= _target->getXPos() + _target->getWidth()){
+        if(_yPos >= _target->getYPos() && _yPos <= _target->getYPos() + _target->getHeight()){
+            //Projétil está dentro da área do seu alvo
+            attack();
+            return 1;
+        }
     }
     else{
         //Percorre distanceToMove
