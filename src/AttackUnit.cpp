@@ -66,15 +66,19 @@ int AttackUnit::update(Unit* target)
     //Calcula a distância entre a unidade e a torre
     distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
 
+    printf("Distancia da torre %0.3f\n",distanceToTower);
     //Calcula a distância que a unidade deve percorrer
     elapsedTime = SDL_GetTicks() - _lastIterationTime;
     distanceToMove = (float)(elapsedTime*_speed)/1000;
+
+    //printf("Distancia a percorrer %0.3f\n",distanceToMove);
 
     if(distanceToMove >= distanceToTower){
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
-
+    printf("Distancia a percorrer 2: %0.3f\n",distanceToMove);
+    printf("Pos X %d, Pos Y: %d\n",target->getXPos(),target->getYPos() );
     //Define a ação da unidade
     if((int)distanceToTower <= _attackRange){
         //Para de andar e ataca a torre
@@ -83,7 +87,7 @@ int AttackUnit::update(Unit* target)
     else if(distanceToMove >= 1.4){
         //Distancia percorrida movendo-se em uma unidade no eixo X e Y
         fprintf(stderr, "elapsedTime: %d, _speed: %d, distanceToMove: %f, distanceToTower: %f\n", elapsedTime, _speed, distanceToMove, distanceToTower);
-        move(distanceToTower, distanceToMove, target->getXPos(), target->getYPos());
+        move(distanceToTower, distanceToMove, target->getXPos()+20, target->getYPos()+20);
         _lastIterationTime = SDL_GetTicks();
     }
 
@@ -127,6 +131,8 @@ void AttackUnit::move(float distanceToTower, float distance, int directionX, int
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
         _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
     }
+    printf("New X : %d\n",+_xPos );
+    printf("New Y : %d\n",+_yPos );
 }
 
 int AttackUnit::attack(Unit* target)
@@ -148,7 +154,7 @@ int AttackUnit::attack(Unit* target)
             //Unidade esta em posição
             target->takeDamage(_meleeDamage);
             _lastAttackTime = SDL_GetTicks();
-            printf("Dealing melee damage = %d [AttackUnit]", _meleeDamage);
+            printf("Dealing melee damage = %d [AttackUnit]\n", _meleeDamage);
             return _meleeDamage;
         }
     }

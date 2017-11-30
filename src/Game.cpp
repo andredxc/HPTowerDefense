@@ -264,12 +264,12 @@ void Game::newRound()
 {
         // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-    for (int i = 0; i < 10 ; ++i)
+    for (int i = 0; i < 5 ; ++i)
     {
         try{
             Archer archer;
             Horseman horseman;
-           // _archerList.push_back(archer);
+            _archerList.push_back(archer);
             _horsemanList.push_back(horseman);
         }
         catch(const char* e){
