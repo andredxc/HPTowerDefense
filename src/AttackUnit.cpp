@@ -85,7 +85,7 @@ int AttackUnit::update(Unit* target)
     else if(distanceToMove >= 1.4){
         //Distancia percorrida movendo-se em uma unidade no eixo X e Y
         fprintf(stderr, "elapsedTime: %d, _speed: %d, distanceToMove: %f, distanceToTower: %f\n", elapsedTime, _speed, distanceToMove, distanceToTower);
-        move(distanceToTower, distanceToMove, target->getXPos()+20, target->getYPos()+20);
+        move(distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
         _lastIterationTime = SDL_GetTicks();
     }
 
