@@ -24,8 +24,6 @@ int main(int argc, char **argv){
         game.update();
         game.render();
 
-        fprintf(stderr, "-------------------------------------NOVA ITERAÇÃO-------------------------\n");
-
         //Mantém o framerate constante em 60 fps
        frameTime = SDL_GetTicks() - frameStart;
        if(frameDelay > frameTime){

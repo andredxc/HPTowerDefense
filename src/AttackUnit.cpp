@@ -74,9 +74,6 @@ int AttackUnit::update(Unit* target)
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
-    printf("Distancia da torre %0.3f\n",distanceToTower);
-    printf("Distancia a percorrer 2: %0.3f\n",distanceToMove);
-//    printf("Pos X %d, Pos Y: %d\n",target->getXPos(),target->getYPos() );
     //Define a ação da unidade
     if((int)distanceToTower <= _attackRange){
         //Para de andar e ataca a torre
@@ -84,7 +81,6 @@ int AttackUnit::update(Unit* target)
     }
     else if(distanceToMove >= 1.4){
         //Distancia percorrida movendo-se em uma unidade no eixo X e Y
-        fprintf(stderr, "elapsedTime: %d, _speed: %d, distanceToMove: %f, distanceToTower: %f\n", elapsedTime, _speed, distanceToMove, distanceToTower);
         move(distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
         _lastIterationTime = SDL_GetTicks();
     }
@@ -129,8 +125,6 @@ void AttackUnit::move(float distanceToTower, float distance, int directionX, int
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
         _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
     }
-    printf("New X : %d\n",+_xPos );
-    printf("New Y : %d\n",+_yPos );
 }
 
 int AttackUnit::attack(Unit* target)
@@ -143,23 +137,18 @@ int AttackUnit::attack(Unit* target)
 
     if(_meleeDamage > 0 && elapsedTime >= _attackDelay){
         //Ataque a curta distância
-         printf("Ataque a curta distancia \n");
         if(_xPos >= target->getXPos() && _xPos <= target->getXPos() + target->getWidth())
             if(_yPos >= target->getYPos() && _yPos <= target->getYPos() + target->getHeight())
-
         {
-            printf("Unidade em posição\n");
             //Unidade esta em posição
             target->takeDamage(_meleeDamage);
             _lastAttackTime = SDL_GetTicks();
-            printf("Dealing melee damage = %d [AttackUnit]\n", _meleeDamage);
             return _meleeDamage;
         }
     }
     else if(_rangedDamage > 0 && elapsedTime >= _attackDelay){
         //Ataque a longa distância
         _lastAttackTime = SDL_GetTicks();
-        printf("Launching projectile with damage = %d [AttackUnit]\n", _rangedDamage);
         return _rangedDamage;
     }
 

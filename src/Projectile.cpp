@@ -105,7 +105,6 @@ int Projectile::update()
 
 void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
 {
-    fprintf(stderr, "DirectionX: %d, DirectionY: %d\nXPOS: %d, YPOS%d\n", directionX, directionY, _xPos, _yPos);
     //int proportion = 0;
 
     if(distance > 0)
@@ -114,12 +113,10 @@ void Projectile::move(int distanceToTarget, int distance, int directionX, int di
         _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTarget;
         _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTarget;
     }
-    fprintf(stderr, "New X: %d, New Y: %d\n\n", _xPos, _yPos);
 }
 
 void Projectile::attack()
 {
-    printf("Atacando\n");
     _target->takeDamage(_damage);
 }
 

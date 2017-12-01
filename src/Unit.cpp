@@ -5,7 +5,6 @@
 
 Unit::Unit()
 {
-    fprintf(stderr, "UNIT CONSTRUCTOR\n");
     _xPos = -1;
     _yPos = -1;
     _visualTex = NULL;
@@ -132,9 +131,6 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     destRect.w = healthLostWidth;
     destRect.h = _healthBarHeight;
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
-    if(currentHealthWidth == 0){
-          printf("VIDA È ZEROOOO\n\n\n\n\n");
-    }
 }
 
 int Unit::getHealth(){ return _currentHealth; }
@@ -193,11 +189,11 @@ int Unit::getAttributeUpgradeCost(ATTRIBUTE attr)
 void Unit::incAttributeLevel(ATTRIBUTE attr)
 {
     switch(attr){
-        case HEALTH: _healthLevel++; _totalHealth = getAttributeValue(HEALTH, _healthLevel);
-        case ARMOUR: _armourLevel++; _armour = getAttributeValue(ARMOUR, _healthLevel);
-        case DAMAGE: _damageLevel++; _rangedDamage = getAttributeValue(DAMAGE, _healthLevel);
-        case TARGETS: _targetsLevel++; _numberOfTargets = getAttributeValue(TARGETS, _healthLevel);
-        case DELAY: _delayLevel++; _attackDelay = getAttributeValue(DELAY, _healthLevel);
-        case RANGE: _rangeLevel++; _attackRange = getAttributeValue(RANGE, _healthLevel);
+        case HEALTH: _healthLevel++; _totalHealth = getAttributeValue(HEALTH, _healthLevel); break;
+        case ARMOUR: _armourLevel++; _armour = getAttributeValue(ARMOUR, _armourLevel); break;
+        case DAMAGE: _damageLevel++; _rangedDamage = getAttributeValue(DAMAGE, _damageLevel); break;
+        case TARGETS: _targetsLevel++; _numberOfTargets = getAttributeValue(TARGETS, _targetsLevel); break;
+        case DELAY: _delayLevel++; _attackDelay = getAttributeValue(DELAY, _delayLevel); break;
+        case RANGE: _rangeLevel++; _attackRange = getAttributeValue(RANGE, _rangeLevel); break;
     }
 }

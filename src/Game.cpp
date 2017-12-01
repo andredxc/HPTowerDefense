@@ -64,15 +64,48 @@ void Game::handleEvents(){
 
     SDL_Event event;
 
-    SDL_PollEvent(&event);
-    switch (event.type)
-    {
-        case SDL_QUIT:
-            fprintf(stderr, "SDL_QUIT\n");
+    while(1){
+
+        if(SDL_PollEvent(&event) == 0){
+            return;
+        }
+
+        if(event.type == SDL_QUIT){
             _isRunning = false;
-            break;
-        default:
-            break;
+            return;
+        }
+        else if(event.type == SDL_KEYDOWN){
+
+            switch(event.key.keysym.sym){
+                case SDLK_1:    //Health
+                    fprintf(stderr, "Comprando vida\n");
+                    purchaseUpgrade(HEALTH);
+                    return;
+                case SDLK_2:    //Armour
+                    fprintf(stderr, "Comprando armour\n");
+                    purchaseUpgrade(ARMOUR);
+                    return;
+                case SDLK_3:    //Damage
+                    fprintf(stderr, "Comprando damage\n");
+                    purchaseUpgrade(DAMAGE);
+                    return;
+                case SDLK_4:    //Attack range
+                    fprintf(stderr, "Comprando range\n");
+                    purchaseUpgrade(RANGE);
+                    return;
+                case SDLK_5:    //Number of targets
+                    fprintf(stderr, "Comprando targets\n");
+                    purchaseUpgrade(TARGETS);
+                    return;
+                case SDLK_6:    //Attack delay
+                    fprintf(stderr, "Comprando delay\n");
+                    purchaseUpgrade(DELAY);
+                    return;
+                case SDLK_ESCAPE:
+                    _isRunning = false;
+                    return;
+            }
+        }
     }
 }
 
@@ -85,7 +118,6 @@ void Game::update()
     int killPos;
     int kill;
     int rangedAttackDamage;
-    int meleeAttackDamage;
     int projectileIndex=0, archerIndex=0, horsemanIndex=0, soldierIndex=0;
     Projectile projectileBuffer;
 
@@ -99,17 +131,16 @@ void Game::update()
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
 
-        fprintf(stderr, "\tSou o projetil %d\n",i);
+        // fprintf(stderr, "\tSou o projetil %d\n",i);
         try{
             kill = _projectileList.at(i).update();
         }
         catch (const std::out_of_range& oor) {
-                std::cerr << "[PROJECTILE] Out of Range error: " << oor.what() << '\n';
+            printf("[PROJECTILE] Out of Range error: %s\n", oor.what());
         }
 
         if(kill){
             //O projetil deve ser excluído das estruturas
-            fprintf(stderr, "****** KILL ME PROJECTILE ***** \n");
             addToKillList(i, PROJECTILE);
          }
     }
@@ -117,9 +148,7 @@ void Game::update()
     //Atualiza os arqueiros
     for(i = 0; i < _archerList.size(); i++){
 
-        fprintf(stderr, "\t\tSou o arqueiro %d\n",i);
         rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
-        fprintf(stderr, "ARCHER HAS %d LIFE\n", _archerList.at(i).getHealth());
         if(_archerList.at(i).getHealth() <= 0){
             //Unidade morta
             _bitCoins += _archerList.at(i).getReward();
@@ -141,9 +170,7 @@ void Game::update()
     // Atualiza Horseman
     for (i = 0; i < _horsemanList.size(); i++){
 
-        fprintf(stderr, "\t\tSou o Horseman %d\n",i);
-        meleeAttackDamage = _horsemanList.at(i).update(&_defenceUnit);
-        fprintf(stderr, "HORSEMAN HAS %d LIFE\n", _horsemanList.at(i).getHealth());
+        _horsemanList.at(i).update(&_defenceUnit);
         if(_horsemanList.at(i).getHealth() <= 0){
             _bitCoins += _horsemanList.at(i).getReward();
             //Unidade morta
@@ -169,10 +196,10 @@ void Game::update()
                     _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
                  }
                 catch(const char* e){
-                    std::cerr << "Deallocation Error Projectile: " << e << std::endl;
+                    printf("Deallocation Error Projectile: %s\n", e);
                 }
                 catch(...){
-                    std::cerr << "Unexpected Fatal Deallocation Error Projectile!!" << std::endl;
+                    printf("Unexpected Fatal Deallocation Error Projectile!!\n");
                 }
             }
             case ARCHER:{
@@ -180,10 +207,10 @@ void Game::update()
                     _archerList.erase(_archerList.begin() + killPos - archerIndex); archerIndex++; break;
                 }
                 catch(const char* e){
-                    std::cerr << "Deallocation Error ARCHER: " << e << std::endl;
+                    printf("Deallocation Error ARCHER: %s\n", e);
                 }
                 catch(...){
-                    std::cerr << "Unexpected Fatal Deallocation Error ARCHER!!" << std::endl;
+                    printf("Unexpected Fatal Deallocation Error ARCHER!!\n");
                 }
             }
             case HORSEMAN:{
@@ -191,13 +218,12 @@ void Game::update()
                     _horsemanList.erase(_horsemanList.begin() + killPos - horsemanIndex); horsemanIndex++; break;
                 }
                 catch(const char* e){
-                    std::cerr << "Deallocation Error HORSEMAN: " << e << std::endl;
+                    printf("Deallocation Error HORSEMAN: %s\n", e);
                 }
                 catch(...){
-                    std::cerr << "Unexpected Fatal Deallocation Error HORSEMAN!!" << std::endl;
+                    printf("Unexpected Fatal Deallocation Error HORSEMAN!!\n");
                 }
             }
-
             default: printf("Fatal internal error deleting object\n");
         }
      }
@@ -276,7 +302,6 @@ void Game::newRound()
     round = round +1;
     int newUnits;
     newUnits = rand() % round;
-    printf("UNITS %d\n", newUnits);
         //printf("Round:%d\n",round );
        // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
@@ -284,21 +309,20 @@ void Game::newRound()
     {
         try{
             Archer archer;
-//            Horseman horseman;
-//           Soldier soldier;
+            // Horseman horseman;
+            // Soldier soldier;
             _archerList.push_back(archer);
-   //         _horsemanList.push_back(horseman);
-     //       _soldierList.push_back(soldier);
+        //    _horsemanList.push_back(horseman);
+        //    _soldierList.push_back(soldier);
         }
         catch(const char* e){
-             std::cerr << "Erro: " << e << std::endl;
+             printf("Erro: %s\n", e);
         }
         catch(...){
-            std::cerr << "Unexpected Fatal Error !!" << std::endl;
+            printf("Unexpected Fatal Error !!\n");
         }
     }
     newUnits = rand() % round;
-    printf("UNITS %d\n",newUnits );
     for (int i = 0; i < round + newUnits ; i++)
     {
         try{
@@ -310,10 +334,10 @@ void Game::newRound()
             //_soldierList.push_back(soldier);
         }
         catch(const char* e){
-             std::cerr << "Erro: " << e << std::endl;
+             printf("Erro: %s\n", e);
         }
         catch(...){
-            std::cerr << "Unexpected Fatal Error !!" << std::endl;
+            printf("Unexpected Fatal Error !!\n");
         }
     }
 
@@ -374,6 +398,16 @@ bool Game::drawText(const char* text, int xPos, int yPos)
     destRect.h = textSurface->h;
     SDL_RenderCopy(_renderer, textTexture, NULL, &destRect);
     return true;
+}
+
+void Game::purchaseUpgrade(ATTRIBUTE attr)
+{
+    if(_bitCoins >= _defenceUnit.getAttributeUpgradeCost(attr)){
+        //Tem moedas o suficiente
+        _bitCoins -= _defenceUnit.getAttributeUpgradeCost(attr);
+        _defenceUnit.incAttributeLevel(attr);
+        fprintf(stderr, "Comprou upgrade\n");
+    }
 }
 
 int Game::getIsRunning(){ return _isRunning; };

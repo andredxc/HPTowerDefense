@@ -5,18 +5,26 @@
 
 DefenceUnit::DefenceUnit()
 {
-    //Inicializa os atributos padrão da torre de defesa
-    _totalHealth = 100;
-    _currentHealth = _totalHealth;
-    _armour = 5;
-    _attackRange = 250;
+    //Determina os valores base de atributos
     _meleeDamage = 0;
-    _rangedDamage = 15;
-    _attackDelay = 500;
+    _baseHealth = 100;
+    _baseArmour = 5;
+    _baseRangedDamage = 15;
+    _baseNumberOfTargets = 1;
+    _baseAttackDelay = 500;
+    _baseAttackRange = 250;
+    //Determina os valores dos atributos
+    _totalHealth = getAttributeValue(HEALTH, _healthLevel);
+    _armour = getAttributeValue(ARMOUR, _healthLevel);
+    _rangedDamage = getAttributeValue(DAMAGE, _healthLevel);
+    _numberOfTargets = getAttributeValue(TARGETS, _healthLevel);
+    _attackDelay = getAttributeValue(DELAY, _healthLevel);
+    _attackRange = getAttributeValue(RANGE, _healthLevel);
+    _currentHealth = _totalHealth;
     _width = 40;
     _height = 40;
+    _meleeDamage = 0;
     _unitType = DEFENCE;
-    _numberOfTargets = 1;
 }
 
 int DefenceUnit::update(Unit* target)
@@ -75,7 +83,7 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
         //Define qual das unidades é a mais próxima
         if(archerIndex >= 0 && archerDistance <= horsemanDistance && archerDistance <= soldierDistance){
             //Ataca o archer e o marca como utilizado
-            fprintf(stderr, "---------  TORRE ATACA ARCHER --------\n");
+            // fprintf(stderr, "---------  TORRE ATACA ARCHER --------\n");
             attackDamage = update(&archerList->at(i));
             if(attackDamage > 0){
                 Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &archerList->at(i));
@@ -85,7 +93,7 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
         }
         else if(horsemanIndex >= 0 && horsemanDistance <= archerDistance && horsemanDistance <= soldierDistance){
             //Ataca o horseman e o marca como utilizado
-            fprintf(stderr, "---------  TORRE ATACA HORSEMAN --------\n");
+            // fprintf(stderr, "---------  TORRE ATACA HORSEMAN --------\n");
             attackDamage = update(&horsemanList->at(i));
             if(attackDamage > 0){
                 Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &horsemanList->at(i));
@@ -95,9 +103,9 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
         }
         else if(soldierIndex >= 0 && soldierDistance <= horsemanDistance && soldierDistance <= archerDistance){
             //Ataca o soldier e o marca como utilizado
-            fprintf(stderr, "---------  TORRE ATACA SOLDIER --------\n");
+            // fprintf(stderr, "---------  TORRE ATACA SOLDIER --------\n");
             attackDamage = update(&soldierList->at(i));
-            fprintf(stderr, "LAUNCHING PROJECTILE WITH %d DAMAGE\n", attackDamage);
+            // fprintf(stderr, "LAUNCHING PROJECTILE WITH %d DAMAGE\n", attackDamage);
             if(attackDamage > 0){
                 Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &soldierList->at(i));
                 projectileList->push_back(projectileBuffer);
@@ -115,7 +123,6 @@ int DefenceUnit::attack(Unit* target)
 
     if(elapsedTime >= _attackDelay){
         //Pode atacar novamente
-        fprintf(stderr, "[TOWER] ATTACKING TARGET\n");
         _lastAttackTime = SDL_GetTicks();
         return _rangedDamage;
     }

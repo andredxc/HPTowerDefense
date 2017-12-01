@@ -35,6 +35,7 @@ public:
     void addToKillList(int position, UNIT_TYPE unit);
     void drawStats();
     bool drawText(const char* text, int xPos, int yPos);
+    void purchaseUpgrade(ATTRIBUTE attr);
     int getIsRunning();
     int getListStatus();
 
