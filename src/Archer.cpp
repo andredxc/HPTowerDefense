@@ -24,4 +24,5 @@ Archer::Archer()
     _height = 10;
     _speed = 25;
     _unitType = ARCHER;
+    
 }
