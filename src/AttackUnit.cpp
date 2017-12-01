@@ -165,3 +165,5 @@ int AttackUnit::attack(Unit* target)
 
     return 0;
 }
+
+int AttackUnit::getReward(){ return _reward; }

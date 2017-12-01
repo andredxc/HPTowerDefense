@@ -121,8 +121,8 @@ void Game::update()
         rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
         fprintf(stderr, "ARCHER HAS %d LIFE\n", _archerList.at(i).getHealth());
         if(_archerList.at(i).getHealth() <= 0){
-            fprintf(stderr, "****** KILL ME ARCHER ***** \n");
             //Unidade morta
+            _bitCoins += _archerList.at(i).getReward();
             addToKillList(i, ARCHER);
             //Atualiza a lista de projéteis em direção ao archer morto
             for(j = 0; j < _projectileList.size(); j++){
@@ -145,7 +145,7 @@ void Game::update()
         meleeAttackDamage = _horsemanList.at(i).update(&_defenceUnit);
         fprintf(stderr, "HORSEMAN HAS %d LIFE\n", _horsemanList.at(i).getHealth());
         if(_horsemanList.at(i).getHealth() <= 0){
-            fprintf(stderr, "****** KILL ME HORSEMAN ***** \n");
+            _bitCoins += _horsemanList.at(i).getReward();
             //Unidade morta
             addToKillList(i, HORSEMAN);
             //Atualiza a lista de projéteis em direção ao archer morto
@@ -157,8 +157,6 @@ void Game::update()
         }
 
     }
-
-
 
     // Elimina os objetos dentro da killList
     for(i = 0; i < _killList.size(); i++){

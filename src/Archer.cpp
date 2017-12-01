@@ -3,6 +3,7 @@
 
 Archer::Archer()
 {
+    _reward = 15;
     _totalHealth = 20;
     _currentHealth = _totalHealth;
     _meleeDamage = 0;

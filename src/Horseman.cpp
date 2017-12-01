@@ -3,6 +3,7 @@
 
 Horseman::Horseman()
 {
+    _reward = 30;
     _totalHealth = 40;
     _currentHealth = _totalHealth;
     _meleeDamage = 5;
