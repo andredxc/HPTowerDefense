@@ -89,7 +89,7 @@ int AttackUnit::update(Unit* target)
         _lastIterationTime = SDL_GetTicks();
     }
 
-    if(_health == 0){
+    if(_currentHealth == 0){
         return -1; // Devemos eliminar a unidade pois está morta
     }
 
@@ -143,7 +143,7 @@ int AttackUnit::attack(Unit* target)
 
     if(_meleeDamage > 0 && elapsedTime >= _attackDelay){
         //Ataque a curta distância
-         printf("Ataque a curta distancia \n");   
+         printf("Ataque a curta distancia \n");
         if(_xPos >= target->getXPos() && _xPos <= target->getXPos() + target->getWidth())
             if(_yPos >= target->getYPos() && _yPos <= target->getYPos() + target->getHeight())
 

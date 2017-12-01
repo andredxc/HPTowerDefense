@@ -5,6 +5,7 @@
 #include <vector>
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "Archer.h"
 #include "Soldier.h"
 #include "Horseman.h"
@@ -19,7 +20,10 @@ private:
     bool _isRunning;
     bool _emptyList; // Variavel para controlar os rounds
     int _troops;	// Bixinhos que estão ativos na rodada
-    int _screenWidth, _screenHeight;
+    int _screenWidth, _screenHeight, _textAreaY, _textAreaHeight;
+    int _bitCoins;
+    TTF_Font* _textFont;
+    SDL_Color _textColor;
 
 public:
     bool initialize(const char* title, int xPos, int yPos, int width, int height, bool fullscreen);
@@ -29,6 +33,8 @@ public:
     void clean();
     void newRound();
     void addToKillList(int position, UNIT_TYPE unit);
+    void drawStats();
+    bool drawText(const char* text, int xPos, int yPos);
     int getIsRunning();
     int getListStatus();
 

@@ -11,7 +11,7 @@ enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER,PROJECTILE};
 class Unit{
 
 protected:
-    int _health, _currentHealth, _armour;
+    int _totalHealth, _currentHealth, _armour;
     int _xPos, _yPos, _width, _height, _quadrant;
     int _rangedDamage, _meleeDamage, _attackRange, _attackDelay;    //_attackDelay em ms
     int _healthBarX, _healthBarY, _healthBarWidth, _healthBarHeight;
@@ -33,6 +33,7 @@ public:
 
     void setSize(int width, int height);
     void setHealth(int value);
+    int getTotalHealth();
     void setArmour(int value);
     void setPosition(int x, int y);
     int getHealth();
@@ -41,6 +42,9 @@ public:
     int getYPos();
     int getWidth();
     int getHeight();
+    int getAttackRange();
+    int getRangedDamage();
+    int getAttackDelay();
     UNIT_TYPE getUnitType();
     SDL_Texture* getTexture();
 

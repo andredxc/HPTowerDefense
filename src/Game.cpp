@@ -1,7 +1,8 @@
-#include "Game.h"
-#include "Projectile.h"
 #include <stdexcept>
 #include <time.h>
+#include <SDL2/SDL_image.h>
+#include "Projectile.h"
+#include "Game.h"
 
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
@@ -19,6 +20,10 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
         printf("Error \"%s\" initializing SDL\n", SDL_GetError());
         return false;
     }
+    IMG_Init(0);
+    if(TTF_Init() == -1){
+        fprintf(stderr, "Error \"%s\" initializing TTF\n", SDL_GetError());
+    }
 
     _window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
     if(!_window){
@@ -34,12 +39,20 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
     }
     _isRunning = true;
     _emptyList = true;
+    _bitCoins = 0;
     //Dimensões da tela podem ser alteradas para acomodar os menus
     SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
+    //Define o tamanho da tela jogável
+    _textAreaHeight = 140;
+    _screenHeight = _screenHeight - (_textAreaHeight + 28);
     //Define o tamanho e posicionamento da barra de vida da torre de defesa
-    //20 de padding nas laterais e 4 em cima e embaixo
-    _screenHeight -= 28;
     _defenceUnit.setHealthBar(20, _screenHeight+4, _screenWidth - 40, 20);
+    //Inicializa variáveis referentes aos textos
+    _textAreaY = _screenHeight + 28;    //Soma a altura da health bar
+    _textFont = TTF_OpenFont("../fonts/SpectralSC-Regular.ttf", 18);
+    _textColor.r = 255;
+    _textColor.g = 255;
+    _textColor.b = 255;
 
     return true;
 }
@@ -127,7 +140,7 @@ void Game::update()
 
     // Atualiza Horseman
     for (i = 0; i < _horsemanList.size(); i++){
-        
+
         fprintf(stderr, "\t\tSou o Horseman %d\n",i);
         meleeAttackDamage = _horsemanList.at(i).update(&_defenceUnit);
         fprintf(stderr, "HORSEMAN HAS %d LIFE\n", _horsemanList.at(i).getHealth());
@@ -141,7 +154,7 @@ void Game::update()
                     addToKillList(j, PROJECTILE);
                 }
             }
-        }             
+        }
 
     }
 
@@ -155,15 +168,15 @@ void Game::update()
 
             case PROJECTILE:{
 
-                 try{   
-                    _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;    
+                 try{
+                    _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
                  }
                 catch(const char* e){
                     std::cerr << "Deallocation Error Projectile: " << e << std::endl;
                 }
                 catch(...){
                     std::cerr << "Unexpected Fatal Deallocation Error Projectile!!" << std::endl;
-                }     
+                }
 
             }
             case ARCHER:{
@@ -175,7 +188,7 @@ void Game::update()
                 }
                 catch(...){
                     std::cerr << "Unexpected Fatal Deallocation Error ARCHER!!" << std::endl;
-                }                     
+                }
             }
             case HORSEMAN:{
                 try{
@@ -186,7 +199,7 @@ void Game::update()
                 }
                 catch(...){
                     std::cerr << "Unexpected Fatal Deallocation Error HORSEMAN!!" << std::endl;
-                }                     
+                }
 
 
             }
@@ -249,6 +262,7 @@ void Game::render()
         _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
         // fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
     }
+    drawStats();
 
     SDL_RenderPresent(_renderer);
 }
@@ -277,7 +291,7 @@ void Game::newRound()
         try{
             Archer archer;
 //            Horseman horseman;
- //           Soldier soldier;
+//           Soldier soldier;
             _archerList.push_back(archer);
    //         _horsemanList.push_back(horseman);
      //       _soldierList.push_back(soldier);
@@ -309,12 +323,58 @@ void Game::newRound()
         }
     }
 
-
-
-
-
-
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };
+
+void Game::drawStats()
+{
+    char text[256];
+
+    if(!_textFont){
+        printf("Error opening text font\n");
+        return;
+    }
+    //Escreve os atributos na tela
+    snprintf(text, sizeof(text), "(1) Health: %d/%d [Next level: ]", _defenceUnit.getHealth(), _defenceUnit.getTotalHealth());
+    drawText(text, 5, _textAreaY + 5);
+    snprintf(text, sizeof(text), "(2) Armour: %d [Next level: ]", _defenceUnit.getArmour());
+    drawText(text, 5, _textAreaY + 25);
+    snprintf(text, sizeof(text), "(3) Damage: %d [Next level: ]", _defenceUnit.getRangedDamage());
+    drawText(text, 5, _textAreaY + 45);
+    snprintf(text, sizeof(text), "(4) AttackRange: %d [Next level: ]", _defenceUnit.getAttackRange());
+    drawText(text, 5, _textAreaY + 65);
+    snprintf(text, sizeof(text), "(5) Number of targets: %d [Next level: ]", _defenceUnit.getNumberOfTargets());
+    drawText(text, 5, _textAreaY + 85);
+    snprintf(text, sizeof(text), "(6) Attack Delay: %d ms [Next level: ]", _defenceUnit.getAttackDelay());
+    drawText(text, 5, _textAreaY + 105);
+    //Escreve o número de bitcoins
+    snprintf(text, sizeof(text), "BitCoins");
+    drawText(text, _screenWidth - 180,  _textAreaY + 10);
+    snprintf(text, sizeof(text), "%d", _bitCoins);
+    drawText(text, _screenWidth - 140,  _textAreaY + 30);
+
+}
+
+bool Game::drawText(const char* text, int xPos, int yPos)
+{
+    SDL_Surface* textSurface;
+    SDL_Texture* textTexture;
+    SDL_Rect destRect;
+
+    if(!_textFont){
+        printf("Error opening text font\n");
+        return false;
+    }
+    //Escreve vida na tela
+    textSurface = TTF_RenderUTF8_Blended(_textFont, text, _textColor);
+    textTexture = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    destRect.x = xPos;
+    destRect.y = yPos;
+    destRect.w = textSurface->w;
+    destRect.h = textSurface->h;
+    SDL_RenderCopy(_renderer, textTexture, NULL, &destRect);
+    return true;
+}
+
 int Game::getIsRunning(){ return _isRunning; };
 int Game::getListStatus(){ return _emptyList; };

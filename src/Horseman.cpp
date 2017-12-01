@@ -3,7 +3,8 @@
 
 Horseman::Horseman()
 {
-    _health = 40;
+    _totalHealth = 40;
+    _currentHealth = _totalHealth;
     _meleeDamage = 5;
     _rangedDamage = 0;
     _attackRange = 15;
