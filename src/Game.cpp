@@ -78,27 +78,21 @@ void Game::handleEvents(){
 
             switch(event.key.keysym.sym){
                 case SDLK_1:    //Health
-                    fprintf(stderr, "Comprando vida\n");
                     purchaseUpgrade(HEALTH);
                     return;
                 case SDLK_2:    //Armour
-                    fprintf(stderr, "Comprando armour\n");
                     purchaseUpgrade(ARMOUR);
                     return;
                 case SDLK_3:    //Damage
-                    fprintf(stderr, "Comprando damage\n");
                     purchaseUpgrade(DAMAGE);
                     return;
                 case SDLK_4:    //Attack range
-                    fprintf(stderr, "Comprando range\n");
                     purchaseUpgrade(RANGE);
                     return;
                 case SDLK_5:    //Number of targets
-                    fprintf(stderr, "Comprando targets\n");
                     purchaseUpgrade(TARGETS);
                     return;
                 case SDLK_6:    //Attack delay
-                    fprintf(stderr, "Comprando delay\n");
                     purchaseUpgrade(DELAY);
                     return;
                 case SDLK_ESCAPE:
@@ -301,7 +295,9 @@ void Game::newRound()
     static int round = 0;
     round = round +1;
     int newUnits;
+
     newUnits = rand() % round;
+    _defenceUnit.recoverHealth();
         //printf("Round:%d\n",round );
        // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
@@ -406,7 +402,6 @@ void Game::purchaseUpgrade(ATTRIBUTE attr)
         //Tem moedas o suficiente
         _bitCoins -= _defenceUnit.getAttributeUpgradeCost(attr);
         _defenceUnit.incAttributeLevel(attr);
-        fprintf(stderr, "Comprou upgrade\n");
     }
 }
 

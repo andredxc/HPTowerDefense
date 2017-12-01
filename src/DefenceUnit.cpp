@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "DefenceUnit.h"
 
+struct CloseUnit{
+    int index;
+    UNIT_TYPE type;
+    int distance;
+};
 
 DefenceUnit::DefenceUnit()
 {
@@ -43,76 +48,70 @@ int DefenceUnit::update(Unit* target)
 
 void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList)
 {
-    int archerIndex=0, horsemanIndex=0, soldierIndex=0;
-    int i, attackDamage;
-    int archerDistance, horsemanDistance, soldierDistance;  //Definido como inteiro para otimizar o trecho
+    int i, j, attackDamage, chosenIndex;
+    std::vector<struct CloseUnit> closeUnits;
+    struct CloseUnit closeUnitBuffer;
 
+    for(i = 0; (uint) i < archerList->size(); i++){
+        closeUnitBuffer.index = i;
+        closeUnitBuffer.type = ARCHER;
+        closeUnitBuffer.distance = sqrt(pow((_xPos - archerList->at(i).getXPos()), 2) + pow((_yPos - archerList->at(i).getYPos()), 2));
+        closeUnits.push_back(closeUnitBuffer);
+    }
+
+    for(i = 0; (uint) i < horsemanList->size(); i++){
+        closeUnitBuffer.index = i;
+        closeUnitBuffer.type = HORSEMAN;
+        closeUnitBuffer.distance = sqrt(pow((_xPos - horsemanList->at(i).getXPos()), 2) + pow((_yPos - horsemanList->at(i).getYPos()), 2));
+        closeUnits.push_back(closeUnitBuffer);
+    }
+
+    for(i = 0; (uint) i < soldierList->size(); i++){
+        closeUnitBuffer.index = i;
+        closeUnitBuffer.type = SOLDIER;
+        closeUnitBuffer.distance = sqrt(pow((_xPos - soldierList->at(i).getXPos()), 2) + pow((_yPos - soldierList->at(i).getYPos()), 2));
+        closeUnits.push_back(closeUnitBuffer);
+    }
 
     for(i = 0; i < _numberOfTargets; i++){
-        //Para cada alvo que pode ser atacado ao mesmo tempo
-        //Archers
-        if((int)archerList->size() <= archerIndex || archerIndex < 0){
-            //O índice atual não existe na lista ou ela já foi percorrida, marca a lista como finalizada
-            archerIndex = -1;
-            archerDistance = 100000;
-        }
-        else{
-            //Define a distância da torre para esta unidade
-            archerDistance = sqrt(pow((_xPos - archerList->at(archerIndex).getXPos()), 2) + pow((_yPos - archerList->at(archerIndex).getYPos()), 2));
-        }
-        //Horseman
-        if((int)horsemanList->size() <= horsemanIndex || horsemanIndex < 0){
-            //O índice atual não existe na lista ou ela já foi percorrida, marca a lista como finalizada
-            horsemanIndex = -1;
-            horsemanDistance = 100000;
-        }
-        else{
-            //Define a distância da torre para esta unidade
-            horsemanDistance = sqrt(pow((_xPos - horsemanList->at(horsemanIndex).getXPos()), 2) + pow((_yPos - horsemanList->at(horsemanIndex).getYPos()), 2));
-        }
-        //Soldier
-        if((int)soldierList->size() <= soldierIndex || soldierIndex < 0){
-            //O índice atual não existe na lista ou ela já foi percorrida, marca a lista como finalizada
-            soldierIndex = -1;
-            soldierDistance = 100000;
-        }
-        else{
-            //Define a distância da torre para esta unidade
-            soldierDistance = sqrt(pow((_xPos - soldierList->at(soldierIndex).getXPos()), 2) + pow((_yPos - soldierList->at(soldierIndex).getYPos()), 2));
-        }
-        //Define qual das unidades é a mais próxima
-        if(archerIndex >= 0 && archerDistance <= horsemanDistance && archerDistance <= soldierDistance){
-            //Ataca o archer e o marca como utilizado
-            // fprintf(stderr, "---------  TORRE ATACA ARCHER --------\n");
-            attackDamage = update(&archerList->at(i));
-            if(attackDamage > 0){
-                Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &archerList->at(i));
-                projectileList->push_back(projectileBuffer);
+        for(j = 0; (uint) j < closeUnits.size(); j++){
+            //Encontra a unidade mais próxima
+            if(closeUnits.at(j).distance <= closeUnitBuffer.distance){
+                closeUnitBuffer = closeUnits.at(j);
+                chosenIndex = j;
+                break;
             }
-            archerIndex++;
         }
-        else if(horsemanIndex >= 0 && horsemanDistance <= archerDistance && horsemanDistance <= soldierDistance){
-            //Ataca o horseman e o marca como utilizado
-            // fprintf(stderr, "---------  TORRE ATACA HORSEMAN --------\n");
-            attackDamage = update(&horsemanList->at(i));
-            if(attackDamage > 0){
-                Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &horsemanList->at(i));
-                projectileList->push_back(projectileBuffer);
-            }
-            horsemanIndex++;
+        //Ataca a unidade
+        switch (closeUnitBuffer.type){
+            case ARCHER:
+                attackDamage = update(&archerList->at(closeUnitBuffer.index));
+                if(attackDamage > 0){
+                    Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &archerList->at(closeUnitBuffer.index));
+                    projectileList->push_back(projectileBuffer);
+                }
+                break;
+            case HORSEMAN:
+                attackDamage = update(&horsemanList->at(closeUnitBuffer.index));
+                if(attackDamage > 0){
+                    Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &horsemanList->at(closeUnitBuffer.index));
+                    projectileList->push_back(projectileBuffer);
+                }
+                break;
+            case SOLDIER:
+                attackDamage = update(&horsemanList->at(closeUnitBuffer.index));
+                if(attackDamage > 0){
+                    Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &soldierList->at(closeUnitBuffer.index));
+                    projectileList->push_back(projectileBuffer);
+                }
+                break;
+            default: return;
         }
-        else if(soldierIndex >= 0 && soldierDistance <= horsemanDistance && soldierDistance <= archerDistance){
-            //Ataca o soldier e o marca como utilizado
-            // fprintf(stderr, "---------  TORRE ATACA SOLDIER --------\n");
-            attackDamage = update(&soldierList->at(i));
-            // fprintf(stderr, "LAUNCHING PROJECTILE WITH %d DAMAGE\n", attackDamage);
-            if(attackDamage > 0){
-                Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &soldierList->at(i));
-                projectileList->push_back(projectileBuffer);
-            }
-            soldierIndex++;
+        if((uint)chosenIndex < closeUnits.size()){
+            closeUnits.erase(closeUnits.begin() + chosenIndex);
         }
     }
+
 }
 
 int DefenceUnit::attack(Unit* target)
@@ -134,4 +133,9 @@ void DefenceUnit::spawn(int screenWidth, int screenHeight)
 {
 	_xPos = screenWidth/2 - _width/2;
 	_yPos = screenHeight/2 - _height/2;
+}
+
+void DefenceUnit::recoverHealth()
+{
+    _currentHealth = _totalHealth;
 }

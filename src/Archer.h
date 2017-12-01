@@ -9,5 +9,6 @@ class Archer: public AttackUnit{
 
 public:
     Archer();
+    
 };
 #endif

@@ -24,5 +24,4 @@ Horseman::Horseman()
     _height = 10;
     _speed = 35;
     _unitType = HORSEMAN;
-    
 }
