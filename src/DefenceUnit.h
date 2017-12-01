@@ -14,6 +14,7 @@ public:
     DefenceUnit();
     void attackClosestUnits(std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList);
     int update(Unit* target);
+    void recoverHealth();
 
 protected:
     int attack(Unit* target);
