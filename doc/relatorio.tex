@@ -256,6 +256,13 @@ As classes podem herdar de mais de uma classe base, gerando assim um grafo de de
 	Na nossa implementação, fizemos com que quase, senão todos, os atributos das classes fossem protegidos, isto permite que eventuais classes que herdem destas ainda consigam utilizá-los. Aliando isso aos métodos de acesso (\textit{getters} e \textit{setters}), temos uma camada que torna mais difícil o assinalamento de dados inválidos ou inesperados a variáveis internas, assim tornando o código mais robusto e seguro.
 	
  	No nosso código, o trecho onde essa propriede se torna mais visível é na classe \textit{Unit}, a qual possui dados sobre todas as unidades de ataque e de defesa presentes no jogo. Aqui, todas as variáveis são protegidas para que nenhum contexto de fora possa fazer alterações diretas. Isto se tornou importante não só para manter a integridade dos dados, mas também porque todos os atributos de ataque de defesa devem se manter consistentes com seus níveis já que, apenas assim, o sistema de \textit{upgrades} pode funcionar corretamente. Portanto, todas as alterações a esses atributos só podem ser feitas por meio dos métodos que levam em consideranção os seus valores base e seus níveis atuais.
+ 	
+ 	
+ \section{Delegates}
+ 
+ 	Delegates consistem em uma maneira de generalizar tarefas que possuem diferentes rotinas e/ou entradas para um mesmo fim. No nosso código, encontramos dificuldades em implementar Delegates como normalmente são feitos em C++, com classes ou structs específicas para este fim. Portanto, tentamos utilizar caracteríscas desse modelo em algumas funções específicas. Os melhores exemplos disso a serem citados na nossa implementação desta etapa do trabalho estão na classe \textit{Unit} e dizem respeito ao sistema de \textit{upgrades}. 
+ 	
+ 	Esse sistema necessita de três informações básicas: o nível de um atributo, o seu valor base (inicial) e um coeficiente de aumento. Então juntamos estas três informações em três chamadas que realizam as seguintes operações sobre todos os atributos: consultar um valor, verificar e incrementar seu nível atual. Estas funções possuem em comum um parâmetro que consiste em uma \textit{enum} que define o nome de um dado (vida, armadura, dano de ataque, número de alvos, velocidade de ataque e alcance de ataque). Desta forma, cada função pode realizar seis ações diferentes, sendo uma para cada atributo.
  
  
  
