@@ -180,8 +180,19 @@ Na linguagem C++, o paradigma orientado a objetos é o mais conhecido, logo é o
 Serão introduzidos os conceitos principais abordados neste trabalho para depois realizar uma breve discução sobre quando e onde devem ser utilizados.
 \section{Classes}
 O propósito principal da programação em C++ é a acrescentar orientação a objetos à linguagem C. Classes são a característica principal da linguagem C++ que suporta orientação a objetos, também são chamadas de tipos definidos pelo usuário. A diferença das estruturas de dados presentes em C, as classes combinam a representação dos dados com métodos associados, formando assim uma unidade compacta. 
+\bigbreak
 
-// Dizer em que parte do código ou maaostrar diagrama de classes do projeto
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/class_diagram.png}
+    }
+    \label{fig:figura1}
+    \caption{Diagrama de Classes Simplificado.}
+    %\fonte{xxxxxx}
+\end{figure}
+
+
 \subsection{Classes Abstratas}
 As classes abstratas são um tipo de classes que agem como expressões de conceitos gerais das quais classes mais específicas podem ser derivadas. Não está permitido instanciar objetos de classes abstratas. 
 Uma classe derivada de uma classe abstrata deve implementar o método virtual puro ou também será considerada uma classe abstrata.
@@ -190,28 +201,51 @@ Uma classe derivada de uma classe abstrata deve implementar o método virtual pu
  \begin{itemize}
  \item virtual void pureVirtualFunction() = 0  
  \end{itemize}  	
-
-	// Dizer onde são utilizadas as classes abstratas
+A classe \textbf{Unit} é uma classe abstrata já que define metodos virtuáis puros que são implementados nas classes derivadas correspondentes( AttackUnit e DefenceUnit).
 \subsection{Herança}
 Herança é fundamental na programação orientada a objetos, já que fornece meios para promover a extensibilidade do codigo, reutilização e maior coerência lógica no modelo de implementação. As classes que são usadas para derivação são chamadas de classes base de uma classe derivada específica.Na herança a classe derivada contém os membros da classe base mais os novos mebros que sejam adicionados na declaração da classe derivada.
 \noindent {Herança é declarada da seguinte forma:}
  \begin{itemize}
  \item class Derived :[virtual] [access-specifier] Base
- \{
- 	// Member List		
+ \{ \bigbreak
+ 	\hspace{1cm} // Member List		
+	\bigbreak
  \};  
  \end{itemize}  	
 \subsection{Herança Unica} 	
 As classes tem apenas uma classe base, gerando assim uma árvore de derivação.
-	// Colocar exemplo Diagrama
+
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/heranca_unica.png}
+    }
+    \label{fig:figura2}
+    \caption{Herança Unica.}
+    %\fonte{xxxxxx}
+\end{figure}
+
+
 \subsection{Herança Multipla} 	
 As classes podem herdar de mais de uma classe base, gerando assim um grafo de derivação.
 \noindent {Herança multipla apresenta diversos problemas de implementação:}
  \begin{itemize}
    \item Problema do Diamante: Uma classe D herda de duas classes B e C. B e C herdam de A. Os atributos de A serão duplicados em D gerando   assim conflitos e ambiguidades no momento do acesso. 
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/diamante.png}
+    }
+    \label{fig:figura3}
+    \caption{Problema do Diamante.}
+    %\fonte{xxxxxx}
+\end{figure}
+   
+   
    
    Uma solução para este problema  é utilizar herança virtual nas classes B e C.
  \end{itemize}  	
+ A planificação inicial foi feita de modo a evitar o uso de Herança Multipla.
 %%%%%%%%%%%
 % Referências 
 %%%%%%%%%%%
