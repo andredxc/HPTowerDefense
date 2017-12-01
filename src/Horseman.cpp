@@ -3,10 +3,12 @@
 
 Horseman::Horseman()
 {
-    _health = 40;
-    _meleeDamage = 5;
-    _rangedDamage = 0;
-    _attackRange = 15;
+    _reward = 30;
+    _totalHealth = 40;
+    _currentHealth = _totalHealth;
+    _meleeDamage = 0;
+    _rangedDamage = 5;
+    _attackRange = 20;
     _attackDelay = 500;
     _width = 10;
     _height = 10;

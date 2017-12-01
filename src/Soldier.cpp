@@ -2,4 +2,5 @@
 
 Soldier::Soldier()
 {
+    _reward = 30;
 }

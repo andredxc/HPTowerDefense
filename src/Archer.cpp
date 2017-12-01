@@ -3,7 +3,9 @@
 
 Archer::Archer()
 {
-    _health = 20;
+    _reward = 15;
+    _totalHealth = 20;
+    _currentHealth = _totalHealth;
     _meleeDamage = 0;
     _rangedDamage = 10;
     _attackRange = 60;

@@ -3,14 +3,14 @@ CC=g++
 
 all: main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o
 
-	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o -lSDL2 -lSDL2_image
+	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o -lSDL2 -lSDL2_image -lSDL2_ttf
 
 debug: main.cpp debugGame debugUnit debugAttackUnit debugSoldier debugArcher debugDefenceUnit debugHorseman debugProjectile
 
-	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o -lSDL2 -g -lSDL2_image
+	$(CC) -o $(GAME_NAME) main.cpp Game.o Unit.o AttackUnit.o DefenceUnit.o Soldier.o Archer.o Horseman.o Projectile.o -lSDL2 -g -lSDL2_image -lSDL2_ttf
 
 Game.o:
-	$(CC) -c Game.cpp  -Wall -lSDL2
+	$(CC) -c Game.cpp  -Wall -lSDL2 -lSDL2_image -lSDL2_ttf
 
 Unit.o:
 	$(CC) -c Unit.cpp -Wall -lSDL2

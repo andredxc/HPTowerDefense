@@ -7,10 +7,12 @@ class AttackUnit : public Unit{
 
 protected:
     uint _speed, _directionX, _directionY;
+    int _reward;
 
 public:
     ~AttackUnit();
     int update(Unit* target);
+    int getReward();
 
 protected:
     void spawn(int screenWidth, int screenHeight);

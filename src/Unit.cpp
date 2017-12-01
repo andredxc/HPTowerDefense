@@ -19,7 +19,10 @@ void Unit::takeDamage(int damage)
     int damageBlock;
 
     damageBlock = (float)damage/100 * _armour;
-    _health -= (damage - damageBlock);
+    _currentHealth -= (damage - damageBlock);
+    if(_currentHealth < 0){
+        _currentHealth = 0;
+    }
 }
 
 void Unit::setHealthBar(int xPos, int yPos, int width, int height)
@@ -85,7 +88,7 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
 
     //Desenha a vida atual
     // currentHealthWidth = ((float)_healthBarWidth/(float)_health) * _currentHealth;
-    currentHealthWidth = ((float)_healthBarWidth/(float)_currentHealth) * _health;
+    currentHealthWidth = ((float)_healthBarWidth/(float)_totalHealth) * _currentHealth;
     tempSurface = IMG_Load("../img/healthBarGreen.bmp");
     tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     if(!tempTexture){
@@ -132,9 +135,10 @@ void Unit::setHealth(int value)
     if(value < 0){
         throw "Negative Health Value !!!";
     }
-    else
-        _health = value;
-
+    else{
+        _totalHealth = value;
+        _currentHealth = _totalHealth;
+    }
 
 }
 void Unit::setArmour(int value)
@@ -156,12 +160,16 @@ void Unit::setPosition(int x, int y)
         _yPos = y;
     }
 }
-int Unit::getHealth(){ return _health; }
+int Unit::getHealth(){ return _currentHealth; }
+int Unit::getTotalHealth(){ return _totalHealth; }
 int Unit::getArmour(){ return _armour; }
 int Unit::getXPos(){ return _xPos; }
 int Unit::getYPos(){ return _yPos; }
 int Unit::getWidth(){ return _width; }
 int Unit::getHeight(){ return _height; }
+int Unit::getAttackRange(){ return _attackRange; }
+int Unit::getRangedDamage(){ return _rangedDamage; }
+int Unit::getAttackDelay(){ return _attackDelay; }
 UNIT_TYPE Unit::getUnitType(){ return _unitType; }
 SDL_Texture* Unit::getTexture(){ return _visualTex; }
 
