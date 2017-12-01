@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Projectile.h"
 #include <stdexcept>
+#include <time.h>
 
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
@@ -8,6 +9,7 @@
 bool Game::initialize(const char* title, int xPos, int yPos, int width, int height, bool fullscreen){
 
     int flags = 0;
+    srand (time(NULL));
 
     if(fullscreen){
         flags = SDL_WINDOW_FULLSCREEN;
@@ -79,7 +81,7 @@ void Game::update()
     }
 
     //Atualiza a torre de defesa
-    //_defenceUnit.attackClosestUnits(&_archerList, &_horsemanList, &_soldierList, &_projectileList);
+    _defenceUnit.attackClosestUnits(&_archerList, &_horsemanList, &_soldierList, &_projectileList);
 
     //Atualiza os projéteis
     for(i = 0; i < _projectileList.size(); i++){
@@ -262,15 +264,23 @@ void Game::clean()
 
 void Game::newRound()
 {
-        // Insere elementos nas listas 1 de cada tipo
+        static int round = 0;
+        round = round +1;
+        int newUnits;
+        newUnits = rand() % round;
+        printf("UNITS %d\n",newUnits );
+        //printf("Round:%d\n",round );
+       // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
-    for (int i = 0; i < 5 ; ++i)
+    for (int i = 0; i < round + newUnits; i++)
     {
         try{
             Archer archer;
-            Horseman horseman;
+//            Horseman horseman;
+ //           Soldier soldier;
             _archerList.push_back(archer);
-            _horsemanList.push_back(horseman);
+   //         _horsemanList.push_back(horseman);
+     //       _soldierList.push_back(soldier);
         }
         catch(const char* e){
              std::cerr << "Erro: " << e << std::endl;
@@ -279,6 +289,30 @@ void Game::newRound()
             std::cerr << "Unexpected Fatal Error !!" << std::endl;
         }
     }
+    newUnits = rand() % round;
+    printf("UNITS %d\n",newUnits );
+    for (int i = 0; i < round + newUnits ; i++)
+    {
+        try{
+       //     Archer archer;
+            Horseman horseman;
+         //   Soldier soldier;
+           // _archerList.push_back(archer);
+            _horsemanList.push_back(horseman);
+            //_soldierList.push_back(soldier);
+        }
+        catch(const char* e){
+             std::cerr << "Erro: " << e << std::endl;
+        }
+        catch(...){
+            std::cerr << "Unexpected Fatal Error !!" << std::endl;
+        }
+    }
+
+
+
+
+
 
         _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
 };

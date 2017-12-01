@@ -66,19 +66,17 @@ int AttackUnit::update(Unit* target)
     //Calcula a distância entre a unidade e a torre
     distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
 
-    printf("Distancia da torre %0.3f\n",distanceToTower);
     //Calcula a distância que a unidade deve percorrer
     elapsedTime = SDL_GetTicks() - _lastIterationTime;
     distanceToMove = (float)(elapsedTime*_speed)/1000;
-
-    //printf("Distancia a percorrer %0.3f\n",distanceToMove);
 
     if(distanceToMove >= distanceToTower){
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
+    printf("Distancia da torre %0.3f\n",distanceToTower);
     printf("Distancia a percorrer 2: %0.3f\n",distanceToMove);
-    printf("Pos X %d, Pos Y: %d\n",target->getXPos(),target->getYPos() );
+//    printf("Pos X %d, Pos Y: %d\n",target->getXPos(),target->getYPos() );
     //Define a ação da unidade
     if((int)distanceToTower <= _attackRange){
         //Para de andar e ataca a torre
