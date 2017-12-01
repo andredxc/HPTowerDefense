@@ -145,7 +145,7 @@ Como o objetivo do trabalho é aproximar os alunos das linguagens de programaç�
 Pelos motivos citados previamente, escolhemos \textbf{C++}.
 
 \section{Problema Abordado}
-A intenção inicial foi a de resolver um problema que já fosse conhecido pelos integrantes do grupo e que despertasse o interesse de todos, portanto escolhemos \textbf {Tower Defense}.
+A intenção inicial foi a de resolver um problema que já fosse conhecido pelos integrantes do grupo e que despertasse o interesse de todos, portanto escolhemos \textbf {Tower Defence}.
 
 \chapter{A Linguagem C++} \label{C++}
 
@@ -163,7 +163,7 @@ A linguagem de programação C++ foi criada por Bjarne Stroustrup nos anos de 19
 
 	\textbf{Espaço de Nomes:} Permite uma melhor organização das bibliotecas, de forma que cada uma pode criar o seu próprio espaço de nomes para que não existam conflitos.
 
-\chapter{Tower Defense} \label{Tower Defense}
+\chapter{Tower Defence} \label{Tower Defence}
 É um estilo de jogo de estratégia que consiste em defender uma determinada entidade de inimigos. No nosso jogo, a entidade em questão é uma torre que se encontra no centro da tela. Esta torre possui uma certa quantidade de vida, velocidade de ataque, penetração de armadura, dano e alcance de ataque. Tais características podem ser melhoradas e outras habilidades podem ser adquiridas por meio de compras com a unidade monetária do jogo, obtida matando os inimigos.
 
 \section{Objetivo do jogo}
@@ -175,7 +175,43 @@ Eles têm como objetivo atacar a torre até que sua vida chegue a 0 pontos, surg
 	A classe "Horseman" se comporta de maneira semelhante ao soldier, porém possui mais defesa, dano de ataque e velocidade de movimento.
 	A classe "Archer" é a que mais se diferencia das outras pois consegue atacar a torre de longas distâncias, tendo em suas características algo que as outras classes não têm, a distância de ataque, que indica a distância da qual o inimigo deve estar da torre para poder atacá-la. 
 
+\chapter{ Implementação Orientada a Objetos} \label{Implementação OO}
+Na linguagem C++, o paradigma orientado a objetos é o mais conhecido, logo é o mais utilizado entre os programadores.
+Serão introduzidos os conceitos principais abordados neste trabalho para depois realizar uma breve discução sobre quando e onde devem ser utilizados.
+\section{Classes}
+O propósito principal da programação em C++ é a acrescentar orientação a objetos à linguagem C. Classes são a característica principal da linguagem C++ que suporta orientação a objetos, também são chamadas de tipos definidos pelo usuário. A diferença das estruturas de dados presentes em C, as classes combinam a representação dos dados com métodos associados, formando assim uma unidade compacta. 
 
+// Dizer em que parte do código ou maaostrar diagrama de classes do projeto
+\subsection{Classes Abstratas}
+As classes abstratas são um tipo de classes que agem como expressões de conceitos gerais das quais classes mais específicas podem ser derivadas. Não está permitido instanciar objetos de classes abstratas. 
+Uma classe derivada de uma classe abstrata deve implementar o método virtual puro ou também será considerada uma classe abstrata.
+
+\noindent {Métodos virtuais puros são declarados da seguinte forma:}
+ \begin{itemize}
+ \item virtual void pureVirtualFunction() = 0  
+ \end{itemize}  	
+
+	// Dizer onde são utilizadas as classes abstratas
+\subsection{Herança}
+Herança é fundamental na programação orientada a objetos, já que fornece meios para promover a extensibilidade do codigo, reutilização e maior coerência lógica no modelo de implementação. As classes que são usadas para derivação são chamadas de classes base de uma classe derivada específica.Na herança a classe derivada contém os membros da classe base mais os novos mebros que sejam adicionados na declaração da classe derivada.
+\noindent {Herança é declarada da seguinte forma:}
+ \begin{itemize}
+ \item class Derived :[virtual] [access-specifier] Base
+ \{
+ 	// Member List		
+ \};  
+ \end{itemize}  	
+\subsection{Herança Unica} 	
+As classes tem apenas uma classe base, gerando assim uma árvore de derivação.
+	// Colocar exemplo Diagrama
+\subsection{Herança Multipla} 	
+As classes podem herdar de mais de uma classe base, gerando assim um grafo de derivação.
+\noindent {Herança multipla apresenta diversos problemas de implementação:}
+ \begin{itemize}
+   \item Problema do Diamante: Uma classe D herda de duas classes B e C. B e C herdam de A. Os atributos de A serão duplicados em D gerando   assim conflitos e ambiguidades no momento do acesso. 
+   
+   Uma solução para este problema  é utilizar herança virtual nas classes B e C.
+ \end{itemize}  	
 %%%%%%%%%%%
 % Referências 
 %%%%%%%%%%%
