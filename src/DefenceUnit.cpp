@@ -128,5 +128,3 @@ void DefenceUnit::spawn(int screenWidth, int screenHeight)
 	_xPos = screenWidth/2 - _width/2;
 	_yPos = screenHeight/2 - _height/2;
 }
-
-int DefenceUnit::getNumberOfTargets(){ return _numberOfTargets; }

@@ -10,14 +10,10 @@
 
 class DefenceUnit: public Unit{
 
-protected:
-    int _numberOfTargets;   //Determina quantos alvos a torre pode atacar ao mesmo tempo
-
 public:
     DefenceUnit();
     void attackClosestUnits(std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList);
     int update(Unit* target);
-    int getNumberOfTargets();
 
 protected:
     int attack(Unit* target);

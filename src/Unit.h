@@ -7,14 +7,18 @@
 #define GAME_HEIGHT     100000
 
 enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER,PROJECTILE};
+enum ATTRIBUTE{HEALTH, ARMOUR, DAMAGE, TARGETS, DELAY, RANGE};
 
 class Unit{
 
 protected:
-    int _totalHealth, _currentHealth, _armour;
-    int _xPos, _yPos, _width, _height, _quadrant;
-    int _rangedDamage, _meleeDamage, _attackRange, _attackDelay;    //_attackDelay em ms
+    int _currentHealth;
+    int _xPos, _yPos, _width, _height;
+    int _meleeDamage;
     int _healthBarX, _healthBarY, _healthBarWidth, _healthBarHeight;
+    int _healthLevel, _armourLevel, _damageLevel, _targetsLevel, _delayLevel, _rangeLevel;
+    int _totalHealth, _armour, _rangedDamage, _numberOfTargets, _attackDelay, _attackRange;
+    int _baseHealth, _baseArmour, _baseRangedDamage, _baseNumberOfTargets, _baseAttackDelay, _baseAttackRange;
     Uint32 _lastIterationTime, _lastAttackTime;
     SDL_Texture *_visualTex;
     UNIT_TYPE _unitType;
@@ -23,7 +27,6 @@ protected:
 public:
     virtual void spawn(int screenWidth, int screenHeight) = 0;
     virtual int update(Unit* target) = 0;
-    //virtual void update() = 0;
 
     Unit();
     void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
@@ -31,11 +34,7 @@ public:
     void takeDamage(int attackDamage);
     void setHealthBar(int xPos, int yPos, int width, int height);
 
-    void setSize(int width, int height);
-    void setHealth(int value);
     int getTotalHealth();
-    void setArmour(int value);
-    void setPosition(int x, int y);
     int getHealth();
     int getArmour();
     int getXPos();
@@ -45,10 +44,12 @@ public:
     int getAttackRange();
     int getRangedDamage();
     int getAttackDelay();
+    int getNumberOfTargets();
+    int getAttributeLevel(ATTRIBUTE attr);
+    int getAttributeValue(ATTRIBUTE attr, int level);
+    int getAttributeUpgradeCost(ATTRIBUTE attr);
+    void incAttributeLevel(ATTRIBUTE attr);
     UNIT_TYPE getUnitType();
     SDL_Texture* getTexture();
-
-protected:
-    void setQuadrant(int destX, int destY);
 };
 #endif

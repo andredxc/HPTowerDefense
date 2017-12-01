@@ -3,18 +3,25 @@
 
 Horseman::Horseman()
 {
-    _reward = 30;
-    _totalHealth = 40;
-    _currentHealth = _totalHealth;
+    //Determina os valores base de atributos
     _meleeDamage = 0;
-    _rangedDamage = 5;
-    _attackRange = 20;
-    _attackDelay = 500;
+    _baseHealth = 40;
+    _baseArmour = 0;
+    _baseRangedDamage = 5;
+    _baseNumberOfTargets = 1;
+    _baseAttackDelay = 500;
+    _baseAttackRange = 20;
+    //Determina os valores dos atributos
+    _totalHealth = getAttributeValue(HEALTH, _healthLevel);
+    _armour = getAttributeValue(ARMOUR, _healthLevel);
+    _rangedDamage = getAttributeValue(DAMAGE, _healthLevel);
+    _numberOfTargets = getAttributeValue(TARGETS, _healthLevel);
+    _attackDelay = getAttributeValue(DELAY, _healthLevel);
+    _attackRange = getAttributeValue(RANGE, _healthLevel);
+    _currentHealth = _totalHealth;
+    _reward = 30;
     _width = 10;
     _height = 10;
-    _xPos = -1;
-    _yPos = -1;
     _speed = 35;
     _unitType = HORSEMAN;
-    _armour = 0;
 }

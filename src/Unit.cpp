@@ -5,6 +5,7 @@
 
 Unit::Unit()
 {
+    fprintf(stderr, "UNIT CONSTRUCTOR\n");
     _xPos = -1;
     _yPos = -1;
     _visualTex = NULL;
@@ -12,6 +13,13 @@ Unit::Unit()
     _lastAttackTime = _lastIterationTime;
     _healthBarWidth = -1;
     _healthBarHeight = -1;
+    //Inicializa o nível dos atributos
+    _healthLevel = 1;
+    _armourLevel = 1;
+    _damageLevel = 1;
+    _targetsLevel = 1;
+    _delayLevel = 1;
+    _rangeLevel = 1;
 }
 
 void Unit::takeDamage(int damage)
@@ -129,37 +137,6 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     }
 }
 
-void Unit::setSize(int width, int height){ _width = width; _height = height; }
-void Unit::setHealth(int value)
-{
-    if(value < 0){
-        throw "Negative Health Value !!!";
-    }
-    else{
-        _totalHealth = value;
-        _currentHealth = _totalHealth;
-    }
-
-}
-void Unit::setArmour(int value)
-{
-    if (value <0){
-       throw "Negative Armour Value !!!";
-    }
-    else
-        _armour = value;
-
-}
-void Unit::setPosition(int x, int y)
-{
-     if (x != -1 && y != -1 && (x < 0 || y < 0))    {
-            throw "Negative X or Y position !!!";
-    }
-    else {
-        _xPos = x;
-        _yPos = y;
-    }
-}
 int Unit::getHealth(){ return _currentHealth; }
 int Unit::getTotalHealth(){ return _totalHealth; }
 int Unit::getArmour(){ return _armour; }
@@ -170,19 +147,57 @@ int Unit::getHeight(){ return _height; }
 int Unit::getAttackRange(){ return _attackRange; }
 int Unit::getRangedDamage(){ return _rangedDamage; }
 int Unit::getAttackDelay(){ return _attackDelay; }
+int Unit::getNumberOfTargets(){ return _numberOfTargets; }
 UNIT_TYPE Unit::getUnitType(){ return _unitType; }
 SDL_Texture* Unit::getTexture(){ return _visualTex; }
 
-void Unit::setQuadrant(int destX, int destY)
+int Unit::getAttributeLevel(ATTRIBUTE attr)
 {
-    if(_xPos >= destX && _yPos >= destY)
-        _quadrant = 0;
-    else if(_xPos < destX && _yPos >= destY)
-        _quadrant = 1;
-    else if(_xPos < destX && _yPos < destY)
-        _quadrant = 2;
-    else if(_xPos > destX && _yPos < destY)
-        _quadrant = 3;
-    else
-        printf("Internal error defining quadrant\n");
+    switch(attr){
+        case HEALTH: return _healthLevel;
+        case ARMOUR: return _armourLevel;
+        case DAMAGE: return _damageLevel;
+        case TARGETS: return _targetsLevel;
+        case DELAY: return _delayLevel;
+        case RANGE: return _rangeLevel;
+        default: return -1;
+    }
+}
+
+int Unit::getAttributeValue(ATTRIBUTE attr, int level)
+{
+    switch(attr){
+        case HEALTH: return _baseHealth + (level-1)*20;
+        case ARMOUR: return _baseArmour + (level-1)*3;
+        case DAMAGE: return _baseRangedDamage + (level-1)*5;
+        case TARGETS: return _baseNumberOfTargets + (level-1)*1;
+        case DELAY: return _baseAttackDelay - (level-1)*30;
+        case RANGE: return _baseAttackRange + (level-1)*10;
+        default: return -1;
+    }
+}
+
+int Unit::getAttributeUpgradeCost(ATTRIBUTE attr)
+{
+    switch(attr){
+        case HEALTH: return _healthLevel*20;
+        case ARMOUR: return _armourLevel*10;
+        case DAMAGE: return _damageLevel*20;
+        case TARGETS: return _targetsLevel*60;
+        case DELAY: return _delayLevel*10;
+        case RANGE: return _rangeLevel*15;
+        default: return -1;
+    }
+}
+
+void Unit::incAttributeLevel(ATTRIBUTE attr)
+{
+    switch(attr){
+        case HEALTH: _healthLevel++; _totalHealth = getAttributeValue(HEALTH, _healthLevel);
+        case ARMOUR: _armourLevel++; _armour = getAttributeValue(ARMOUR, _healthLevel);
+        case DAMAGE: _damageLevel++; _rangedDamage = getAttributeValue(DAMAGE, _healthLevel);
+        case TARGETS: _targetsLevel++; _numberOfTargets = getAttributeValue(TARGETS, _healthLevel);
+        case DELAY: _delayLevel++; _attackDelay = getAttributeValue(DELAY, _healthLevel);
+        case RANGE: _rangeLevel++; _attackRange = getAttributeValue(RANGE, _healthLevel);
+    }
 }

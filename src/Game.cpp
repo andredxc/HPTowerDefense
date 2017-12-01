@@ -155,7 +155,6 @@ void Game::update()
                 }
             }
         }
-
     }
 
     // Elimina os objetos dentro da killList
@@ -166,7 +165,7 @@ void Game::update()
 
             case PROJECTILE:{
 
-                 try{
+                try{
                     _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
                  }
                 catch(const char* e){
@@ -175,7 +174,6 @@ void Game::update()
                 catch(...){
                     std::cerr << "Unexpected Fatal Deallocation Error Projectile!!" << std::endl;
                 }
-
             }
             case ARCHER:{
                 try{
@@ -198,8 +196,6 @@ void Game::update()
                 catch(...){
                     std::cerr << "Unexpected Fatal Deallocation Error HORSEMAN!!" << std::endl;
                 }
-
-
             }
 
             default: printf("Fatal internal error deleting object\n");
@@ -276,11 +272,11 @@ void Game::clean()
 
 void Game::newRound()
 {
-        static int round = 0;
-        round = round +1;
-        int newUnits;
-        newUnits = rand() % round;
-        printf("UNITS %d\n",newUnits );
+    static int round = 0;
+    round = round +1;
+    int newUnits;
+    newUnits = rand() % round;
+    printf("UNITS %d\n", newUnits);
         //printf("Round:%d\n",round );
        // Insere elementos nas listas 1 de cada tipo
         // Os parametro devem aumentar progressivamente de algum jeito
@@ -333,17 +329,23 @@ void Game::drawStats()
         return;
     }
     //Escreve os atributos na tela
-    snprintf(text, sizeof(text), "(1) Health: %d/%d [Next level: ]", _defenceUnit.getHealth(), _defenceUnit.getTotalHealth());
+    snprintf(text, sizeof(text), "(1) Health (level %d): %d/%d [Upgrade: %d bitcoins]",
+        _defenceUnit.getAttributeLevel(HEALTH), _defenceUnit.getHealth(), _defenceUnit.getTotalHealth(), _defenceUnit.getAttributeUpgradeCost(HEALTH));
     drawText(text, 5, _textAreaY + 5);
-    snprintf(text, sizeof(text), "(2) Armour: %d [Next level: ]", _defenceUnit.getArmour());
+    snprintf(text, sizeof(text), "(2) Armour (level %d): %d [Upgrade: %d bitcoins]",
+        _defenceUnit.getAttributeLevel(ARMOUR), _defenceUnit.getArmour(), _defenceUnit.getAttributeUpgradeCost(ARMOUR));
     drawText(text, 5, _textAreaY + 25);
-    snprintf(text, sizeof(text), "(3) Damage: %d [Next level: ]", _defenceUnit.getRangedDamage());
+    snprintf(text, sizeof(text), "(3) Damage (level %d): %d [Upgrade: %d bitcoins]",
+        _defenceUnit.getAttributeLevel(DAMAGE), _defenceUnit.getRangedDamage(), _defenceUnit.getAttributeUpgradeCost(DAMAGE));
     drawText(text, 5, _textAreaY + 45);
-    snprintf(text, sizeof(text), "(4) AttackRange: %d [Next level: ]", _defenceUnit.getAttackRange());
+    snprintf(text, sizeof(text), "(4) AttackRange (level %d): %d [Upgrade: %d bitcoins]",
+        _defenceUnit.getAttributeLevel(RANGE), _defenceUnit.getAttackRange(), _defenceUnit.getAttributeUpgradeCost(RANGE));
     drawText(text, 5, _textAreaY + 65);
-    snprintf(text, sizeof(text), "(5) Number of targets: %d [Next level: ]", _defenceUnit.getNumberOfTargets());
+    snprintf(text, sizeof(text), "(5) Number of targets (level %d): %d [Upgrade: %d bitcoins]",
+        _defenceUnit.getAttributeLevel(TARGETS), _defenceUnit.getNumberOfTargets(), _defenceUnit.getAttributeUpgradeCost(TARGETS));
     drawText(text, 5, _textAreaY + 85);
-    snprintf(text, sizeof(text), "(6) Attack Delay: %d ms [Next level: ]", _defenceUnit.getAttackDelay());
+    snprintf(text, sizeof(text), "(6) Attack Delay (level %d): %d ms [Upgrade: %d bitcoins]",
+        _defenceUnit.getAttributeLevel(DELAY), _defenceUnit.getAttackDelay(), _defenceUnit.getAttributeUpgradeCost(DELAY));
     drawText(text, 5, _textAreaY + 105);
     //Escreve o número de bitcoins
     snprintf(text, sizeof(text), "BitCoins");
