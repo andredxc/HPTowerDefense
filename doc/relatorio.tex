@@ -284,6 +284,80 @@ O encapsulamento consiste em isolar atributos e métodos afim de progê-los de q
  	Delegates consistem em uma maneira de generalizar tarefas que possuem diferentes rotinas e/ou entradas para um mesmo fim. No nosso código, encontramos dificuldades em implementar Delegates como normalmente são feitos em C++, com classes ou structs específicas para este fim. Portanto, tentamos utilizar caracteríscas desse modelo em algumas funções específicas. Os melhores exemplos disso a serem citados na nossa implementação desta etapa do trabalho estão na classe \textit{Unit} e dizem respeito ao sistema de \textit{upgrades}. 
  	
  	Esse sistema necessita de três informações básicas: o nível de um atributo, o seu valor base (inicial) e um coeficiente de aumento. Então juntamos estas três informações em três chamadas que realizam as seguintes operações sobre todos os atributos: consultar um valor, verificar e incrementar seu nível atual. Estas funções possuem em comum um parâmetro que consiste em uma \textit{enum} que define o nome de um dado (vida, armadura, dano de ataque, número de alvos, velocidade de ataque e alcance de ataque). Desta forma, cada função pode realizar seis ações diferentes, sendo uma para cada atributo.
+ 	
+\section{Espaço de Nomes}
+Espaço de nomes é o nome dado para o do contexto de onde vem uma variável ou função de um programa, comumente utilizado para resolver problemas de ambiguidade de um programa complexo. O espaço de nomes(“namespace”) serve para permitir que 2 identificadores idênticos possam existir em diferentes contextos do sistema, um exemplo disto é o sistema de arquivos do computador, podemos pensar no namespace como sendo uma pasta, dentro dela, não podemos ter mais do que 1 arquivo com o mesmo nome, porém, podemos ter vários arquivos com o mesmo nome, desde que eles existam apenas em pastas(namespaces) diferentes, o mesmo vale para a linguagem C++, podemos ter várias ou métodos com o mesmo nome, desde que cada uma esteja dentro do seu namespace.
+
+	O uso no namespace é bem simples de ser entendido, uma vez definido, basta utilizar o nome escolhido seguido de “::” antes do nome da variável ou método que você pretende identificar.
+	
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao1.png}
+    }
+    \label{fig:figura4}
+    \caption{Espaço de nomes exemplo.}
+    %\fonte{xxxxxx}
+\end{figure}	
+	
+Um exemplo de uso desse recurso para a programação orientada a objetos é poder definir uma classe em um arquivo .h e implementar seus métodos em outro arquivo.cpp, permitindo assim que o programador forneça acesso aos “Headers” das funções sem ter que mostrar suas implementações, e também, tornando o programa mais “legível” e organizado.
+	Na primeira foto, temos o arquivo AttackUnit.h onde ocorre a declaração da classe AttackUnit e a definição de alguns métodos como seu destrutor: “~AttackUnit()” e “update()”.
+
+	Na segunda fotos, temos o arquivo AttackUnit.cpp, onde temos a implementação dos métodos já definidos no arquivo .h. Aqui podemos ver o uso do namespace “AttackUnit” para indicar ao compilador que os métodos ali implementados pertencem ao contexto da classe AttackUnit. 
+	Esse tipo de estruturação do código nos permite definir diferentes classe com os mesmos métodos em diferentes arquivos.h  e implementar todos esses métodos no mesmo arquivo.cpp, pois o namespace resolve o problema de ambiguidade entre os nomes dos métodos.	
+	
+	
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao2.png}
+    }
+    \label{fig:figura5}
+    \caption{Espaço de nomes exemplo.}
+    %\fonte{xxxxxx}
+\end{figure}	
+		
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao3.png}
+    }
+    \label{fig:figura6}
+    \caption{Espaço de nomes exemplo.}
+    %\fonte{xxxxxx}
+\end{figure}	
+			
+\section{Construtores e Destrutores}
+Construtores e Destrutores são outra característica da programação orientada a objetos, eles são métodos que são chamados, como o próprio nome já diz, quando uma classe é “construída” e “destruída”, explicando melhor, quando uma nova instância da classe é criada, logo após é chamado seu construtor, que normalmente é usado para a inicialização de valores do objeto, bem como alocação de memória e chama de outros métodos necessários para aquele objeto. O seu destrutor, por outro lado, é chamado imediatamente antes desta instância deixar de existir, liberando a memória que foi alocada pelo objeto e efetuando alguma outra operação antes que o objeto seja destruído.
+
+	Um construtor é facilmente identificado por carregar consigo o mesmo nome da sua classe, e seu destrutor, da mesma maneira, apenas tendo o símbolo “~” precedendo sua definição. Como o construtor da classe é um método como qualquer outro, ele pode ser sobrecarregado, permitindo que uma classe tenha diferentes construtores para cada situação desejada no código. Abaixo temos um exemplo da sintaxe de uma classe com 2 construtores e seu destrutor.
+	
+	
+	\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao4.png}
+    }
+    \label{fig:figura7}
+    \caption{Construtores e destrutores.}
+    %\fonte{xxxxxx}
+\end{figure}	
+	
+	Um exemplo de uso de construtores é inicializar os valores de um objeto para que o mesmo seja usado na execução do problema. Abaixo temos a classe Archer, que representa um dos inimigos da torre dentro do jogo TowerDefence. Aqui, podemos identificar com facilidade quem é o construtor e quem é seu destrutor devido ao til(~). No construtor do exemplo abaixo podemos ver que vários valores do objeto são inicializados, para que o mesmo possa ser usado no futuro, incluísse alguns utilizando da chamada de outros métodos do programa.
+	No destrutor podemos ver que ele efetua uma liberação de memória que foi alocada durante a execução do programa e que não será mais necessária agora que o objeto está sendo destruído.
+	
+	
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao5.png}
+    }
+    \label{fig:figura8}
+    \caption{Construtores e destrutores.}
+    %\fonte{xxxxxx}
+\end{figure}		
+	
+	 	
 % Referências 
 %%%%%%%%%%%
 
