@@ -203,7 +203,7 @@ Uma classe derivada de uma classe abstrata deve implementar o método virtual pu
  \end{itemize}  	
 A classe \textbf{Unit} é uma classe abstrata já que define metodos virtuáis puros que são implementados nas classes derivadas correspondentes( AttackUnit e DefenceUnit).
 \subsection{Herança}
-Herança é fundamental na programação orientada a objetos, já que fornece meios para promover a extensibilidade do codigo, reutilização e maior coerência lógica no modelo de implementação. As classes que são usadas para derivação são chamadas de classes base de uma classe derivada específica.Na hooerança a classe derivada contém os membros da classe base mais os novos mebros que sejam adicionados na declaração da classe derivada.
+Herança é fundamental na programação orientada a objetos, já que fornece meios para promover a extensibilidade do codigo, reutilização e maior coerência lógica no modelo de implementação. As classes que são usadas para derivação são chamadas de classes base de uma classe derivada específica.Na herança a classe derivada contém os membros da classe base mais os novos mebros que sejam adicionados na declaração da classe derivada.
 \noindent {Herança é declarada da seguinte forma:}
  \begin{itemize}
  \item class Derived :[virtual] [access-specifier] Base
@@ -246,7 +246,33 @@ As classes podem herdar de mais de uma classe base, gerando assim um grafo de de
    Uma solução para este problema  é utilizar herança virtual nas classes B e C.
  \end{itemize}  	
  A planificação inicial foi feita de modo a evitar o uso de Herança Multipla.
-%%%%%%%%%%%
+
+\section{Polimorfismo}
+Polimorfismo é a capacidade de objetos se comportarem de forma diferenciada em face de suas características ou do ambiente ao qual estejam submetidos,mesmo quando executando ação que detenha, semânticamente, a mesma designação.
+
+O polimorfismo está fortemente conectado ao sistema de tipos. Já que é o sistema de tipos que define se este mecanismo é realmente implementável ou não.  Uma tipagem dinâmica permite obter todos os beneficios que o polimorfismo traz assim como as desvantagens em relação aa eficiência. 
+
+\subsection{Polimorfismo Adhoc} 
+Este tipo de polimorfismo atua somente sobre abstrações de controle, também conhecido como polimorfismo de aparência já que não faz reuso.
+\bigbreak
+\noindent{Tipos de polimorfismo Adhoc}
+ \begin{itemize}
+	\item{ Coersão:  Conversão implicita de tipos, pode ser de alargamento ou de estreitamento (perda de dados). Este tipo de polimorfismo aumenta a redigibilidade mas diminui a confiabilidade do sistema.
+Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é muito simples de utilizar, ao realizar uma operação binaria entre dois operandos de tipos diferentes mas compatíveis por coersão. Ex: Somar um int com un float.
+}
+\item Sobrecarga: Redifinição de itens já existentes. O mesmo operador comporta-se de maneiras diferentes dependendo dos operandos. C++ oferece total versatibilidade neste sentido, já que permite sobreescrever grande quantidade dos operadores.No projeto podemos encontrar este tipo de polimorfismo nas funções spawn() e update().
+ \end{itemize}  	
+ 
+\subsection{Polimorfismo Universal}
+ Também conhecido como polimorfismo verdadeiro, aplica-se o mesmo codigo sobre elementos de tipos diversos. Permite a programação genérica.
+ \noindent{Tipos de polimorfismo Universal}
+  \begin{itemize}
+	\item Inclusão: Elemento de um subtipo também é um elemento do supertipo, logo os metodos da superclasse podem ser chamados com elementos da subclasse. A vinculaçao tardia permite este tipo de polimorfismo que também pode ser atingido via Downcasting ou Upcasting. 
+	Este tipo de polimorfismo pode encontrar-se no metodo render() da classe Unit, este método é chamado pelos objetos das classes AttackUnit e DefenceUnit, ambas são classes derivadas de Unit.
+	\item Paramêtrico: Permite o desenvolvimento de algortimos genéricos, aumentando assim a reusabilidade de codigo. A linguagem C++ oferece diversas estruturas genêricas, chamadas de templates. É importante destacar que o compilador geraŕa codigo diferente para cada tipo do algoritmo generico  que seja instanciado. Podemos encontrar este tipo de polimorfismo nas listas que contém as diferentes unidades do jogo. Utilizamos a classe std::vector<type> do próprio C++. 
+ \end{itemize}  	
+
+
 % Referências 
 %%%%%%%%%%%
 
