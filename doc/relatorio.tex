@@ -272,21 +272,30 @@ As classes podem herdar de mais de uma classe base, gerando assim um grafo de de
 \hline
 	\textbf{Critérios} & \textbf{Nota} & \textbf{Justificativas} \\
 \hline
-\textbf{Simplicidade} & 6 & Pode se tornar bastante complexo uma vez que é necessário administrar ponteiros para listas e alocação de memória. \\ 
-\textbf{Ortogonalidade} & 6 & a \\ 
-\textbf{Expressividade} & 5 & a \\ 
-\textbf{Adequabilidade} & 9 & a \\
-\textbf{Variedade de estruturas de controle} & 10 & a \\
-\textbf{Mecanismos de definição de tipos} & 10 & a \\
-\textbf{Suport a abstração de dados e de processos} & 10 & a \\
-\textbf{Modelo de tipos} & 10 & a \\
-\textbf{Portabilidade} & 10 & a \\
-\textbf{Reusabilidade} & 10 & a \\
-\textbf{Suporte e documentação} & 10 & a \\ 
-\textbf{Tamanho de código} & 7 & a \\
-\textbf{Generalidade} & 7 & a \\
-\textbf{Eficiência e custo} & 10 & a \\
+\textbf{Simplicidade} & 6 & Pode se tornar bastante complexa uma vez que é necessário administrar ponteiros para listas e alocação de memória, como foi feito na classe Game para controlar todos os inimigos presentes no jogo.\\ 
+\textbf{Ortogonalidade} & 6 & Não permite muita extensão das funcionalidades dos operadores e tipos básicos, assim sendo necessárias diversas funções aparentemente básicas através de includes, como a biblioteca string.h.\\ 
+\textbf{Expressividade} & 5 & Por ser mais baixo nível, são necessárias mais linhas de código para fazer menos, como exemplo podemos citar as várias linhas de código utilizadas para manejar as listas de unidades mostradas na tela bem como os vários cálculos utilizados para mover unidades. \\ 
+\textbf{Adequabilidade} & 9 &  \\
+\textbf{Variedade de estruturas de controle} & 10 & Tem todas as estruturas de controle necessárias presentes nas linguagens de programação atuais. \\
+\textbf{Mecanismos de definição de tipos} & 10 & Permite a declaração de structs, enums bem como a redefinição de nomes com typedefs. Esses mecanismos foram muito utilizados na classe Unit, com a definição de enums para todos os tipos de unidades, por exemplo.\\
+\textbf{Suporte a abstração de dados e de processos} & 10 & Permite a criação de classes, que, por si só, permitem um nível muito abrangente de abstração de dados. \\
+\textbf{Modelo de tipos} & 10 & Possui um rígido controle de uso dos diferentes tipos disponibilizados, o que torna o desenvolvimento mais trabalhoso porém compensa uma vez que não dá muita margem de erro para o programador, tornando o código mais robusto.\\
+\hline
+\end{tabular}
+\end{center}
 
+
+ \begin{center}
+\begin{tabular}{ |c|c|p{80mm} } 
+\hline
+	\textbf{Critérios} & \textbf{Nota} & \textbf{Justificativas} \\
+\hline
+\textbf{Portabilidade} & 10 & É uma linguagem muito portável, possui compiladores para uma vasta quantidade de arquiteturas de processadores e sistemas operacionais. \\
+\textbf{Reusabilidade} & 10 & É bastante reusável pois permite fácil importação das mais variadas bibliotecas. \\
+\textbf{Suporte e documentação} & 10 & Microsoft oferece uma ampla documentação, rica em exemplos e conteúdo confiável, fora toda a documentação produzida por usuários em fórums na internet. \\ 
+\textbf{Tamanho de código} & 7 & Permite o uso de templates para a criação de algoritmos e estruturas genéricas. Facilita a programação, mas o codigo é replicado quando passa pelo compilador. \\
+\textbf{Generalidade} & 7 & a \\
+\textbf{Eficiência e custo} & 10 & A diferença da maioria das linguaguens Orientadas a objetos, é uma linguagem compilada, o que outorga um alto desempenho, também permite utilizar vinculação tardia para permitir polimorfismo. \\
 \hline
 \end{tabular}
 \end{center}
