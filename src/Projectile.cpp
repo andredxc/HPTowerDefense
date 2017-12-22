@@ -153,6 +153,7 @@ bool Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeigh
 
     if(SDL_RenderCopy(renderer, _visualTex, NULL, &destRect) < 0){
         // Caso de erro, pode ser causado por uma textura perdida, força a recriação
+        SDL_DestroyTexture(_visualTex);
         _visualTex = NULL;
         return false;
     }

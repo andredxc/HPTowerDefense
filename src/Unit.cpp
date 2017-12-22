@@ -81,6 +81,7 @@ bool Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 
     if(returnValue < 0){
         // Caso de erro, pode ser culpa da textura desalocada
+        SDL_DestroyTexture(_visualTex);
         _visualTex = NULL;
         return false;
     }
