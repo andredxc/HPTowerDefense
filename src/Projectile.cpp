@@ -120,14 +120,14 @@ void Projectile::attack()
     _target->takeDamage(_damage);
 }
 
-void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
+bool Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
     SDL_Rect destRect;
     SDL_Surface* tempSurface;
 
     if(_xPos == -1 || _yPos == -1){
         fprintf(stderr, "Error, projectile has X or Y set to -1\n");
-        return;
+        return false;
     }
 
     destRect.w = _width;
@@ -137,7 +137,7 @@ void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeigh
 
     if(!renderer){
         fprintf(stderr, "Error rendering unit, renderer is NULL\n");
-        return;
+        return false;
     }
     if(!_visualTex){
         //Define a texture da unidade
@@ -150,8 +150,14 @@ void Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeigh
         }
         SDL_FreeSurface(tempSurface);
     }
-    // printf("(%p)Rendering projectile to X %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
-    SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
+
+    if(SDL_RenderCopy(renderer, _visualTex, NULL, &destRect) < 0){
+        // Caso de erro, pode ser causado por uma textura perdida, força a recriação
+        _visualTex = NULL;
+        return false;
+    }
+
+    return true;
 }
 
 Unit* Projectile::getTarget(){ return _target; }

@@ -19,7 +19,7 @@ public:
     ~Projectile();
 
     int update();
-    void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    bool render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     void attack();
 
     Unit* getTarget();

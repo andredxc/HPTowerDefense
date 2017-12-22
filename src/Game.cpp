@@ -250,31 +250,31 @@ void Game::render()
 {
     uint i;
 
-
     SDL_RenderClear(_renderer);
-    // _archerList.at(0).render(_renderer, _screenWidth, _screenHeight);
 
     _defenceUnit.render(_renderer, _screenWidth, _screenHeight);
-    //Testando projectile
-    // Projectile projectile(10, 10, 4, 4, 90, 90, NULL);
-    // projectile.render(_renderer, _screenWidth, _screenHeight);
-
 
     for(i = 0; i < _archerList.size(); i++)
     {
-        _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
-        // fprintf(stderr, "Rendering archer %d of %ld\n", i+1, _archerList.size());
+        if(!_archerList.at(i).render(_renderer, _screenWidth, _screenHeight)){
+            // Tenta novamente
+            _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        }
     }
     for(i = 0; i < _horsemanList.size(); i++)
     {
-        _horsemanList.at(i).render(_renderer, _screenWidth, _screenHeight);
-        // fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
+        if(!_horsemanList.at(i).render(_renderer, _screenWidth, _screenHeight)){
+            // Tenta novamente
+            _horsemanList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        }
     }
 
     for(i = 0; i < _projectileList.size(); i++)
     {
-        _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
-        // fprintf(stderr, "Rendering projectile %d of %ld\n", i+1, _projectileList.size());
+        if(!_projectileList.at(i).render(_renderer, _screenWidth, _screenHeight)){
+            // Tenta novamente
+            _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        }
     }
     drawStats();
 

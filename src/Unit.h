@@ -29,7 +29,7 @@ public:
     virtual int update(Unit* target) = 0;
 
     Unit();
-    void render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    bool render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
     void renderHealthBar(SDL_Renderer* renderer);
     void takeDamage(int attackDamage);
     void setHealthBar(int xPos, int yPos, int width, int height);

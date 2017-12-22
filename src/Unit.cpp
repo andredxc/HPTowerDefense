@@ -40,10 +40,11 @@ void Unit::setHealthBar(int xPos, int yPos, int width, int height)
     _healthBarHeight = height;
 }
 
-void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
+bool Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
     SDL_Rect destRect;
     SDL_Surface* tempSurface;
+    int returnValue;
 
     if(_xPos == -1 || _yPos == -1){
         spawn(screenWidth, screenHeight);
@@ -56,7 +57,7 @@ void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
 
     if(!renderer){
         fprintf(stderr, "Error rendering unit, renderer is NULL\n");
-        return;
+        return false;
     }
     if(!_visualTex){
         //Define a texture da unidade
@@ -75,9 +76,16 @@ void Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
         }
         SDL_FreeSurface(tempSurface);
     }
-    // printf("(%p)Rendering unit to X: %d, Y: %d, width: %d, height: %d\n", _visualTex, destRect.x, destRect.y, destRect.w, destRect.h);
-    SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
+    returnValue = SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
     renderHealthBar(renderer);
+
+    if(returnValue < 0){
+        // Caso de erro, pode ser culpa da textura desalocada
+        _visualTex = NULL;
+        return false;
+    }
+
+    return true;
 }
 
 void Unit::renderHealthBar(SDL_Renderer* renderer)
@@ -94,7 +102,6 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
     }
 
     //Desenha a vida atual
-    // currentHealthWidth = ((float)_healthBarWidth/(float)_health) * _currentHealth;
     currentHealthWidth = ((float)_healthBarWidth/(float)_totalHealth) * _currentHealth;
     tempSurface = IMG_Load("../img/healthBarGreen.bmp");
     tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
