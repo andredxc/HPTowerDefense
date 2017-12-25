@@ -3,96 +3,49 @@
 #include <math.h>
 #include "AttackUnit.h"
 
-AttackUnit::~AttackUnit()
-{
-    SDL_DestroyTexture(_visualTex);
-}
 
-int AttackUnit::update(Unit* target)
+int update(UNIT* unit, UNIT* target)
 {
     int elapsedTime;
     float distanceToMove, distanceToTower;
     int defenceTowerX, defenceTowerY;
     int rangedAttackDamage = 0;
 
-    //Calculo da posição da torre deve levar em consideração o tamanho
-    // //Para que a unidade não fique em cima ou embaixo dela
-    // if(_quadrant < 0 || _quadrant > 3){
-    //     //Define o quadrante em que se encontra a unidade
-    //     setQuadrant(target->getXPos(), target->getYPos());
-    // }
-
-    // switch(_quadrant){
-    //     case 0:
-    //         defenceTowerX = target->getXPos() + target->getWidth()/2;
-    //         defenceTowerY = target->getYPos() - target->getHeight()/2;
-    //         break;
-    //     case 1:
-    //         defenceTowerX = target->getXPos() + target->getWidth()/2;
-    //         defenceTowerY = target->getYPos() + target->getHeight()/2;
-    //         break;
-    //     case 2:
-    //         defenceTowerX = target->getXPos() - target->getWidth()/2;
-    //         defenceTowerY = target->getYPos() - target->getHeight()/2;
-    //         break;
-    //     case 3:
-    //         defenceTowerX = target->getXPos() - target->getWidth()/2;
-    //         defenceTowerY = target->getYPos() + target->getHeight()/2;
-    //         break;
-    // }
-
-
-    // if(_xPos > target->getXPos())
-    // {
-    //     defenceTowerX = target->getXPos() + target->getWidth()/2;
-    // }
-    // else
-    // {
-    //     defenceTowerX = target->getXPos() - target->getWidth()/2;
-    // }
-
-    // if(_yPos > target->getYPos())
-    // {
-    //     defenceTowerY = target->getYPos() + target->getHeight()/2;
-    // }
-    // else
-    // {
-    //     defenceTowerY = target->getYPos() - target->getHeight()/2;
-    // }
-
-    defenceTowerY = target->getYPos() + target->getHeight()/2;
-    defenceTowerX = target->getXPos() + target->getWidth()/2;
+    defenceTowerY = target->_xPos + target->_height/2;
+    defenceTowerX = target->_xPos + target->_width/2;
 
     //Calcula a distância entre a unidade e a torre
-    distanceToTower = sqrt(pow((_xPos - defenceTowerX), 2) + pow((_yPos - defenceTowerY), 2));
+    distanceToTower = sqrt(pow((unit->_xPos - defenceTowerX), 2) + pow((unit->_yPos - defenceTowerY), 2));
 
     //Calcula a distância que a unidade deve percorrer
-    elapsedTime = SDL_GetTicks() - _lastIterationTime;
-    distanceToMove = (float)(elapsedTime*_speed)/1000;
+    elapsedTime = SDL_GetTicks() - unit->_lastIterationTime;
+    distanceToMove = (float)(elapsedTime*unit->_speed)/1000;
 
     if(distanceToMove >= distanceToTower){
         //Caso a distância passe da torre
         distanceToMove = distanceToTower;
     }
     //Define a ação da unidade
-    if((int)distanceToTower <= _attackRange){
+    if((int)distanceToTower <= unit->_attackRange){
         //Para de andar e ataca a torre
-        rangedAttackDamage = attack(target);
+        rangedAttackDamage = attack(unit, target);
     }
     else if(distanceToMove >= 1.4){
         //Distancia percorrida movendo-se em uma unidade no eixo X e Y
-        move(distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
-        _lastIterationTime = SDL_GetTicks();
+        move(unit, distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
+        unit->_lastIterationTime = SDL_GetTicks();
     }
 
-    if(_currentHealth == 0){
+    if(unit->_currentHealth == 0){
         return -1; // Devemos eliminar a unidade pois está morta
     }
 
     return rangedAttackDamage;
+
+
 }
 
-void AttackUnit::spawn(int screenWidth, int screenHeight)
+void spawn(UNIT* unit, int screenWidth, int screenHeight)
 {
     int wall;
 
@@ -100,59 +53,125 @@ void AttackUnit::spawn(int screenWidth, int screenHeight)
     wall = rand() % 4;
     if(wall == 0 || wall == 1){
         //Paredes verticais
-        _yPos = rand() % (screenHeight+1);
+        unit->_yPos = rand() % (screenHeight+1);
         //Define x de acordo com a parede da esquerda(wall==0) ou da direita(wall==1)
-        _xPos = (wall == 0) ? 0 : screenWidth - _width; //Subtrai _width pois o desenho começa pela esquerda do objeto
-        //printf("0 1 X: %d Y: %d\n",_xPos,_yPos);
+        //Subtrai _width pois o desenho começa pela esquerda do objeto
+        unit->_xPos = (wall == 0) ? 0 : screenWidth - unit->_width;
     }
     else if(wall == 2 || wall == 3){
         //Paredes horizontais
-        _xPos = rand() % (screenWidth+1);
+        unit->_xPos = rand() % (screenWidth+1);
         //Define y de acordo com a parede de baixo(wall==2) ou a de cima(wall==3)
-        _yPos = (wall == 2) ? 0 : screenHeight - _height;
-        //printf(" 2 3 X: %d Y: %d\n",_xPos,_yPos);
-
+        unit->_yPos = (wall == 2) ? 0 : screenHeight - unit->_height;
     }
     else{
         printf("Erro fatal - %s\n", __FUNCTION__);
     }
 }
 
-void AttackUnit::move(float distanceToTower, float distance, int directionX, int directionY)
+void move(UNIT* unit, float distanceToTower, float distance, int directionX, int directionY)
 {
     if(distance > 0)
     {
-        _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTower;
-        _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTower;
+        unit->_xPos = unit->_xPos + (distance * (directionX - unit->_xPos))/ distanceToTower;
+        unit->_yPos = unit->_yPos + (distance * (directionY - unit->_yPos))/ distanceToTower;
     }
 }
 
-int AttackUnit::attack(Unit* target)
+int attack(UNIT* unit, UNIT* target)
 {
     int elapsedTime;
 
+    elapsedTime = SDL_GetTicks() - unit->_lastAttackTime;
 
-    elapsedTime = SDL_GetTicks() - _lastAttackTime;
-    // fprintf(stderr, "Elapsed time since last attack: %d\n", elapsedTime);
-
-    if(_meleeDamage > 0 && elapsedTime >= _attackDelay){
+    if(unit->_meleeDamage > 0 && elapsedTime >= unit->_attackDelay){
         //Ataque a curta distância
-        if(_xPos >= target->getXPos() && _xPos <= target->getXPos() + target->getWidth())
-            if(_yPos >= target->getYPos() && _yPos <= target->getYPos() + target->getHeight())
-        {
+        if(unit->_xPos >= target->_xPos && unit->_xPos <= target->_xPos + target->_width)
+            if(unit->_yPos >= target->_yPos && unit->_yPos <= target->_yPos + target->_height)
+            {
             //Unidade esta em posição
-            target->takeDamage(_meleeDamage);
-            _lastAttackTime = SDL_GetTicks();
-            return _meleeDamage;
-        }
+            takeDamage(target, unit->_meleeDamage);
+            unit->_lastAttackTime = SDL_GetTicks();
+            return unit->_meleeDamage;
+            }
     }
-    else if(_rangedDamage > 0 && elapsedTime >= _attackDelay){
+    else if(unit->_rangedDamage > 0 && elapsedTime >= unit->_attackDelay){
         //Ataque a longa distância
-        _lastAttackTime = SDL_GetTicks();
-        return _rangedDamage;
+        unit->_lastAttackTime = SDL_GetTicks();
+        return unit->_rangedDamage;
     }
 
     return 0;
 }
 
-int AttackUnit::getReward(){ return _reward; }
+UNIT createArcher()
+{
+    UNIT archer;
+
+    archer = createUnit();
+    //Determina os valores base de atributos
+    archer._meleeDamage = 0;
+    archer._baseHealth = 20;
+    archer._baseArmour = 0;
+    archer._baseRangedDamage = 10;
+    archer._baseNumberOfTargets = 1;
+    archer._baseAttackDelay = 500;
+    archer._baseAttackRange = 60;
+    //Determina os valores dos atributos
+    archer._totalHealth = getAttributeValue(archer, HEALTH, archer._healthLevel);
+    archer._armour = getAttributeValue(archer, ARMOUR, archer._healthLevel);
+    archer._rangedDamage = getAttributeValue(archer, DAMAGE, archer._healthLevel);
+    archer._numberOfTargets = getAttributeValue(archer, TARGETS, archer._healthLevel);
+    archer._attackDelay = getAttributeValue(archer, DELAY, archer._healthLevel);
+    archer._attackRange = getAttributeValue(archer, RANGE, archer._healthLevel);
+    archer._currentHealth = archer._totalHealth;
+    archer._reward = 15;
+    archer._width = 10;
+    archer._height = 10;
+    archer._speed = 25;
+    archer._unitType = ARCHER;
+
+    return archer;
+}
+
+UNIT createSoldier()
+{
+    UNIT soldier;
+
+    soldier = createUnit();
+    soldier._reward = 30;
+    soldier._unitType = SOLDIER;
+
+    return soldier;
+}
+
+UNIT createHorseman()
+{
+    UNIT horseman;
+
+    horseman = createUnit();
+
+    //Determina os valores base de atributos
+    horseman._meleeDamage = 0;
+    horseman._baseHealth = 40;
+    horseman._baseArmour = 0;
+    horseman._baseRangedDamage = 5;
+    horseman._baseNumberOfTargets = 1;
+    horseman._baseAttackDelay = 500;
+    horseman._baseAttackRange = 20;
+    //Determina os valores dos atributos
+    horseman._totalHealth = getAttributeValue(horseman, HEALTH, horseman._healthLevel);
+    horseman._armour = getAttributeValue(horseman, ARMOUR, horseman._healthLevel);
+    horseman._rangedDamage = getAttributeValue(horseman, DAMAGE, horseman._healthLevel);
+    horseman._numberOfTargets = getAttributeValue(horseman, TARGETS, horseman._healthLevel);
+    horseman._attackDelay = getAttributeValue(horseman, DELAY, horseman._healthLevel);
+    horseman._attackRange = getAttributeValue(horseman, RANGE, horseman._healthLevel);
+    horseman._currentHealth = horseman._totalHealth;
+    horseman._reward = 30;
+    horseman._width = 10;
+    horseman._height = 10;
+    horseman._speed = 35;
+    horseman._unitType = HORSEMAN;
+
+    return horseman;
+}

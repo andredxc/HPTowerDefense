@@ -3,20 +3,11 @@
 #include <stdio.h>
 #include "Unit.h"
 
-class AttackUnit : public Unit{
+UNIT createAttackUnit(UNIT_TYPE type);
+void spawn(UNIT* unit, int screenWidth, int screenHeight);
+int update(UNIT* unit, UNIT* target);
+void move(UNIT* unit, float distanceToTower, float distance, int directionX, int directionY);
+int attack(UNIT* unit, UNIT* target);
 
-protected:
-    uint _speed, _directionX, _directionY;
-    int _reward;
 
-public:
-    ~AttackUnit();
-    int update(Unit* target);
-    int getReward();
-
-protected:
-    void spawn(int screenWidth, int screenHeight);
-    void move(float distanceToTower, float distance, int directionX, int directionY);
-    int attack(Unit* target);
-};
 #endif

@@ -3,65 +3,65 @@
 
 #include "Unit.h"
 
-Unit::Unit()
+UNIT createUnit()
 {
-    _xPos = -1;
-    _yPos = -1;
-    _visualTex = NULL;
-    _lastIterationTime = SDL_GetTicks();
-    _lastAttackTime = _lastIterationTime;
-    _healthBarWidth = -1;
-    _healthBarHeight = -1;
+    UNIT newUnit;
+
+    newUnit._xPos = -1;
+    newUnit._yPos = -1;
+    newUnit._visualTex = NULL;
+    newUnit._lastIterationTime = SDL_GetTicks();
+    newUnit._lastAttackTime = newUnit._lastIterationTime;
+    newUnit._healthBarWidth = -1;
+    newUnit._healthBarHeight = -1;
     //Inicializa o nível dos atributos
-    _healthLevel = 1;
-    _armourLevel = 1;
-    _damageLevel = 1;
-    _targetsLevel = 1;
-    _delayLevel = 1;
-    _rangeLevel = 1;
+    newUnit._healthLevel = 1;
+    newUnit._armourLevel = 1;
+    newUnit._damageLevel = 1;
+    newUnit._targetsLevel = 1;
+    newUnit._delayLevel = 1;
+    newUnit._rangeLevel = 1;
+
+    return newUnit;
 }
 
-void Unit::takeDamage(int damage)
+void takeDamage(UNIT* unit, int damage)
 {
     int damageBlock;
 
-    damageBlock = (float)damage/100 * _armour;
-    _currentHealth -= (damage - damageBlock);
-    if(_currentHealth < 0){
-        _currentHealth = 0;
+    damageBlock = (float)damage/100 * unit->_armour;
+    unit->_currentHealth -= (damage - damageBlock);
+    if(unit->_currentHealth < 0){
+        unit->_currentHealth = 0;
     }
 }
 
-void Unit::setHealthBar(int xPos, int yPos, int width, int height)
+void setHealthBar(UNIT* unit, int xPos, int yPos, int width, int height)
 {
-    _healthBarX = xPos;
-    _healthBarY = yPos;
-    _healthBarWidth = width;
-    _healthBarHeight = height;
+    unit->_healthBarX = xPos;
+    unit->_healthBarY = yPos;
+    unit->_healthBarWidth = width;
+    unit->_healthBarHeight = height;
 }
 
-bool Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
+bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
     SDL_Rect destRect;
     SDL_Surface* tempSurface;
     int returnValue;
 
-    if(_xPos == -1 || _yPos == -1){
-        spawn(screenWidth, screenHeight);
-    }
-
-    destRect.w = _width;
-    destRect.h = _height;
-    destRect.x = _xPos;
-    destRect.y = _yPos;
+    destRect.w = unit->_width;
+    destRect.h = unit->_height;
+    destRect.x = unit->_xPos;
+    destRect.y = unit->_yPos;
 
     if(!renderer){
         fprintf(stderr, "Error rendering unit, renderer is NULL\n");
         return false;
     }
-    if(!_visualTex){
+    if(!unit->_visualTex){
         //Define a texture da unidade
-        switch(_unitType){
+        switch(unit->_unitType){
             case SOLDIER: tempSurface = IMG_Load(SOLDIER_BMP_FILE); break;
             case HORSEMAN: tempSurface = IMG_Load(HORSEMAN_BMP_FILE); break;
             case ARCHER: tempSurface = IMG_Load(ARCHER_BMP_FILE); break;
@@ -69,54 +69,54 @@ bool Unit::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
             default: printf("Fatal internal error on render()\n");
         }
         if(tempSurface){
-            _visualTex = SDL_CreateTextureFromSurface(renderer, tempSurface);
+            unit->_visualTex = SDL_CreateTextureFromSurface(renderer, tempSurface);
         }
         else{
-            fprintf(stderr, "Error loading file for unitType = %d\n", _unitType);
+            fprintf(stderr, "Error loading file for unitType = %d\n", unit->_unitType);
         }
         SDL_FreeSurface(tempSurface);
     }
-    returnValue = SDL_RenderCopy(renderer, _visualTex, NULL, &destRect);
-    renderHealthBar(renderer);
+    returnValue = SDL_RenderCopy(renderer, unit->_visualTex, NULL, &destRect);
+    renderHealthBar(*unit, renderer);
 
     if(returnValue < 0){
         // Caso de erro, pode ser culpa da textura desalocada
-        SDL_DestroyTexture(_visualTex);
-        _visualTex = NULL;
+        SDL_DestroyTexture(unit->_visualTex);
+        unit->_visualTex = NULL;
         return false;
     }
 
     return true;
 }
 
-void Unit::renderHealthBar(SDL_Renderer* renderer)
+void renderHealthBar(UNIT unit, SDL_Renderer* renderer)
 {
     int currentHealthWidth = 0, healthLostWidth = 0;
     SDL_Rect destRect;
     SDL_Surface* tempSurface;
     SDL_Texture* tempTexture;
 
-    if(_healthBarX < 0 || _healthBarY < 0 || _healthBarWidth < 0 || _healthBarHeight < 0)
+    if(unit._healthBarX < 0 || unit._healthBarY < 0 || unit._healthBarWidth < 0 || unit._healthBarHeight < 0)
     {
         //Barra de vida não foi definida
         return;
     }
 
     //Desenha a vida atual
-    currentHealthWidth = ((float)_healthBarWidth/(float)_totalHealth) * _currentHealth;
+    currentHealthWidth = ((float)unit._healthBarWidth/(float)unit._totalHealth) * unit._currentHealth;
     tempSurface = IMG_Load(HEALTHBAR_GREEN_BMP_FILE);
     tempTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     if(!tempTexture){
         printf("Error loading healthBarGreen\n");
         return;
     }
-    destRect.x = _healthBarX;
-    destRect.y = _healthBarY;
+    destRect.x = unit._healthBarX;
+    destRect.y = unit._healthBarY;
     destRect.w = currentHealthWidth;
-    destRect.h = _healthBarHeight;
+    destRect.h = unit._healthBarHeight;
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
     //Desenha a vida perdida, se for maior que 0
-    healthLostWidth = _healthBarWidth - currentHealthWidth;
+    healthLostWidth = unit._healthBarWidth - currentHealthWidth;
     if(healthLostWidth == 0)
     {
         //Vida está cheia
@@ -134,74 +134,60 @@ void Unit::renderHealthBar(SDL_Renderer* renderer)
         SDL_DestroyTexture(tempTexture);
         return;
     }
-    destRect.x = _healthBarX + currentHealthWidth;
-    destRect.y = _healthBarY;
+    destRect.x = unit._healthBarX + currentHealthWidth;
+    destRect.y = unit._healthBarY;
     destRect.w = healthLostWidth;
-    destRect.h = _healthBarHeight;
+    destRect.h = unit._healthBarHeight;
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
 }
 
-int Unit::getHealth(){ return _currentHealth; }
-int Unit::getTotalHealth(){ return _totalHealth; }
-int Unit::getArmour(){ return _armour; }
-int Unit::getXPos(){ return _xPos; }
-int Unit::getYPos(){ return _yPos; }
-int Unit::getWidth(){ return _width; }
-int Unit::getHeight(){ return _height; }
-int Unit::getAttackRange(){ return _attackRange; }
-int Unit::getRangedDamage(){ return _rangedDamage; }
-int Unit::getAttackDelay(){ return _attackDelay; }
-int Unit::getNumberOfTargets(){ return _numberOfTargets; }
-UNIT_TYPE Unit::getUnitType(){ return _unitType; }
-SDL_Texture* Unit::getTexture(){ return _visualTex; }
-
-int Unit::getAttributeLevel(ATTRIBUTE attr)
+int getAttributeLevel(UNIT unit, ATTRIBUTE attr)
 {
     switch(attr){
-        case HEALTH: return _healthLevel;
-        case ARMOUR: return _armourLevel;
-        case DAMAGE: return _damageLevel;
-        case TARGETS: return _targetsLevel;
-        case DELAY: return _delayLevel;
-        case RANGE: return _rangeLevel;
+        case HEALTH: return unit._healthLevel;
+        case ARMOUR: return unit._armourLevel;
+        case DAMAGE: return unit._damageLevel;
+        case TARGETS: return unit._targetsLevel;
+        case DELAY: return unit._delayLevel;
+        case RANGE: return unit._rangeLevel;
         default: return -1;
     }
 }
 
-int Unit::getAttributeValue(ATTRIBUTE attr, int level)
+int getAttributeValue(UNIT unit, ATTRIBUTE attr, int level)
 {
     switch(attr){
-        case HEALTH: return _baseHealth + (level-1)*20;
-        case ARMOUR: return _baseArmour + (level-1)*3;
-        case DAMAGE: return _baseRangedDamage + (level-1)*5;
-        case TARGETS: return _baseNumberOfTargets + (level-1)*1;
-        case DELAY: return _baseAttackDelay - (level-1)*30;
-        case RANGE: return _baseAttackRange + (level-1)*10;
+        case HEALTH: return unit._baseHealth + (level-1)*20;
+        case ARMOUR: return unit._baseArmour + (level-1)*3;
+        case DAMAGE: return unit._baseRangedDamage + (level-1)*5;
+        case TARGETS: return unit._baseNumberOfTargets + (level-1)*1;
+        case DELAY: return unit._baseAttackDelay - (level-1)*30;
+        case RANGE: return unit._baseAttackRange + (level-1)*10;
         default: return -1;
     }
 }
 
-int Unit::getAttributeUpgradeCost(ATTRIBUTE attr)
+int getAttributeUpgradeCost(UNIT unit, ATTRIBUTE attr)
 {
     switch(attr){
-        case HEALTH: return _healthLevel*20;
-        case ARMOUR: return _armourLevel*10;
-        case DAMAGE: return _damageLevel*20;
-        case TARGETS: return _targetsLevel*60;
-        case DELAY: return _delayLevel*10;
-        case RANGE: return _rangeLevel*15;
+        case HEALTH: return unit._healthLevel*20;
+        case ARMOUR: return unit._armourLevel*10;
+        case DAMAGE: return unit._damageLevel*20;
+        case TARGETS: return unit._targetsLevel*60;
+        case DELAY: return unit._delayLevel*10;
+        case RANGE: return unit._rangeLevel*15;
         default: return -1;
     }
 }
 
-void Unit::incAttributeLevel(ATTRIBUTE attr)
+void incAttributeLevel(UNIT* unit, ATTRIBUTE attr)
 {
     switch(attr){
-        case HEALTH: _healthLevel++; _totalHealth = getAttributeValue(HEALTH, _healthLevel); break;
-        case ARMOUR: _armourLevel++; _armour = getAttributeValue(ARMOUR, _armourLevel); break;
-        case DAMAGE: _damageLevel++; _rangedDamage = getAttributeValue(DAMAGE, _damageLevel); break;
-        case TARGETS: _targetsLevel++; _numberOfTargets = getAttributeValue(TARGETS, _targetsLevel); break;
-        case DELAY: _delayLevel++; _attackDelay = getAttributeValue(DELAY, _delayLevel); break;
-        case RANGE: _rangeLevel++; _attackRange = getAttributeValue(RANGE, _rangeLevel); break;
+        case HEALTH: unit->_healthLevel++; unit->_totalHealth = getAttributeValue(*unit, HEALTH, unit->_healthLevel); break;
+        case ARMOUR: unit->_armourLevel++; unit->_armour = getAttributeValue(*unit, ARMOUR, unit->_armourLevel); break;
+        case DAMAGE: unit->_damageLevel++; unit->_rangedDamage = getAttributeValue(*unit, DAMAGE, unit->_damageLevel); break;
+        case TARGETS: unit->_targetsLevel++; unit->_numberOfTargets = getAttributeValue(*unit, TARGETS, unit->_targetsLevel); break;
+        case DELAY: unit->_delayLevel++; unit->_attackDelay = getAttributeValue(*unit, DELAY, unit->_delayLevel); break;
+        case RANGE: unit->_rangeLevel++; unit->_attackRange = getAttributeValue(*unit, RANGE, unit->_rangeLevel); break;
     }
 }

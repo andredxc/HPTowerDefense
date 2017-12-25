@@ -44,7 +44,7 @@ public:
     struct killItem {
       int _pos;
       UNIT_TYPE _type;
-    } ;
+    };
 
     DefenceUnit _defenceUnit;
     std::vector<Projectile> _projectileList;
@@ -52,9 +52,5 @@ public:
 	std::vector<Horseman> _horsemanList;
 	std::vector<Soldier> _soldierList;
     std::vector<killItem> _killList;
-    // TroopList<Archer> _archerList;
-	//TroopList<Horseman> horsemanList;
-    //TroopList<Soldier> soldierList;
-
 };
 #endif
