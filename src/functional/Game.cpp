@@ -7,7 +7,7 @@
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
 */
-bool Game::initialize(const char* title, int xPos, int yPos, int width, int height, bool fullscreen){
+bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen){
 
     int flags = 0;
     srand (time(NULL));
@@ -25,34 +25,37 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
         fprintf(stderr, "Error \"%s\" initializing TTF\n", SDL_GetError());
     }
 
-    _window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
-    if(!_window){
+    game->_window = SDL_CreateWindow(title, xPos, yPos, width, height, flags);
+    if(!game->_window){
         printf("Error creating window\n");
         return false;
     }
 
-    _renderer = SDL_CreateRenderer(_window, -1, 0);
-    if(!_renderer){
+    game->_renderer = SDL_CreateRenderer(game->_window, -1, 0);
+    if(!game->_renderer){
         printf("Error creating renderer\n");
-        SDL_DestroyWindow(_window);
+        SDL_DestroyWindow(game->_window);
         return false;
     }
-    _isRunning = true;
-    _emptyList = true;
-    _bitCoins = 0;
+    game->_isRunning = true;
+    game->_emptyList = true;
+    game->_bitCoins = 0;
     //Dimensões da tela podem ser alteradas para acomodar os menus
-    SDL_GetWindowSize(_window, &_screenWidth, &_screenHeight);
+    SDL_GetWindowSize(game->_window, &game->_screenWidth, &game->_screenHeight);
     //Define o tamanho da tela jogável
-    _textAreaHeight = 140;
-    _screenHeight = _screenHeight - (_textAreaHeight + 28);
-    //Define o tamanho e posicionamento da barra de vida da torre de defesa
-    _defenceUnit.setHealthBar(20, _screenHeight+4, _screenWidth - 40, 20);
+    game->_textAreaHeight = 140;
+    game->_screenHeight = game->_screenHeight - (game->_textAreaHeight + 28);
     //Inicializa variáveis referentes aos textos
-    _textAreaY = _screenHeight + 28;    //Soma a altura da health bar
-    _textFont = TTF_OpenFont(FONT_TTF_FILE, 18);
-    _textColor.r = 255;
-    _textColor.g = 255;
-    _textColor.b = 255;
+    // TODO: definir health bar
+    //game->_defenceUnit.setHealthBar(20, game->_screenHeight+4, game->_screenWidth - 40, 20);
+    //Define o tamanho e posicionamento da barra de vida da torre de defesa
+    game->_textAreaY = game->_screenHeight + 28;    //Soma a altura da health bar
+    game->_textFont = TTF_OpenFont(FONT_TTF_FILE, 18);
+    game->_textColor.r = 255;
+    game->_textColor.g = 255;
+    game->_textColor.b = 255;
+    //Inicializa a torre de defesa
+    
 
     return true;
 }
@@ -60,7 +63,7 @@ bool Game::initialize(const char* title, int xPos, int yPos, int width, int heig
 /*
 *   Handler para eventos de teclado e afins
 */
-void Game::handleEvents(){
+void gameHandleEvents(GAME* game){
 
     SDL_Event event;
 
@@ -71,12 +74,13 @@ void Game::handleEvents(){
         }
 
         if(event.type == SDL_QUIT){
-            _isRunning = false;
+            game->_isRunning = false;
             return;
         }
         else if(event.type == SDL_KEYDOWN){
 
             switch(event.key.keysym.sym){
+                /*
                 case SDLK_1:    //Health
                     purchaseUpgrade(HEALTH);
                     return;
@@ -95,8 +99,9 @@ void Game::handleEvents(){
                 case SDLK_6:    //Attack delay
                     purchaseUpgrade(DELAY);
                     return;
+                    */
                 case SDLK_ESCAPE:
-                    _isRunning = false;
+                    game->_isRunning = false;
                     return;
             }
         }
@@ -106,7 +111,8 @@ void Game::handleEvents(){
 /*
 *   Atualiza o renderer que será mostrado na tela
 */
-void Game::update()
+/*
+void gameUpdate()
 {
     uint i, j;
     int killPos;
@@ -223,7 +229,9 @@ void Game::update()
      }
      _killList.clear();     // Desaloca toda a lista de unidades por matar
 }
+*/
 
+/*
 void Game::addToKillList(int position, UNIT_TYPE unit){
 
     uint i;
@@ -242,10 +250,12 @@ void Game::addToKillList(int position, UNIT_TYPE unit){
         _killList.push_back(item);
     }
 }
+*/
 
 /*
 *   Coloca coisas na tela
 */
+/*
 void Game::render()
 {
     uint i;
@@ -280,10 +290,12 @@ void Game::render()
 
     SDL_RenderPresent(_renderer);
 }
+*/
 
 /*
 *   Desaloca coisas
 */
+/*
 void Game::clean()
 {
     SDL_DestroyWindow(_window);
@@ -407,3 +419,4 @@ void Game::purchaseUpgrade(ATTRIBUTE attr)
 
 int Game::getIsRunning(){ return _isRunning; };
 int Game::getListStatus(){ return _emptyList; };
+*/

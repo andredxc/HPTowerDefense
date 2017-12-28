@@ -8,16 +8,10 @@
 #include "Soldier.h"
 #include "Projectile.h"
 
-class DefenceUnit: public Unit{
+// void attackClosestUnits(UNIT* defenceUnit, std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList);
+int update(UNIT* defenceUnit, UNIT* target);
+void recoverHealth(UNIT* defenceUnit);
+int attack(UNIT* defenceUnit, UNIT* target);
+void spawn(int screenWidth, int screenHeight);
 
-public:
-    DefenceUnit();
-    void attackClosestUnits(std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList);
-    int update(Unit* target);
-    void recoverHealth();
-
-protected:
-    int attack(Unit* target);
-    void spawn(int screenWidth, int screenHeight);
-};
 #endif

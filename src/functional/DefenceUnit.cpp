@@ -8,37 +8,40 @@ struct CloseUnit{
     int distance;
 };
 
-DefenceUnit::DefenceUnit()
+UNIT createDefenceUnit()
 {
-    //Determina os valores base de atributos
-    _meleeDamage = 0;
-    _baseHealth = 100;
-    _baseArmour = 5;
-    _baseRangedDamage = 15;
-    _baseNumberOfTargets = 1;
-    _baseAttackDelay = 500;
-    _baseAttackRange = 250;
+    UNIT defenceUnit;
+
+    defenceUnit._meleeDamage = 0;
+    defenceUnit._baseHealth = 100;
+    defenceUnit._baseArmour = 5;
+    defenceUnit._baseRangedDamage = 15;
+    defenceUnit._baseNumberOfTargets = 1;
+    defenceUnit._baseAttackDelay = 500;
+    defenceUnit._baseAttackRange = 250;
     //Determina os valores dos atributos
-    _totalHealth = getAttributeValue(HEALTH, _healthLevel);
-    _armour = getAttributeValue(ARMOUR, _healthLevel);
-    _rangedDamage = getAttributeValue(DAMAGE, _healthLevel);
-    _numberOfTargets = getAttributeValue(TARGETS, _healthLevel);
-    _attackDelay = getAttributeValue(DELAY, _healthLevel);
-    _attackRange = getAttributeValue(RANGE, _healthLevel);
-    _currentHealth = _totalHealth;
-    _width = 40;
-    _height = 40;
-    _meleeDamage = 0;
-    _unitType = DEFENCE;
+    defenceUnit._totalHealth = getAttributeValue(HEALTH, defenceUnit._healthLevel);
+    defenceUnit._armour = getAttributeValue(ARMOUR, defenceUnit._healthLevel);
+    defenceUnit._rangedDamage = getAttributeValue(DAMAGE, defenceUnit._healthLevel);
+    defenceUnit._numberOfTargets = getAttributeValue(TARGETS, defenceUnit._healthLevel);
+    defenceUnit._attackDelay = getAttributeValue(DELAY, defenceUnit._healthLevel);
+    defenceUnit._attackRange = getAttributeValue(RANGE, defenceUnit._healthLevel);
+    defenceUnit._currentHealth = defenceUnit._totalHealth;
+    defenceUnit._width = 40;
+    defenceUnit._height = 40;
+    defenceUnit._meleeDamage = 0;
+    defenceUnit._unitType = DEFENCE;
+
+    return defenceUnit;
 }
 
-int DefenceUnit::update(Unit* target)
+int update(UNIT* defenceUnit, UNIT* target)
 {
     float distanceToTarget;
 
-    distanceToTarget = sqrt(pow((_xPos - target->getXPos()), 2) + pow((_yPos - target->getYPos()), 2));
+    distanceToTarget = sqrt(pow((_xPos - target->_xPos), 2) + pow((_yPos - target->_yPos), 2));
 
-    if((int)distanceToTarget <= _attackRange){
+    if((int)distanceToTarget <= defenceUnit->_attackRange){
         //Alvo está dentro do alcance da torre
         return attack(target);
     }
@@ -46,7 +49,9 @@ int DefenceUnit::update(Unit* target)
     return 0;
 }
 
-void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList)
+//TODO: Arrumar isso depois que o básico estiver funcionando
+/*
+void attackClosestUnits(UNIT* defenceUnit, std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList)
 {
     int i, j, attackDamage, chosenIndex;
     std::vector<struct CloseUnit> closeUnits;
@@ -113,29 +118,30 @@ void DefenceUnit::attackClosestUnits(std::vector<Archer>* archerList, std::vecto
     }
 
 }
+*/
 
-int DefenceUnit::attack(Unit* target)
+int attack(UNIT* defenceUnit, UNIT* target)
 {
     int elapsedTime;
 
-    elapsedTime = SDL_GetTicks() - _lastAttackTime;
+    elapsedTime = SDL_GetTicks() - defenceUnit->_lastAttackTime;
 
-    if(elapsedTime >= _attackDelay){
+    if(elapsedTime >= defenceUnit->_attackDelay){
         //Pode atacar novamente
-        _lastAttackTime = SDL_GetTicks();
-        return _rangedDamage;
+        defenceUnit->_lastAttackTime = SDL_GetTicks();
+        return defenceUnit->_rangedDamage;
     }
 
     return 0;
 }
 
-void DefenceUnit::spawn(int screenWidth, int screenHeight)
+void spawn(UNIT* defenceUnit, int screenWidth, int screenHeight)
 {
-	_xPos = screenWidth/2 - _width/2;
-	_yPos = screenHeight/2 - _height/2;
+	defenceUnit->_xPos = screenWidth/2 - defenceUnit->_width/2;
+	defenceUnit->_yPos = screenHeight/2 - defenceUnit->_height/2;
 }
 
-void DefenceUnit::recoverHealth()
+void recoverHealth(UNIT* defenceUnit)
 {
-    _currentHealth = _totalHealth;
+    defenceUnit->_currentHealth = defenceUnit->_totalHealth;
 }

@@ -6,17 +6,11 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "Archer.h"
-#include "Soldier.h"
-#include "Horseman.h"
-#include "DefenceUnit.h"
-#include "Projectile.h"
+#include "Unit.h"
 
 #define FONT_TTF_FILE "../../fonts/SpectralSC-Regular.ttf"
 
-class Game{
-
-private:
+typedef struct game{
     SDL_Window *_window;
     SDL_Renderer *_renderer;
     bool _isRunning;
@@ -26,35 +20,37 @@ private:
     int _bitCoins;
     TTF_Font* _textFont;
     SDL_Color _textColor;
+    std::vector<UNIT> _soldierList;
+    std::vector<UNIT> _archerList;
+    std::vector<UNIT> _horsemanList;
+    //TODO: adicionar projéteis
+    // std::vector<PROJECTILE> _projectileList;
+    UNIT _defenceUnit;
+} GAME;
 
-public:
-    bool initialize(const char* title, int xPos, int yPos, int width, int height, bool fullscreen);
-    void handleEvents();
-    void update();
-    void render();
-    void clean();
-    void newRound();
-    void addToKillList(int position, UNIT_TYPE unit);
-    void drawStats();
-    bool drawText(const char* text, int xPos, int yPos);
-    void purchaseUpgrade(ATTRIBUTE attr);
-    int getIsRunning();
-    int getListStatus();
+typedef struct killItem{
+  int _pos;
+  UNIT_TYPE _type;
+} KILL_ITEM;
 
-    struct killItem {
-      int _pos;
-      UNIT_TYPE _type;
-    } ;
 
-    DefenceUnit _defenceUnit;
-    std::vector<Projectile> _projectileList;
-	std::vector<Archer> _archerList;
-	std::vector<Horseman> _horsemanList;
-	std::vector<Soldier> _soldierList;
-    std::vector<killItem> _killList;
-    // TroopList<Archer> _archerList;
-	//TroopList<Horseman> horsemanList;
-    //TroopList<Soldier> soldierList;
+bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen);
+void gameHandleEvents(GAME* game);
+void gameUpdate();
+void gameRender();
+void gameClean();
+void gameNewRound();
+void gameAddToKillList(int position, UNIT_TYPE unit);
+void gameDrawStats();
+bool gameDrawText(const char* text, int xPos, int yPos);
+void gamePurchaseUpgrade(ATTRIBUTE attr);
 
-};
+/*
+std::vector<Projectile> _projectileList;
+std::vector<Archer> _archerList;
+std::vector<Horseman> _horsemanList;
+std::vector<Soldier> _soldierList;
+std::vector<killItem> _killList;
+*/
+
 #endif
