@@ -25,6 +25,11 @@ UNIT createUnit()
     return newUnit;
 }
 
+void recoverHealth(UNIT* unit)
+{
+    unit->_currentHealth = unit->_totalHealth;
+}
+
 void takeDamage(UNIT* unit, int damage)
 {
     int damageBlock;
@@ -34,14 +39,6 @@ void takeDamage(UNIT* unit, int damage)
     if(unit->_currentHealth < 0){
         unit->_currentHealth = 0;
     }
-}
-
-void setHealthBar(UNIT* unit, int xPos, int yPos, int width, int height)
-{
-    unit->_healthBarX = xPos;
-    unit->_healthBarY = yPos;
-    unit->_healthBarWidth = width;
-    unit->_healthBarHeight = height;
 }
 
 bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight)
@@ -77,7 +74,7 @@ bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeigh
         SDL_FreeSurface(tempSurface);
     }
     returnValue = SDL_RenderCopy(renderer, unit->_visualTex, NULL, &destRect);
-    renderHealthBar(*unit, renderer);
+    unitRenderHealthBar(*unit, renderer);
 
     if(returnValue < 0){
         // Caso de erro, pode ser culpa da textura desalocada
@@ -89,7 +86,15 @@ bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeigh
     return true;
 }
 
-void renderHealthBar(UNIT unit, SDL_Renderer* renderer)
+void unitSetHealthBar(UNIT* unit, int xPos, int yPos, int width, int height)
+{
+    unit->_healthBarX = xPos;
+    unit->_healthBarY = yPos;
+    unit->_healthBarWidth = width;
+    unit->_healthBarHeight = height;
+}
+
+void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer)
 {
     int currentHealthWidth = 0, healthLostWidth = 0;
     SDL_Rect destRect;
@@ -138,6 +143,7 @@ void renderHealthBar(UNIT unit, SDL_Renderer* renderer)
     destRect.y = unit._healthBarY;
     destRect.w = healthLostWidth;
     destRect.h = unit._healthBarHeight;
+    fprintf(stderr, "Rendering health bar\n");
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
 }
 

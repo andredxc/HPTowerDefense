@@ -31,17 +31,19 @@ typedef struct Unit{
     UNIT_TYPE _unitType;
     // Ponteiros para funções
     int (*attackFunction)(struct Unit* unit, struct Unit* target);
-    void (*moveFunction)(struct Unit* unit, float distanceToTower, float distance, int directionX, int directionY);
-    int (*updateFunction)(struct Unit* unit, int screenWidth, int screenHeight);
+    int (*updateFunction)(struct Unit* unit, struct Unit* target);
     void (*spawnFunction)(struct Unit* unit, int screenWidth, int screenHeight);
+    bool (*renderFunction)(struct Unit* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight);
+    void (*recoverHealthFunction)(struct Unit* unit);
 
 } UNIT;
 
 UNIT createUnit();
+void recoverHealth(UNIT* unit);
 bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight);
-void renderHealthBar(UNIT unit, SDL_Renderer* renderer);
+void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer);
 void takeDamage(UNIT* unit, int attackDamage);
-void setHealthBar(UNIT unit, int xPos, int yPos, int width, int height);
+void unitSetHealthBar(UNIT* unit, int xPos, int yPos, int width, int height);
 
 int getAttributeLevel(UNIT unit, ATTRIBUTE attr);
 int getAttributeValue(UNIT unit, ATTRIBUTE attr, int level);

@@ -7,8 +7,8 @@
 /*
 *   Inicializa SDL_Window, SDL_Renderer e tal
 */
-bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen){
-
+bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen)
+{
     int flags = 0;
     srand (time(NULL));
 
@@ -46,8 +46,7 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     game->_textAreaHeight = 140;
     game->_screenHeight = game->_screenHeight - (game->_textAreaHeight + 28);
     //Inicializa variáveis referentes aos textos
-    // TODO: definir health bar
-    //game->_defenceUnit.setHealthBar(20, game->_screenHeight+4, game->_screenWidth - 40, 20);
+    unitSetHealthBar(&game->_defenceUnit, 20, game->_screenHeight+4, game->_screenWidth - 40, 20);
     //Define o tamanho e posicionamento da barra de vida da torre de defesa
     game->_textAreaY = game->_screenHeight + 28;    //Soma a altura da health bar
     game->_textFont = TTF_OpenFont(FONT_TTF_FILE, 18);
@@ -55,7 +54,7 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     game->_textColor.g = 255;
     game->_textColor.b = 255;
     //Inicializa a torre de defesa
-    
+    game->_defenceUnit = createDefenceUnit();
 
     return true;
 }
@@ -63,8 +62,8 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
 /*
 *   Handler para eventos de teclado e afins
 */
-void gameHandleEvents(GAME* game){
-
+void gameHandleEvents(GAME* game)
+{
     SDL_Event event;
 
     while(1){
@@ -111,29 +110,24 @@ void gameHandleEvents(GAME* game){
 /*
 *   Atualiza o renderer que será mostrado na tela
 */
-/*
-void gameUpdate()
+void gameUpdate(GAME* game)
 {
-    uint i, j;
-    int killPos;
-    int kill;
-    int rangedAttackDamage;
-    int projectileIndex=0, archerIndex=0, horsemanIndex=0, soldierIndex=0;
-    Projectile projectileBuffer;
+    uint i;
 
-    if(_archerList.size() == 0 && _horsemanList.size() == 0){
-        _emptyList = true;
+    if(game->_archerList.size() == 0 && game->_horsemanList.size() == 0){
+        game->_emptyList = true;
     }
 
     //Atualiza a torre de defesa
-    _defenceUnit.attackClosestUnits(&_archerList, &_horsemanList, &_soldierList, &_projectileList);
+    //TODO: Fazer isso
+    // game->_defenceUnit.attackClosestUnits(&game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
 
     //Atualiza os projéteis
-    for(i = 0; i < _projectileList.size(); i++){
+    /*
+    for(i = 0; i < game->_projectileList.size(); i++){
 
-        // fprintf(stderr, "\tSou o projetil %d\n",i);
         try{
-            kill = _projectileList.at(i).update();
+            kill = game->_projectileList.at(i).update();
         }
         catch (const std::out_of_range& oor) {
             printf("[PROJECTILE] Out of Range error: %s\n", oor.what());
@@ -141,59 +135,65 @@ void gameUpdate()
 
         if(kill){
             //O projetil deve ser excluído das estruturas
-            addToKillList(i, PROJECTILE);
+            gameAddToKillList(&game->_killList, i, PROJECTILE);
          }
     }
+    */
 
     //Atualiza os arqueiros
-    for(i = 0; i < _archerList.size(); i++){
+    /*
+    for(i = 0; i < game->_archerList.size(); i++){
 
-        rangedAttackDamage = _archerList.at(i).update(&_defenceUnit);
-        if(_archerList.at(i).getHealth() <= 0){
+        rangedAttackDamage = game->_archerList.at(i).update(&game->_defenceUnit);
+        if(game->_archerList.at(i).getHealth() <= 0){
             //Unidade morta
-            _bitCoins += _archerList.at(i).getReward();
-            addToKillList(i, ARCHER);
+            game->_bitCoins += game->_archerList.at(i).getReward();
+            gameAddToKillList(&game->_killList, i, ARCHER);
             //Atualiza a lista de projéteis em direção ao archer morto
-            for(j = 0; j < _projectileList.size(); j++){
-                if(_projectileList.at(j).getTarget() == &_archerList.at(i)){
-                    addToKillList(j, PROJECTILE);
+            for(j = 0; j < game->_projectileList.size(); j++){
+                if(game->_projectileList.at(j).getTarget() == &game->_archerList.at(i)){
+                    gameAddToKillList(&game->_killList, j, PROJECTILE);
                 }
             }
         }
         else if(rangedAttackDamage > 0){
             //Projétil em direção à torre
-            Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, _archerList.at(i).getXPos(), _archerList.at(i).getYPos(), &_defenceUnit);
-            _projectileList.push_back(projectileBuffer);
+            Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, game->_archerList.at(i).getXPos(), game->_archerList.at(i).getYPos(), &game->_defenceUnit);
+            game->_projectileList.push_back(projectileBuffer);
         }
     }
+    */
 
     // Atualiza Horseman
-    for (i = 0; i < _horsemanList.size(); i++){
+    for (i = 0; i < game->_horsemanList.size(); i++){
 
-        _horsemanList.at(i).update(&_defenceUnit);
-        if(_horsemanList.at(i).getHealth() <= 0){
-            _bitCoins += _horsemanList.at(i).getReward();
+        game->_horsemanList.at(i).updateFunction(&game->_horsemanList.at(i), &game->_defenceUnit);
+        if(game->_horsemanList.at(i)._currentHealth <= 0){
+            game->_bitCoins += game->_horsemanList.at(i)._reward;
             //Unidade morta
-            addToKillList(i, HORSEMAN);
-            //Atualiza a lista de projéteis em direção ao archer morto
-            for(j = 0; j < _projectileList.size(); j++){
-                if(_projectileList.at(j).getTarget() == &_horsemanList.at(i)){
-                    addToKillList(j, PROJECTILE);
+            gameAddToKillList(&game->_killList, i, HORSEMAN);
+            //Atualiza a lista de projéteis em direção ao horseman morto
+            /*
+            for(j = 0; j < game->_projectileList.size(); j++){
+                if(game->_projectileList.at(j).getTarget() == &game->_horsemanList.at(i)){
+                    gameAddToKillList(&game->_killList, j, PROJECTILE);
                 }
             }
+            */
         }
     }
 
     // Elimina os objetos dentro da killList
-    for(i = 0; i < _killList.size(); i++){
+    /*
+    for(i = 0; i < game->_killList.size(); i++){
 
-        killPos = _killList.at(i)._pos;
-        switch(_killList.at(i)._type){
+        killPos = game->_killList.at(i)._pos;
+        switch(game->_killList.at(i)._type){
 
             case PROJECTILE:{
 
                 try{
-                    _projectileList.erase(_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
+                    game->_projectileList.erase(game->_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
                  }
                 catch(const char* e){
                     printf("Deallocation Error Projectile: %s\n", e);
@@ -204,7 +204,7 @@ void gameUpdate()
             }
             case ARCHER:{
                 try{
-                    _archerList.erase(_archerList.begin() + killPos - archerIndex); archerIndex++; break;
+                    game->_archerList.erase(game->_archerList.begin() + killPos - archerIndex); archerIndex++; break;
                 }
                 catch(const char* e){
                     printf("Deallocation Error ARCHER: %s\n", e);
@@ -215,7 +215,7 @@ void gameUpdate()
             }
             case HORSEMAN:{
                 try{
-                    _horsemanList.erase(_horsemanList.begin() + killPos - horsemanIndex); horsemanIndex++; break;
+                    game->_horsemanList.erase(game->_horsemanList.begin() + killPos - horsemanIndex); horsemanIndex++; break;
                 }
                 catch(const char* e){
                     printf("Deallocation Error HORSEMAN: %s\n", e);
@@ -227,19 +227,19 @@ void gameUpdate()
             default: printf("Fatal internal error deleting object\n");
         }
      }
-     _killList.clear();     // Desaloca toda a lista de unidades por matar
-}
-*/
 
-/*
-void Game::addToKillList(int position, UNIT_TYPE unit){
+     game->_killList.clear();     // Desaloca toda a lista de unidades por matar
+     */
+}
+
+void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit){
 
     uint i;
     bool itemFound = false;
     killItem item;
 
-    for(i = 0; i < _killList.size(); i++){
-        if(_killList.at(i)._pos == position && _killList.at(i)._type == unit){
+    for(i = 0; i < killList->size(); i++){
+        if(killList->at(i)._pos == position && killList->at(i)._type == unit){
             itemFound = true;
         }
     }
@@ -247,23 +247,22 @@ void Game::addToKillList(int position, UNIT_TYPE unit){
     if(!itemFound){
         item._pos = position;
         item._type = unit;
-        _killList.push_back(item);
+        killList->push_back(item);
     }
 }
-*/
 
 /*
 *   Coloca coisas na tela
 */
-/*
-void Game::render()
+void gameRender(GAME* game)
 {
     uint i;
 
-    SDL_RenderClear(_renderer);
+    SDL_RenderClear(game->_renderer);
 
-    _defenceUnit.render(_renderer, _screenWidth, _screenHeight);
+    game->_defenceUnit.renderFunction(&game->_defenceUnit, game->_renderer, game->_screenWidth, game->_screenHeight);
 
+    /*
     for(i = 0; i < _archerList.size(); i++)
     {
         if(!_archerList.at(i).render(_renderer, _screenWidth, _screenHeight)){
@@ -271,14 +270,16 @@ void Game::render()
             _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
         }
     }
-    for(i = 0; i < _horsemanList.size(); i++)
+    */
+    for(i = 0; i < game->_horsemanList.size(); i++)
     {
-        if(!_horsemanList.at(i).render(_renderer, _screenWidth, _screenHeight)){
+        if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight)){
             // Tenta novamente
-            _horsemanList.at(i).render(_renderer, _screenWidth, _screenHeight);
+            game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
         }
     }
 
+    /*
     for(i = 0; i < _projectileList.size(); i++)
     {
         if(!_projectileList.at(i).render(_renderer, _screenWidth, _screenHeight)){
@@ -286,42 +287,37 @@ void Game::render()
             _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
         }
     }
-    drawStats();
 
-    SDL_RenderPresent(_renderer);
+    drawStats();
+    */
+
+    SDL_RenderPresent(game->_renderer);
 }
-*/
+
 
 /*
 *   Desaloca coisas
 */
-/*
-void Game::clean()
+void gameClean(GAME* game)
 {
-    SDL_DestroyWindow(_window);
-    SDL_DestroyRenderer(_renderer);
+    SDL_DestroyWindow(game->_window);
+    SDL_DestroyRenderer(game->_renderer);
 }
 
-void Game::newRound()
+
+void gameNewRound(GAME* game)
 {
     static int round = 0;
     round = round +1;
     int newUnits;
 
     newUnits = rand() % round;
-    _defenceUnit.recoverHealth();
-        //printf("Round:%d\n",round );
-       // Insere elementos nas listas 1 de cada tipo
-        // Os parametro devem aumentar progressivamente de algum jeito
+    game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
     for (int i = 0; i < round + newUnits; i++)
     {
         try{
-            Archer archer;
-            // Horseman horseman;
-            // Soldier soldier;
-            _archerList.push_back(archer);
-        //    _horsemanList.push_back(horseman);
-        //    _soldierList.push_back(soldier);
+            UNIT archer = createArcher();
+            game->_archerList.push_back(archer);
         }
         catch(const char* e){
              printf("Erro: %s\n", e);
@@ -334,12 +330,8 @@ void Game::newRound()
     for (int i = 0; i < round + newUnits ; i++)
     {
         try{
-       //     Archer archer;
-            Horseman horseman;
-         //   Soldier soldier;
-           // _archerList.push_back(archer);
-            _horsemanList.push_back(horseman);
-            //_soldierList.push_back(soldier);
+            UNIT horseman = createHorseman();
+            game->_horsemanList.push_back(horseman);
         }
         catch(const char* e){
              printf("Erro: %s\n", e);
@@ -349,9 +341,10 @@ void Game::newRound()
         }
     }
 
-        _emptyList = false; // Quando a torre mata um bixinho, temos que chamar o metodo que atualiza a lista -> remover (implementar) e setar para true
+    game->_emptyList = false;
 };
 
+/*
 void Game::drawStats()
 {
     char text[256];

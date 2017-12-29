@@ -3,49 +3,7 @@
 #include <math.h>
 #include "AttackUnit.h"
 
-
-int update(UNIT* unit, UNIT* target)
-{
-    int elapsedTime;
-    float distanceToMove, distanceToTower;
-    int defenceTowerX, defenceTowerY;
-    int rangedAttackDamage = 0;
-
-    defenceTowerY = target->_xPos + target->_height/2;
-    defenceTowerX = target->_xPos + target->_width/2;
-
-    //Calcula a distância entre a unidade e a torre
-    distanceToTower = sqrt(pow((unit->_xPos - defenceTowerX), 2) + pow((unit->_yPos - defenceTowerY), 2));
-
-    //Calcula a distância que a unidade deve percorrer
-    elapsedTime = SDL_GetTicks() - unit->_lastIterationTime;
-    distanceToMove = (float)(elapsedTime*unit->_speed)/1000;
-
-    if(distanceToMove >= distanceToTower){
-        //Caso a distância passe da torre
-        distanceToMove = distanceToTower;
-    }
-    //Define a ação da unidade
-    if((int)distanceToTower <= unit->_attackRange){
-        //Para de andar e ataca a torre
-        rangedAttackDamage = attack(unit, target);
-    }
-    else if(distanceToMove >= 1.4){
-        //Distancia percorrida movendo-se em uma unidade no eixo X e Y
-        move(unit, distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
-        unit->_lastIterationTime = SDL_GetTicks();
-    }
-
-    if(unit->_currentHealth == 0){
-        return -1; // Devemos eliminar a unidade pois está morta
-    }
-
-    return rangedAttackDamage;
-
-
-}
-
-void spawn(UNIT* unit, int screenWidth, int screenHeight)
+void attackSpawn(UNIT* unit, int screenWidth, int screenHeight)
 {
     int wall;
 
@@ -69,7 +27,7 @@ void spawn(UNIT* unit, int screenWidth, int screenHeight)
     }
 }
 
-void move(UNIT* unit, float distanceToTower, float distance, int directionX, int directionY)
+void attackMove(UNIT* unit, float distanceToTower, float distance, int directionX, int directionY)
 {
     if(distance > 0)
     {
@@ -78,7 +36,7 @@ void move(UNIT* unit, float distanceToTower, float distance, int directionX, int
     }
 }
 
-int attack(UNIT* unit, UNIT* target)
+int attackAttack(UNIT* unit, UNIT* target)
 {
     int elapsedTime;
 
@@ -103,6 +61,48 @@ int attack(UNIT* unit, UNIT* target)
 
     return 0;
 }
+
+int attackUpdate(UNIT* unit, UNIT* target)
+{
+    int elapsedTime;
+    float distanceToMove, distanceToTower;
+    int defenceTowerX, defenceTowerY;
+    int rangedAttackDamage = 0;
+
+    defenceTowerY = target->_xPos + target->_height/2;
+    defenceTowerX = target->_xPos + target->_width/2;
+
+    //Calcula a distância entre a unidade e a torre
+    distanceToTower = sqrt(pow((unit->_xPos - defenceTowerX), 2) + pow((unit->_yPos - defenceTowerY), 2));
+
+    //Calcula a distância que a unidade deve percorrer
+    elapsedTime = SDL_GetTicks() - unit->_lastIterationTime;
+    distanceToMove = (float)(elapsedTime*unit->_speed)/1000;
+
+    if(distanceToMove >= distanceToTower){
+        //Caso a distância passe da torre
+        distanceToMove = distanceToTower;
+    }
+    //Define a ação da unidade
+    if((int)distanceToTower <= unit->_attackRange){
+        //Para de andar e ataca a torre
+        rangedAttackDamage = attackAttack(unit, target);
+    }
+    else if(distanceToMove >= 1.4){
+        //Distancia percorrida movendo-se em uma unidade no eixo X e Y
+        attackMove(unit, distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
+        unit->_lastIterationTime = SDL_GetTicks();
+    }
+
+    if(unit->_currentHealth == 0){
+        return -1; // Devemos eliminar a unidade pois está morta
+    }
+
+    return rangedAttackDamage;
+
+
+}
+
 
 UNIT createArcher()
 {
@@ -130,6 +130,12 @@ UNIT createArcher()
     archer._height = 10;
     archer._speed = 25;
     archer._unitType = ARCHER;
+    //Atribui as funções
+    archer.attackFunction = attackAttack;
+    archer.updateFunction = attackUpdate;
+    archer.spawnFunction = attackSpawn;
+    archer.renderFunction = render;
+    archer.recoverHealthFunction = recoverHealth;
 
     return archer;
 }
@@ -141,6 +147,12 @@ UNIT createSoldier()
     soldier = createUnit();
     soldier._reward = 30;
     soldier._unitType = SOLDIER;
+    //Atribui as funções
+    soldier.attackFunction = attackAttack;
+    soldier.updateFunction = attackUpdate;
+    soldier.spawnFunction = attackSpawn;
+    soldier.renderFunction = render;
+    soldier.recoverHealthFunction = recoverHealth;
 
     return soldier;
 }
@@ -172,6 +184,12 @@ UNIT createHorseman()
     horseman._height = 10;
     horseman._speed = 35;
     horseman._unitType = HORSEMAN;
+    //Atribui as funções
+    horseman.attackFunction = attackAttack;
+    horseman.updateFunction = attackUpdate;
+    horseman.spawnFunction = attackSpawn;
+    horseman.renderFunction = render;
+    horseman.recoverHealthFunction = recoverHealth;
 
     return horseman;
 }

@@ -8,42 +8,30 @@ struct CloseUnit{
     int distance;
 };
 
-UNIT createDefenceUnit()
+int defenceAttack(UNIT* defenceUnit, UNIT* target)
 {
-    UNIT defenceUnit;
+    int elapsedTime;
 
-    defenceUnit._meleeDamage = 0;
-    defenceUnit._baseHealth = 100;
-    defenceUnit._baseArmour = 5;
-    defenceUnit._baseRangedDamage = 15;
-    defenceUnit._baseNumberOfTargets = 1;
-    defenceUnit._baseAttackDelay = 500;
-    defenceUnit._baseAttackRange = 250;
-    //Determina os valores dos atributos
-    defenceUnit._totalHealth = getAttributeValue(HEALTH, defenceUnit._healthLevel);
-    defenceUnit._armour = getAttributeValue(ARMOUR, defenceUnit._healthLevel);
-    defenceUnit._rangedDamage = getAttributeValue(DAMAGE, defenceUnit._healthLevel);
-    defenceUnit._numberOfTargets = getAttributeValue(TARGETS, defenceUnit._healthLevel);
-    defenceUnit._attackDelay = getAttributeValue(DELAY, defenceUnit._healthLevel);
-    defenceUnit._attackRange = getAttributeValue(RANGE, defenceUnit._healthLevel);
-    defenceUnit._currentHealth = defenceUnit._totalHealth;
-    defenceUnit._width = 40;
-    defenceUnit._height = 40;
-    defenceUnit._meleeDamage = 0;
-    defenceUnit._unitType = DEFENCE;
+    elapsedTime = SDL_GetTicks() - defenceUnit->_lastAttackTime;
 
-    return defenceUnit;
+    if(elapsedTime >= defenceUnit->_attackDelay){
+        //Pode atacar novamente
+        defenceUnit->_lastAttackTime = SDL_GetTicks();
+        return defenceUnit->_rangedDamage;
+    }
+
+    return 0;
 }
 
-int update(UNIT* defenceUnit, UNIT* target)
+int defenceUpdate(UNIT* defenceUnit, UNIT* target)
 {
     float distanceToTarget;
 
-    distanceToTarget = sqrt(pow((_xPos - target->_xPos), 2) + pow((_yPos - target->_yPos), 2));
+    distanceToTarget = sqrt(pow((defenceUnit->_xPos - target->_xPos), 2) + pow((defenceUnit->_yPos - target->_yPos), 2));
 
     if((int)distanceToTarget <= defenceUnit->_attackRange){
         //Alvo está dentro do alcance da torre
-        return attack(target);
+        return defenceUnit->attackFunction(defenceUnit, target);
     }
 
     return 0;
@@ -120,28 +108,42 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<Archer>* archerList, std:
 }
 */
 
-int attack(UNIT* defenceUnit, UNIT* target)
-{
-    int elapsedTime;
-
-    elapsedTime = SDL_GetTicks() - defenceUnit->_lastAttackTime;
-
-    if(elapsedTime >= defenceUnit->_attackDelay){
-        //Pode atacar novamente
-        defenceUnit->_lastAttackTime = SDL_GetTicks();
-        return defenceUnit->_rangedDamage;
-    }
-
-    return 0;
-}
-
-void spawn(UNIT* defenceUnit, int screenWidth, int screenHeight)
+void defenceSpawn(UNIT* defenceUnit, int screenWidth, int screenHeight)
 {
 	defenceUnit->_xPos = screenWidth/2 - defenceUnit->_width/2;
 	defenceUnit->_yPos = screenHeight/2 - defenceUnit->_height/2;
 }
 
-void recoverHealth(UNIT* defenceUnit)
+UNIT createDefenceUnit()
 {
-    defenceUnit->_currentHealth = defenceUnit->_totalHealth;
+    UNIT defenceUnit;
+
+    defenceUnit= createUnit();
+    defenceUnit._meleeDamage = 0;
+    defenceUnit._baseHealth = 100;
+    defenceUnit._baseArmour = 5;
+    defenceUnit._baseRangedDamage = 15;
+    defenceUnit._baseNumberOfTargets = 1;
+    defenceUnit._baseAttackDelay = 500;
+    defenceUnit._baseAttackRange = 250;
+    //Determina os valores dos atributos
+    defenceUnit._totalHealth = getAttributeValue(defenceUnit, HEALTH, defenceUnit._healthLevel);
+    defenceUnit._armour = getAttributeValue(defenceUnit, ARMOUR, defenceUnit._healthLevel);
+    defenceUnit._rangedDamage = getAttributeValue(defenceUnit, DAMAGE, defenceUnit._healthLevel);
+    defenceUnit._numberOfTargets = getAttributeValue(defenceUnit, TARGETS, defenceUnit._healthLevel);
+    defenceUnit._attackDelay = getAttributeValue(defenceUnit, DELAY, defenceUnit._healthLevel);
+    defenceUnit._attackRange = getAttributeValue(defenceUnit, RANGE, defenceUnit._healthLevel);
+    defenceUnit._currentHealth = defenceUnit._totalHealth;
+    defenceUnit._width = 40;
+    defenceUnit._height = 40;
+    defenceUnit._meleeDamage = 0;
+    defenceUnit._unitType = DEFENCE;
+    //Atribui as funções
+    defenceUnit.attackFunction = defenceAttack;
+    defenceUnit.updateFunction = defenceUpdate;
+    defenceUnit.spawnFunction = defenceSpawn;
+    defenceUnit.renderFunction = render;
+    defenceUnit.recoverHealthFunction = recoverHealth;
+
+    return defenceUnit;
 }

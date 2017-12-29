@@ -6,9 +6,16 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "Unit.h"
+#include "AttackUnit.h"
+#include "DefenceUnit.h"
+#include "Projectile.h"
 
 #define FONT_TTF_FILE "../../fonts/SpectralSC-Regular.ttf"
+
+typedef struct killItem{
+  int _pos;
+  UNIT_TYPE _type;
+} KILL_ITEM;
 
 typedef struct game{
     SDL_Window *_window;
@@ -25,22 +32,17 @@ typedef struct game{
     std::vector<UNIT> _horsemanList;
     //TODO: adicionar projéteis
     // std::vector<PROJECTILE> _projectileList;
+    std::vector<KILL_ITEM> _killList;
     UNIT _defenceUnit;
 } GAME;
 
-typedef struct killItem{
-  int _pos;
-  UNIT_TYPE _type;
-} KILL_ITEM;
-
-
 bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen);
 void gameHandleEvents(GAME* game);
-void gameUpdate();
-void gameRender();
-void gameClean();
-void gameNewRound();
-void gameAddToKillList(int position, UNIT_TYPE unit);
+void gameUpdate(GAME* game);
+void gameRender(GAME* game);
+void gameClean(GAME* game);
+void gameNewRound(GAME* game);
+void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit);
 void gameDrawStats();
 bool gameDrawText(const char* text, int xPos, int yPos);
 void gamePurchaseUpgrade(ATTRIBUTE attr);

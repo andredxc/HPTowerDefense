@@ -15,14 +15,18 @@ int main(int argc, char **argv){
 
         frameStart = SDL_GetTicks();
 
-        //   // Se todas as listas de enimigos estão vazias -> new round
-        //   if(game.getListStatus()){
-	   	// 	  game.newRound();
-   		// }
+          // Se todas as listas de enimigos estão vazias -> new round
+        if(game._emptyList){
+            gameNewRound(&game);
+        }
+
+        // valgrind
+        // cgdb
+        // ack-grep
 
         gameHandleEvents(&game);
-        // game.update();
-        // game.render();
+        gameUpdate(&game);
+        gameRender(&game);
 
         //Mantém o framerate constante em 60 fps
        frameTime = SDL_GetTicks() - frameStart;
@@ -30,6 +34,6 @@ int main(int argc, char **argv){
            SDL_Delay(frameDelay - frameTime);
        }
     }
-    // game.clean();
+    gameClean(&game);
     return 0;
 }
