@@ -20,10 +20,6 @@ int main(int argc, char **argv){
             gameNewRound(&game);
         }
 
-        // valgrind
-        // cgdb
-        // ack-grep
-
         gameHandleEvents(&game);
         gameUpdate(&game);
         gameRender(&game);

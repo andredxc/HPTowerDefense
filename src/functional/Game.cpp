@@ -55,6 +55,7 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     game->_textColor.b = 255;
     //Inicializa a torre de defesa
     game->_defenceUnit = createDefenceUnit();
+    game->_defenceUnit.spawnFunction(&game->_defenceUnit, game->_screenWidth, game->_screenHeight);
 
     return true;
 }
@@ -119,8 +120,7 @@ void gameUpdate(GAME* game)
     }
 
     //Atualiza a torre de defesa
-    //TODO: Fazer isso
-    // game->_defenceUnit.attackClosestUnits(&game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
+    game->_defenceUnit.attackClosestUnits(&game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
 
     //Atualiza os projéteis
     /*
@@ -294,7 +294,6 @@ void gameRender(GAME* game)
     SDL_RenderPresent(game->_renderer);
 }
 
-
 /*
 *   Desaloca coisas
 */
@@ -303,7 +302,6 @@ void gameClean(GAME* game)
     SDL_DestroyWindow(game->_window);
     SDL_DestroyRenderer(game->_renderer);
 }
-
 
 void gameNewRound(GAME* game)
 {
@@ -317,6 +315,7 @@ void gameNewRound(GAME* game)
     {
         try{
             UNIT archer = createArcher();
+            archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
             game->_archerList.push_back(archer);
         }
         catch(const char* e){
@@ -331,6 +330,7 @@ void gameNewRound(GAME* game)
     {
         try{
             UNIT horseman = createHorseman();
+            horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
             game->_horsemanList.push_back(horseman);
         }
         catch(const char* e){

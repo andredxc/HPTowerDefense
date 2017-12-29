@@ -31,6 +31,7 @@ void attackMove(UNIT* unit, float distanceToTower, float distance, int direction
 {
     if(distance > 0)
     {
+        fprintf(stderr, "distanceToTower: %f, distance: %f, (%d, %d)\n", distanceToTower, distance, directionX, directionY);
         unit->_xPos = unit->_xPos + (distance * (directionX - unit->_xPos))/ distanceToTower;
         unit->_yPos = unit->_yPos + (distance * (directionY - unit->_yPos))/ distanceToTower;
     }
@@ -102,7 +103,6 @@ int attackUpdate(UNIT* unit, UNIT* target)
 
 
 }
-
 
 UNIT createArcher()
 {
