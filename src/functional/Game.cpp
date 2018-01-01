@@ -4,9 +4,7 @@
 #include "Projectile.h"
 #include "Game.h"
 
-/*
-*   Inicializa SDL_Window, SDL_Renderer e tal
-*/
+/* Inicializa SDL_Window, SDL_Renderer e tudo mais */
 bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen)
 {
     int flags = 0;
@@ -45,7 +43,9 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     //Define o tamanho da tela jogável
     game->_textAreaHeight = 140;
     game->_screenHeight = game->_screenHeight - (game->_textAreaHeight + 28);
-    //Inicializa variáveis referentes aos textos
+    //Inicializa variáveis referentes aos textos e a unidade de defesa
+    game->_defenceUnit = createDefenceUnit();
+    game->_defenceUnit.spawnFunction(&game->_defenceUnit, game->_screenWidth, game->_screenHeight);
     unitSetHealthBar(&game->_defenceUnit, 20, game->_screenHeight+4, game->_screenWidth - 40, 20);
     //Define o tamanho e posicionamento da barra de vida da torre de defesa
     game->_textAreaY = game->_screenHeight + 28;    //Soma a altura da health bar
@@ -53,16 +53,11 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     game->_textColor.r = 255;
     game->_textColor.g = 255;
     game->_textColor.b = 255;
-    //Inicializa a torre de defesa
-    game->_defenceUnit = createDefenceUnit();
-    game->_defenceUnit.spawnFunction(&game->_defenceUnit, game->_screenWidth, game->_screenHeight);
 
     return true;
 }
 
-/*
-*   Handler para eventos de teclado e afins
-*/
+/* Handler para eventos de teclado e afins */
 void gameHandleEvents(GAME* game)
 {
     SDL_Event event;
@@ -108,9 +103,7 @@ void gameHandleEvents(GAME* game)
     }
 }
 
-/*
-*   Atualiza o renderer que será mostrado na tela
-*/
+/* Atualiza o renderer que será mostrado na tela */
 void gameUpdate(GAME* game)
 {
     uint i;
@@ -120,7 +113,8 @@ void gameUpdate(GAME* game)
     }
 
     //Atualiza a torre de defesa
-    game->_defenceUnit.attackClosestUnits(&game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
+    // TODO: Fazer isso funcionar
+    //attackClosestUnits(game->_defenceUnit, &game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
 
     //Atualiza os projéteis
     /*
@@ -232,28 +226,29 @@ void gameUpdate(GAME* game)
      */
 }
 
-void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit){
-
+/* Adiciona um elemento a lista e unidades que devem ser desalocadas */
+void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit)
+{
     uint i;
     bool itemFound = false;
-    killItem item;
+    KILL_ITEM item;
 
     for(i = 0; i < killList->size(); i++){
+        // Verifica se o elemento já existe
         if(killList->at(i)._pos == position && killList->at(i)._type == unit){
             itemFound = true;
         }
     }
 
     if(!itemFound){
+        // Adiciona um nodo não existente
         item._pos = position;
         item._type = unit;
         killList->push_back(item);
     }
 }
 
-/*
-*   Coloca coisas na tela
-*/
+/* Coloca coisas na tela */
 void gameRender(GAME* game)
 {
     uint i;
@@ -265,7 +260,8 @@ void gameRender(GAME* game)
     /*
     for(i = 0; i < _archerList.size(); i++)
     {
-        if(!_archerList.at(i).render(_renderer, _screenWidth, _screenHeight)){
+        if(!_archerList.at(i).render(_renderer, _screenWidth, _screenHeight))
+        {
             // Tenta novamente
             _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
         }
@@ -273,7 +269,8 @@ void gameRender(GAME* game)
     */
     for(i = 0; i < game->_horsemanList.size(); i++)
     {
-        if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight)){
+        if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
+        {
             // Tenta novamente
             game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
         }
@@ -282,27 +279,26 @@ void gameRender(GAME* game)
     /*
     for(i = 0; i < _projectileList.size(); i++)
     {
-        if(!_projectileList.at(i).render(_renderer, _screenWidth, _screenHeight)){
+        if(!_projectileList.at(i).render(_renderer, _screenWidth, _screenHeight))
+        {
             // Tenta novamente
             _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
         }
     }
-
-    drawStats();
     */
+    gameDrawStats(game);
 
     SDL_RenderPresent(game->_renderer);
 }
 
-/*
-*   Desaloca coisas
-*/
+/* Desaloca coisas */
 void gameClean(GAME* game)
 {
     SDL_DestroyWindow(game->_window);
     SDL_DestroyRenderer(game->_renderer);
 }
 
+/* Cria as unidades para um novo round */
 void gameNewRound(GAME* game)
 {
     static int round = 0;
@@ -344,72 +340,68 @@ void gameNewRound(GAME* game)
     game->_emptyList = false;
 };
 
-/*
-void Game::drawStats()
+/* Desenha os textos referentes aos upgrades */
+void gameDrawStats(GAME* game)
 {
     char text[256];
 
-    if(!_textFont){
+    if(!game->_textFont){
         printf("Error opening text font\n");
         return;
     }
     //Escreve os atributos na tela
     snprintf(text, sizeof(text), "(1) Health (level %d): %d/%d [Upgrade: %d bitcoins]",
-        _defenceUnit.getAttributeLevel(HEALTH), _defenceUnit.getHealth(), _defenceUnit.getTotalHealth(), _defenceUnit.getAttributeUpgradeCost(HEALTH));
-    drawText(text, 5, _textAreaY + 5);
+        getAttributeLevel(game->_defenceUnit, HEALTH), game->_defenceUnit._totalHealth, game->_defenceUnit._totalHealth, getAttributeUpgradeCost(game->_defenceUnit, HEALTH));
+    gameDrawText(game, text, 5, game->_textAreaY + 5);
     snprintf(text, sizeof(text), "(2) Armour (level %d): %d [Upgrade: %d bitcoins]",
-        _defenceUnit.getAttributeLevel(ARMOUR), _defenceUnit.getArmour(), _defenceUnit.getAttributeUpgradeCost(ARMOUR));
-    drawText(text, 5, _textAreaY + 25);
+        getAttributeLevel(game->_defenceUnit, ARMOUR), game->_defenceUnit._armour, getAttributeUpgradeCost(game->_defenceUnit, ARMOUR));
+    gameDrawText(game, text, 5, game->_textAreaY + 25);
     snprintf(text, sizeof(text), "(3) Damage (level %d): %d [Upgrade: %d bitcoins]",
-        _defenceUnit.getAttributeLevel(DAMAGE), _defenceUnit.getRangedDamage(), _defenceUnit.getAttributeUpgradeCost(DAMAGE));
-    drawText(text, 5, _textAreaY + 45);
+        getAttributeLevel(game->_defenceUnit, DAMAGE), game->_defenceUnit._rangedDamage, getAttributeUpgradeCost(game->_defenceUnit, DAMAGE));
+    gameDrawText(game, text, 5, game->_textAreaY + 45);
     snprintf(text, sizeof(text), "(4) AttackRange (level %d): %d [Upgrade: %d bitcoins]",
-        _defenceUnit.getAttributeLevel(RANGE), _defenceUnit.getAttackRange(), _defenceUnit.getAttributeUpgradeCost(RANGE));
-    drawText(text, 5, _textAreaY + 65);
+        getAttributeLevel(game->_defenceUnit, RANGE), game->_defenceUnit._attackRange, getAttributeUpgradeCost(game->_defenceUnit, RANGE));
+    gameDrawText(game, text, 5, game->_textAreaY + 65);
     snprintf(text, sizeof(text), "(5) Number of targets (level %d): %d [Upgrade: %d bitcoins]",
-        _defenceUnit.getAttributeLevel(TARGETS), _defenceUnit.getNumberOfTargets(), _defenceUnit.getAttributeUpgradeCost(TARGETS));
-    drawText(text, 5, _textAreaY + 85);
+        getAttributeLevel(game->_defenceUnit, TARGETS), game->_defenceUnit._numberOfTargets, getAttributeUpgradeCost(game->_defenceUnit, TARGETS));
+    gameDrawText(game, text, 5, game->_textAreaY + 85);
     snprintf(text, sizeof(text), "(6) Attack Delay (level %d): %d ms [Upgrade: %d bitcoins]",
-        _defenceUnit.getAttributeLevel(DELAY), _defenceUnit.getAttackDelay(), _defenceUnit.getAttributeUpgradeCost(DELAY));
-    drawText(text, 5, _textAreaY + 105);
+        getAttributeLevel(game->_defenceUnit, DELAY), game->_defenceUnit._attackDelay, getAttributeUpgradeCost(game->_defenceUnit, DELAY));
+    gameDrawText(game, text, 5, game->_textAreaY + 105);
     //Escreve o número de bitcoins
     snprintf(text, sizeof(text), "BitCoins");
-    drawText(text, _screenWidth - 180,  _textAreaY + 10);
-    snprintf(text, sizeof(text), "%d", _bitCoins);
-    drawText(text, _screenWidth - 140,  _textAreaY + 30);
+    gameDrawText(game, text, game->_screenWidth - 180,  game->_textAreaY + 10);
+    snprintf(text, sizeof(text), "%d", game->_bitCoins);
+    gameDrawText(game, text, game->_screenWidth - 140,  game->_textAreaY + 30);
 
 }
 
-bool Game::drawText(const char* text, int xPos, int yPos)
+bool gameDrawText(GAME* game, const char* text, int xPos, int yPos)
 {
     SDL_Surface* textSurface;
     SDL_Texture* textTexture;
     SDL_Rect destRect;
 
-    if(!_textFont){
+    if(!game->_textFont){
         printf("Error opening text font\n");
         return false;
     }
     //Escreve vida na tela
-    textSurface = TTF_RenderUTF8_Blended(_textFont, text, _textColor);
-    textTexture = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    textSurface = TTF_RenderUTF8_Blended(game->_textFont, text, game->_textColor);
+    textTexture = SDL_CreateTextureFromSurface(game->_renderer, textSurface);
     destRect.x = xPos;
     destRect.y = yPos;
     destRect.w = textSurface->w;
     destRect.h = textSurface->h;
-    SDL_RenderCopy(_renderer, textTexture, NULL, &destRect);
+    SDL_RenderCopy(game->_renderer, textTexture, NULL, &destRect);
     return true;
 }
 
-void Game::purchaseUpgrade(ATTRIBUTE attr)
+void gamePurchaseUpgrade(GAME* game, ATTRIBUTE attr)
 {
-    if(_bitCoins >= _defenceUnit.getAttributeUpgradeCost(attr)){
+    if(game->_bitCoins >= getAttributeUpgradeCost(game->_defenceUnit, attr)){
         //Tem moedas o suficiente
-        _bitCoins -= _defenceUnit.getAttributeUpgradeCost(attr);
-        _defenceUnit.incAttributeLevel(attr);
+        game->_bitCoins -= getAttributeUpgradeCost(game->_defenceUnit, attr);
+        incAttributeLevel(&game->_defenceUnit, attr);
     }
 }
-
-int Game::getIsRunning(){ return _isRunning; };
-int Game::getListStatus(){ return _emptyList; };
-*/

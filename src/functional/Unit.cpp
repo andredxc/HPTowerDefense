@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <SDL2/SDL_image.h>
-
 #include "Unit.h"
 
+/* Inicializa uma unidade */
 UNIT createUnit()
 {
     UNIT newUnit;
@@ -25,11 +25,13 @@ UNIT createUnit()
     return newUnit;
 }
 
+/* Recupera totalmente a vida de uma unidade */
 void recoverHealth(UNIT* unit)
 {
     unit->_currentHealth = unit->_totalHealth;
 }
 
+/* Tira vida da unidade de acordo com o dano de ataque */
 void takeDamage(UNIT* unit, int damage)
 {
     int damageBlock;
@@ -41,6 +43,7 @@ void takeDamage(UNIT* unit, int damage)
     }
 }
 
+/* Renderiza uma unidade */
 bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
     SDL_Rect destRect;
@@ -86,6 +89,7 @@ bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeigh
     return true;
 }
 
+/* Define uma barra que mostra a vida de uma unidade */
 void unitSetHealthBar(UNIT* unit, int xPos, int yPos, int width, int height)
 {
     unit->_healthBarX = xPos;
@@ -94,6 +98,7 @@ void unitSetHealthBar(UNIT* unit, int xPos, int yPos, int width, int height)
     unit->_healthBarHeight = height;
 }
 
+/* Desenha a barra de vida */
 void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer)
 {
     int currentHealthWidth = 0, healthLostWidth = 0;
@@ -101,8 +106,7 @@ void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer)
     SDL_Surface* tempSurface;
     SDL_Texture* tempTexture;
 
-    if(unit._healthBarX < 0 || unit._healthBarY < 0 || unit._healthBarWidth < 0 || unit._healthBarHeight < 0)
-    {
+    if(unit._healthBarX < 0 || unit._healthBarY < 0 || unit._healthBarWidth < 0 || unit._healthBarHeight < 0){
         //Barra de vida não foi definida
         return;
     }
@@ -122,8 +126,7 @@ void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer)
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
     //Desenha a vida perdida, se for maior que 0
     healthLostWidth = unit._healthBarWidth - currentHealthWidth;
-    if(healthLostWidth == 0)
-    {
+    if(healthLostWidth == 0){
         //Vida está cheia
         SDL_FreeSurface(tempSurface);
         SDL_DestroyTexture(tempTexture);
@@ -145,8 +148,10 @@ void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer)
     destRect.h = unit._healthBarHeight;
     fprintf(stderr, "Rendering health bar\n");
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
+    fprintf(stderr, "Rendered health bar\n");
 }
 
+/* Retorna o nível de um atributo */
 int getAttributeLevel(UNIT unit, ATTRIBUTE attr)
 {
     switch(attr){
@@ -160,6 +165,7 @@ int getAttributeLevel(UNIT unit, ATTRIBUTE attr)
     }
 }
 
+/* Retorna o valor de um atributo */
 int getAttributeValue(UNIT unit, ATTRIBUTE attr, int level)
 {
     switch(attr){
@@ -173,6 +179,7 @@ int getAttributeValue(UNIT unit, ATTRIBUTE attr, int level)
     }
 }
 
+/* Retorna o custo para aumentar o nível de um atributo */
 int getAttributeUpgradeCost(UNIT unit, ATTRIBUTE attr)
 {
     switch(attr){
@@ -186,6 +193,7 @@ int getAttributeUpgradeCost(UNIT unit, ATTRIBUTE attr)
     }
 }
 
+/* Incrementa o nível de um atributo */
 void incAttributeLevel(UNIT* unit, ATTRIBUTE attr)
 {
     switch(attr){

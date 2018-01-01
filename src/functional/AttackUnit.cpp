@@ -3,6 +3,7 @@
 #include <math.h>
 #include "AttackUnit.h"
 
+/* Inicializa a posição de uma unidade de ataque */
 void attackSpawn(UNIT* unit, int screenWidth, int screenHeight)
 {
     int wall;
@@ -27,16 +28,17 @@ void attackSpawn(UNIT* unit, int screenWidth, int screenHeight)
     }
 }
 
+/* Move em diração as coordenadas especificadas */
 void attackMove(UNIT* unit, float distanceToTower, float distance, int directionX, int directionY)
 {
     if(distance > 0)
     {
-        fprintf(stderr, "distanceToTower: %f, distance: %f, (%d, %d)\n", distanceToTower, distance, directionX, directionY);
         unit->_xPos = unit->_xPos + (distance * (directionX - unit->_xPos))/ distanceToTower;
         unit->_yPos = unit->_yPos + (distance * (directionY - unit->_yPos))/ distanceToTower;
     }
 }
 
+/* Ataca */
 int attackAttack(UNIT* unit, UNIT* target)
 {
     int elapsedTime;
@@ -49,9 +51,9 @@ int attackAttack(UNIT* unit, UNIT* target)
             if(unit->_yPos >= target->_yPos && unit->_yPos <= target->_yPos + target->_height)
             {
             //Unidade esta em posição
-            takeDamage(target, unit->_meleeDamage);
-            unit->_lastAttackTime = SDL_GetTicks();
-            return unit->_meleeDamage;
+                takeDamage(target, unit->_meleeDamage);
+                unit->_lastAttackTime = SDL_GetTicks();
+                return unit->_meleeDamage;
             }
     }
     else if(unit->_rangedDamage > 0 && elapsedTime >= unit->_attackDelay){
@@ -63,6 +65,7 @@ int attackAttack(UNIT* unit, UNIT* target)
     return 0;
 }
 
+/* Atualiza o comportamento da unidade */
 int attackUpdate(UNIT* unit, UNIT* target)
 {
     int elapsedTime;
@@ -70,7 +73,7 @@ int attackUpdate(UNIT* unit, UNIT* target)
     int defenceTowerX, defenceTowerY;
     int rangedAttackDamage = 0;
 
-    defenceTowerY = target->_xPos + target->_height/2;
+    defenceTowerY = target->_yPos + target->_height/2;
     defenceTowerX = target->_xPos + target->_width/2;
 
     //Calcula a distância entre a unidade e a torre
@@ -90,7 +93,7 @@ int attackUpdate(UNIT* unit, UNIT* target)
         rangedAttackDamage = attackAttack(unit, target);
     }
     else if(distanceToMove >= 1.4){
-        //Distancia percorrida movendo-se em uma unidade no eixo X e Y
+        //Distancia percorrida movendo-se em uma unidade nos eixos X e Y
         attackMove(unit, distanceToTower, distanceToMove, defenceTowerX, defenceTowerY);
         unit->_lastIterationTime = SDL_GetTicks();
     }
@@ -100,10 +103,9 @@ int attackUpdate(UNIT* unit, UNIT* target)
     }
 
     return rangedAttackDamage;
-
-
 }
 
+/* Cria um arqueiro */
 UNIT createArcher()
 {
     UNIT archer;
@@ -140,6 +142,7 @@ UNIT createArcher()
     return archer;
 }
 
+/* Cria um soldado */
 UNIT createSoldier()
 {
     UNIT soldier;
@@ -157,6 +160,7 @@ UNIT createSoldier()
     return soldier;
 }
 
+/* Cria um cara com cavalo */
 UNIT createHorseman()
 {
     UNIT horseman;

@@ -43,8 +43,8 @@ void gameRender(GAME* game);
 void gameClean(GAME* game);
 void gameNewRound(GAME* game);
 void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit);
-void gameDrawStats();
-bool gameDrawText(const char* text, int xPos, int yPos);
+void gameDrawStats(GAME* game);
+bool gameDrawText(GAME* game, const char* text, int xPos, int yPos);
 void gamePurchaseUpgrade(ATTRIBUTE attr);
 
 /*
