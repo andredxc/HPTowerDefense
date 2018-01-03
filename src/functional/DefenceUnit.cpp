@@ -45,22 +45,31 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<UNIT>* archerList, std::v
 
     // Preenche listas com as distâncias para cada unidade
     for(i = 0; (uint) i < archerList->size(); i++){
-        closeUnitBuffer.index = i;
-        closeUnitBuffer.type = ARCHER;
-        closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - archerList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - archerList->at(i)._yPos), 2));
-        closeUnits.push_back(closeUnitBuffer);
+        if(archerList->at(i)._currentHealth > 0)
+        {
+            closeUnitBuffer.index = i;
+            closeUnitBuffer.type = ARCHER;
+            closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - archerList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - archerList->at(i)._yPos), 2));
+            closeUnits.push_back(closeUnitBuffer);
+        }
     }
     for(i = 0; (uint) i < horsemanList->size(); i++){
-        closeUnitBuffer.index = i;
-        closeUnitBuffer.type = HORSEMAN;
-        closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - horsemanList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - horsemanList->at(i)._yPos), 2));
-        closeUnits.push_back(closeUnitBuffer);
+        if(horsemanList->at(i)._currentHealth > 0)
+        {
+            closeUnitBuffer.index = i;
+            closeUnitBuffer.type = HORSEMAN;
+            closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - horsemanList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - horsemanList->at(i)._yPos), 2));
+            closeUnits.push_back(closeUnitBuffer);
+        }
     }
     for(i = 0; (uint) i < soldierList->size(); i++){
-        closeUnitBuffer.index = i;
-        closeUnitBuffer.type = SOLDIER;
-        closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - soldierList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - soldierList->at(i)._yPos), 2));
-        closeUnits.push_back(closeUnitBuffer);
+        if(soldierList->at(i)._currentHealth > 0)
+        {
+            closeUnitBuffer.index = i;
+            closeUnitBuffer.type = SOLDIER;
+            closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - soldierList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - soldierList->at(i)._yPos), 2));
+            closeUnits.push_back(closeUnitBuffer);
+        }
     }
     // Ataca os alvos mais próximos
     for(i = 0; i < defenceUnit->_numberOfTargets; i++){
@@ -89,7 +98,7 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<UNIT>* archerList, std::v
                 }
                 break;
             case SOLDIER:
-                attackDamage = defenceUpdate(defenceUnit, &horsemanList->at(closeUnitBuffer.index));
+                attackDamage = defenceUpdate(defenceUnit, &soldierList->at(closeUnitBuffer.index));
                 if(attackDamage > 0){
                     PROJECTILE projectileBuffer = createProjectile(&soldierList->at(closeUnitBuffer.index), defenceUnit->_xPos, defenceUnit->_yPos, attackDamage);
                     projectileList->push_back(projectileBuffer);

@@ -75,26 +75,24 @@ void gameHandleEvents(GAME* game)
         else if(event.type == SDL_KEYDOWN){
 
             switch(event.key.keysym.sym){
-                /*
                 case SDLK_1:    //Health
-                    purchaseUpgrade(HEALTH);
+                    gamePurchaseUpgrade(game, HEALTH);
                     return;
                 case SDLK_2:    //Armour
-                    purchaseUpgrade(ARMOUR);
+                    gamePurchaseUpgrade(game, ARMOUR);
                     return;
                 case SDLK_3:    //Damage
-                    purchaseUpgrade(DAMAGE);
+                    gamePurchaseUpgrade(game, DAMAGE);
                     return;
                 case SDLK_4:    //Attack range
-                    purchaseUpgrade(RANGE);
+                    gamePurchaseUpgrade(game, RANGE);
                     return;
                 case SDLK_5:    //Number of targets
-                    purchaseUpgrade(TARGETS);
+                    gamePurchaseUpgrade(game, TARGETS);
                     return;
                 case SDLK_6:    //Attack delay
-                    purchaseUpgrade(DELAY);
+                    gamePurchaseUpgrade(game, DELAY);
                     return;
-                    */
                 case SDLK_ESCAPE:
                     game->_isRunning = false;
                     return;
@@ -107,8 +105,7 @@ void gameHandleEvents(GAME* game)
 void gameUpdate(GAME* game)
 {
     uint i;
-    bool kill;
-    int killPos, projectileIndex=0, archerIndex=0, horsemanIndex=0;
+    int rangedAttackDamage;
 
     if(game->_archerList.size() == 0 && game->_horsemanList.size() == 0){
         game->_emptyList = true;
@@ -118,109 +115,55 @@ void gameUpdate(GAME* game)
     attackClosestUnits(&game->_defenceUnit, &game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
 
     //Atualiza os projéteis
-    for(i = 0; i < game->_projectileList.size(); i++){
-
-        try{
-            kill = projectileUpdate(&game->_projectileList.at(i));
+    for(i = 0; i < game->_projectileList.size(); i++)
+    {
+        if(!game->_projectileList.at(i)._isDead)
+        {
+            projectileUpdate(&game->_projectileList.at(i));
         }
-        catch (const std::out_of_range& oor) {
-            printf("[PROJECTILE] Out of Range error: %s\n", oor.what());
-        }
-
-        if(kill){
-            //O projetil deve ser excluído das estruturas
-            gameAddToKillList(&game->_killList, i, PROJ);
-         }
     }
-
     //Atualiza os arqueiros
-    /*
-    for(i = 0; i < game->_archerList.size(); i++){
-
-        rangedAttackDamage = game->_archerList.at(i).update(&game->_defenceUnit);
-        if(game->_archerList.at(i).getHealth() <= 0){
-            //Unidade morta
-            game->_bitCoins += game->_archerList.at(i).getReward();
-            gameAddToKillList(&game->_killList, i, ARCHER);
-            //Atualiza a lista de projéteis em direção ao archer morto
-            for(j = 0; j < game->_projectileList.size(); j++){
-                if(game->_projectileList.at(j).getTarget() == &game->_archerList.at(i)){
-                    gameAddToKillList(&game->_killList, j, PROJECTILE);
-                }
+    for(i = 0; i < game->_archerList.size(); i++)
+    {
+        if(game->_archerList.at(i)._currentHealth > 0)
+        {
+            rangedAttackDamage = game->_archerList.at(i).updateFunction(&game->_archerList.at(i), &game->_defenceUnit);
+            if(rangedAttackDamage > 0)
+            {
+                // O arqueiro lança um projétil em diração a torre
+                PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, game->_defenceUnit._xPos, game->_defenceUnit._yPos, rangedAttackDamage);
+                game->_projectileList.push_back(projectileBuffer);
             }
         }
-        else if(rangedAttackDamage > 0){
-            //Projétil em direção à torre
-            Projectile projectileBuffer(2, rangedAttackDamage, 4, 4, game->_archerList.at(i).getXPos(), game->_archerList.at(i).getYPos(), &game->_defenceUnit);
-            game->_projectileList.push_back(projectileBuffer);
+        else
+        {
+            game->_bitCoins += unitGetReward(&game->_archerList.at(i));
         }
     }
-    */
-
-    // Atualiza Horseman
-    for (i = 0; i < game->_horsemanList.size(); i++){
-
-        game->_horsemanList.at(i).updateFunction(&game->_horsemanList.at(i), &game->_defenceUnit);
-        if(game->_horsemanList.at(i)._currentHealth <= 0){
-            game->_bitCoins += game->_horsemanList.at(i)._reward;
-            //Unidade morta
-            gameAddToKillList(&game->_killList, i, HORSEMAN);
-            //Atualiza a lista de projéteis em direção ao horseman morto
-            /*
-            for(j = 0; j < game->_projectileList.size(); j++){
-                if(game->_projectileList.at(j).getTarget() == &game->_horsemanList.at(i)){
-                    gameAddToKillList(&game->_killList, j, PROJECTILE);
-                }
-            }
-            */
+    // Atualiza os horsemen
+    for (i = 0; i < game->_horsemanList.size(); i++)
+    {
+        if(game->_horsemanList.at(i)._currentHealth > 0)
+        {
+            game->_horsemanList.at(i).updateFunction(&game->_horsemanList.at(i), &game->_defenceUnit);
+        }
+        else
+        {
+            game->_bitCoins += unitGetReward(&game->_horsemanList.at(i));
         }
     }
-
-    // Elimina os objetos dentro da killList
-    for(i = 0; i < game->_killList.size(); i++){
-
-        killPos = game->_killList.at(i)._pos;
-        switch(game->_killList.at(i)._type){
-
-            case PROJ:{
-
-                try{
-                    game->_projectileList.erase(game->_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
-                 }
-                catch(const char* e){
-                    printf("Deallocation Error Projectile: %s\n", e);
-                }
-                catch(...){
-                    printf("Unexpected Fatal Deallocation Error Projectile!!\n");
-                }
-            }
-            case ARCHER:{
-                try{
-                    game->_archerList.erase(game->_archerList.begin() + killPos - archerIndex); archerIndex++; break;
-                }
-                catch(const char* e){
-                    printf("Deallocation Error ARCHER: %s\n", e);
-                }
-                catch(...){
-                    printf("Unexpected Fatal Deallocation Error ARCHER!!\n");
-                }
-            }
-            case HORSEMAN:{
-                try{
-                    game->_horsemanList.erase(game->_horsemanList.begin() + killPos - horsemanIndex); horsemanIndex++; break;
-                }
-                catch(const char* e){
-                    printf("Deallocation Error HORSEMAN: %s\n", e);
-                }
-                catch(...){
-                    printf("Unexpected Fatal Deallocation Error HORSEMAN!!\n");
-                }
-            }
-            default: printf("Fatal internal error deleting object\n");
+    // Atualiza soldiers
+    for (i = 0; i < game->_soldierList.size(); i++)
+    {
+        if(game->_soldierList.at(i)._currentHealth > 0)
+        {
+            game->_soldierList.at(i).updateFunction(&game->_soldierList.at(i), &game->_defenceUnit);
         }
-     }
-
-     game->_killList.clear();     // Desaloca toda a lista de unidades por matar
+        else
+        {
+            game->_bitCoins += unitGetReward(&game->_soldierList.at(i));
+        }
+    }
 }
 
 /* Adiciona um elemento a lista e unidades que devem ser desalocadas */
@@ -251,34 +194,50 @@ void gameRender(GAME* game)
     uint i;
 
     SDL_RenderClear(game->_renderer);
-
+    // Renderiza a defence unit
     game->_defenceUnit.renderFunction(&game->_defenceUnit, game->_renderer, game->_screenWidth, game->_screenHeight);
-
-    /*
-    for(i = 0; i < _archerList.size(); i++)
+    // Renderiza os archers
+    for(i = 0; i < game->_archerList.size(); i++)
     {
-        if(!_archerList.at(i).render(_renderer, _screenWidth, _screenHeight))
-        {
-            // Tenta novamente
-            _archerList.at(i).render(_renderer, _screenWidth, _screenHeight);
+        if(game->_archerList.at(i)._currentHealth > 0){
+            if(!game->_archerList.at(i).renderFunction(&game->_archerList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
+            {
+                // Tenta novamente
+                game->_archerList.at(i).renderFunction(&game->_archerList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
+            }
         }
     }
-    */
+    // Renderiza os horsemen
     for(i = 0; i < game->_horsemanList.size(); i++)
     {
-        if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
-        {
-            // Tenta novamente
-            game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
+        if(game->_horsemanList.at(i)._currentHealth > 0){
+            if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
+            {
+                // Tenta novamente
+                game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
+            }
         }
     }
-
+    // Renderiza os soldiers
+    for(i = 0; i < game->_soldierList.size(); i++)
+    {
+        if(game->_soldierList.at(i)._currentHealth > 0){
+            if(!game->_soldierList.at(i).renderFunction(&game->_soldierList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
+            {
+                // Tenta novamente
+                game->_soldierList.at(i).renderFunction(&game->_soldierList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
+            }
+        }
+    }
+    // Renderiza os projectiles
     for(i = 0; i < game->_projectileList.size(); i++)
     {
-        if(!projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
-        {
-            // Tenta novamente
-            projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
+        if(!game->_projectileList.at(i)._isDead){
+            if(!projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
+            {
+                // Tenta novamente
+                projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
+            }
         }
     }
     gameDrawStats(game);
@@ -300,36 +259,33 @@ void gameNewRound(GAME* game)
     round = round +1;
     int newUnits;
 
-    newUnits = rand() % round;
+    // Remove todos os inimigos e projéteis
+    gameClearLists(game);
+    // Recupera a vida da torre
     game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
+    // Coloca archers
+    newUnits = rand() % round;
     for (int i = 0; i < round + newUnits; i++)
     {
-        try{
-            UNIT archer = createArcher();
-            archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
-            game->_archerList.push_back(archer);
-        }
-        catch(const char* e){
-             printf("Erro: %s\n", e);
-        }
-        catch(...){
-            printf("Unexpected Fatal Error !!\n");
-        }
+        UNIT archer = createArcher();
+        archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
+        game->_archerList.push_back(archer);
     }
+    // Coloca horsemen
     newUnits = rand() % round;
     for (int i = 0; i < round + newUnits ; i++)
     {
-        try{
-            UNIT horseman = createHorseman();
-            horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
-            game->_horsemanList.push_back(horseman);
-        }
-        catch(const char* e){
-             printf("Erro: %s\n", e);
-        }
-        catch(...){
-            printf("Unexpected Fatal Error !!\n");
-        }
+        UNIT horseman = createHorseman();
+        horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
+        game->_horsemanList.push_back(horseman);
+    }
+    // Coloca soldiers
+    newUnits = rand() % round;
+    for (int i = 0; i < round + newUnits ; i++)
+    {
+        UNIT soldier = createSoldier();
+        soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
+        game->_soldierList.push_back(soldier);
     }
 
     game->_emptyList = false;
@@ -346,7 +302,7 @@ void gameDrawStats(GAME* game)
     }
     //Escreve os atributos na tela
     snprintf(text, sizeof(text), "(1) Health (level %d): %d/%d [Upgrade: %d bitcoins]",
-        getAttributeLevel(game->_defenceUnit, HEALTH), game->_defenceUnit._totalHealth, game->_defenceUnit._totalHealth, getAttributeUpgradeCost(game->_defenceUnit, HEALTH));
+        getAttributeLevel(game->_defenceUnit, HEALTH), game->_defenceUnit._currentHealth, game->_defenceUnit._totalHealth, getAttributeUpgradeCost(game->_defenceUnit, HEALTH));
     gameDrawText(game, text, 5, game->_textAreaY + 5);
     snprintf(text, sizeof(text), "(2) Armour (level %d): %d [Upgrade: %d bitcoins]",
         getAttributeLevel(game->_defenceUnit, ARMOUR), game->_defenceUnit._armour, getAttributeUpgradeCost(game->_defenceUnit, ARMOUR));
@@ -371,6 +327,7 @@ void gameDrawStats(GAME* game)
 
 }
 
+/* Escreve uma linha de texto na tela */
 bool gameDrawText(GAME* game, const char* text, int xPos, int yPos)
 {
     SDL_Surface* textSurface;
@@ -392,6 +349,7 @@ bool gameDrawText(GAME* game, const char* text, int xPos, int yPos)
     return true;
 }
 
+/* Compra um upgrade */
 void gamePurchaseUpgrade(GAME* game, ATTRIBUTE attr)
 {
     if(game->_bitCoins >= getAttributeUpgradeCost(game->_defenceUnit, attr)){
@@ -399,4 +357,55 @@ void gamePurchaseUpgrade(GAME* game, ATTRIBUTE attr)
         game->_bitCoins -= getAttributeUpgradeCost(game->_defenceUnit, attr);
         incAttributeLevel(&game->_defenceUnit, attr);
     }
+}
+
+/* Destrói todas as listas de unidades e projéteis */
+void gameClearLists(GAME* game)
+{
+    uint i;
+
+    for(i = 0; i < game->_archerList.size(); i++)
+    {
+        deleteUnit(&game->_archerList.at(i));
+    }
+    for(i = 0; i < game->_horsemanList.size(); i++)
+    {
+        deleteUnit(&game->_horsemanList.at(i));
+    }
+    for(i = 0; i < game->_projectileList.size(); i++)
+    {
+        deleteProjectile(&game->_projectileList.at(i));
+    }
+}
+
+/* Verifica se o round já chegou ao fim */
+bool gameEndOfRound(GAME game)
+{
+    uint i;
+
+    // Verifica a lista de archers
+    for(i = 0; i < game._archerList.size(); i++)
+    {
+        if(game._archerList.at(i)._currentHealth > 0)
+        {
+            return false;
+        }
+    }
+    // Verifica a lista de horsemen
+    for(i = 0; i < game._horsemanList.size(); i++)
+    {
+        if(game._horsemanList.at(i)._currentHealth > 0)
+        {
+            return false;
+        }
+    }
+    // Verifica a lista de soldiers
+    for(i = 0; i < game._soldierList.size(); i++)
+    {
+        if(game._soldierList.at(i)._currentHealth > 0)
+        {
+            return false;
+        }
+    }
+    return true;
 }

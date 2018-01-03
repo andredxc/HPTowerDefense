@@ -9,14 +9,14 @@ int main(int argc, char **argv){
     const int frameDelay = 1000/fps;
     Uint32 frameStart;
     int frameTime;
-    //DefenceUnit tower;
+
     gameInitialize(&game, "HPTowerDefense", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
     while(game._isRunning){
 
         frameStart = SDL_GetTicks();
 
-          // Se todas as listas de enimigos estão vazias -> new round
-        if(game._emptyList){
+        // Se todas as listas de enimigos estão vazias -> new round
+        if(gameEndOfRound(game)){
             gameNewRound(&game);
         }
 

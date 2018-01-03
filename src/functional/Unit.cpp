@@ -152,9 +152,20 @@ void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer)
     destRect.y = unit._healthBarY;
     destRect.w = healthLostWidth;
     destRect.h = unit._healthBarHeight;
-    fprintf(stderr, "Rendering health bar\n");
     SDL_RenderCopy(renderer, tempTexture, NULL, &destRect);
-    fprintf(stderr, "Rendered health bar\n");
+}
+
+/* Retorna as moedas ganhas por matar a unidade */
+int unitGetReward(UNIT* unit)
+{
+    if(unit->_reward == 0)
+    {
+        return 0;
+    }
+    int reward = unit->_reward;
+    // Evita que a mesma recompensa seja dada mais de uma vez
+    unit->_reward = 0;
+    return reward;
 }
 
 /* Retorna o nível de um atributo */

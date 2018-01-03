@@ -147,13 +147,34 @@ UNIT createSoldier()
     UNIT soldier;
 
     soldier = createUnit();
-    soldier._reward = 30;
+
+    //Determina os valores base de atributos
+    soldier._meleeDamage = 5;
+    soldier._baseHealth = 30;
+    soldier._baseArmour = 0;
+    soldier._baseRangedDamage = 5;
+    soldier._baseNumberOfTargets = 1;
+    soldier._baseAttackDelay = 600;
+    soldier._baseAttackRange = 20;
+    //Determina os valores dos atributos
+    soldier._totalHealth = getAttributeValue(soldier, HEALTH, soldier._healthLevel);
+    soldier._armour = getAttributeValue(soldier, ARMOUR, soldier._healthLevel);
+    soldier._rangedDamage = getAttributeValue(soldier, DAMAGE, soldier._healthLevel);
+    soldier._numberOfTargets = getAttributeValue(soldier, TARGETS, soldier._healthLevel);
+    soldier._attackDelay = getAttributeValue(soldier, DELAY, soldier._healthLevel);
+    soldier._attackRange = getAttributeValue(soldier, RANGE, soldier._healthLevel);
+    soldier._currentHealth = soldier._totalHealth;
+    soldier._width = 10;
+    soldier._height = 10;
+    soldier._speed = 20;
+    soldier._reward = 10;
     soldier._unitType = SOLDIER;
     //Atribui as funções
     soldier.updateFunction = attackUpdate;
     soldier.spawnFunction = attackSpawn;
     soldier.renderFunction = render;
     soldier.recoverHealthFunction = recoverHealth;
+
 
     return soldier;
 }
@@ -166,10 +187,10 @@ UNIT createHorseman()
     horseman = createUnit();
 
     //Determina os valores base de atributos
-    horseman._meleeDamage = 0;
+    horseman._meleeDamage = 10;
     horseman._baseHealth = 40;
     horseman._baseArmour = 0;
-    horseman._baseRangedDamage = 5;
+    horseman._baseRangedDamage = 0;
     horseman._baseNumberOfTargets = 1;
     horseman._baseAttackDelay = 500;
     horseman._baseAttackRange = 20;

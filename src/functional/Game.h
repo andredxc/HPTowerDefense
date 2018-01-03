@@ -44,7 +44,9 @@ void gameNewRound(GAME* game);
 void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit);
 void gameDrawStats(GAME* game);
 bool gameDrawText(GAME* game, const char* text, int xPos, int yPos);
-void gamePurchaseUpgrade(ATTRIBUTE attr);
+void gamePurchaseUpgrade(GAME* game, ATTRIBUTE attr);
+void gameClearLists(GAME* game);
+bool gameEndOfRound(GAME game);
 
 /*
 std::vector<Projectile> _projectileList;

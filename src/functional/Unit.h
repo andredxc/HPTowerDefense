@@ -44,6 +44,7 @@ bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeigh
 void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer);
 void takeDamage(UNIT* unit, int attackDamage);
 void unitSetHealthBar(UNIT* unit, int xPos, int yPos, int width, int height);
+int unitGetReward(UNIT* unit);
 
 int getAttributeLevel(UNIT unit, ATTRIBUTE attr);
 int getAttributeValue(UNIT unit, ATTRIBUTE attr, int level);

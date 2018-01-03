@@ -15,6 +15,7 @@ PROJECTILE createProjectile(UNIT* target, int xPos, int yPos, int attackDamage)
     proj._height = 4;
     proj._visualTex = NULL;
     proj._target = target;
+    proj._isDead = false;
 
     return proj;
 }
@@ -25,10 +26,15 @@ void deleteProjectile(PROJECTILE* proj)
     SDL_DestroyTexture(proj->_visualTex);
 }
 
-int projectileUpdate(PROJECTILE* proj)
+void projectileUpdate(PROJECTILE* proj)
 {
     int distanceToMove, distanceToTarget;
     int defenceTargetX, defenceTargetY;
+
+    if(proj->_isDead)
+    {
+        return;
+    }
 
     //Calculo da posição da torre deve levar em consideração o tamanho
     //Para que a unidade não fique em cima ou embaixo dela
@@ -78,15 +84,14 @@ int projectileUpdate(PROJECTILE* proj)
     if(proj->_xPos >= proj->_target->_xPos && proj->_xPos <= proj->_target->_xPos + proj->_target->_width){
         if(proj->_yPos >= proj->_target->_yPos && proj->_yPos <= proj->_target->_yPos + proj->_target->_height){
             //Projétil está dentro da área do seu alvo
-            projectileAttack(*proj, proj->_target);
-            return 1;
+            projectileAttack(proj, proj->_target);
+            return;
         }
     }
     else{
         //Percorre distanceToMove
         projectileMove(proj, distanceToTarget, distanceToMove, defenceTargetX, defenceTargetY);
     }
-    return 0; // Não deve ser inserido na killList
 }
 
 void projectileMove(PROJECTILE* proj, int distanceToTarget, int distance, int directionX, int directionY)
@@ -98,9 +103,10 @@ void projectileMove(PROJECTILE* proj, int distanceToTarget, int distance, int di
     }
 }
 
-void projectileAttack(PROJECTILE proj, UNIT* target)
+void projectileAttack(PROJECTILE* proj, UNIT* target)
 {
-    takeDamage(target, proj._damage);
+    takeDamage(target, proj->_damage);
+    proj->_isDead = true;
 }
 
 bool projectileRender(PROJECTILE* proj, SDL_Renderer* renderer, int screenWidth, int screenHeight)
