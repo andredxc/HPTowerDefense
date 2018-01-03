@@ -8,7 +8,7 @@ struct CloseUnit{
     int distance;
 };
 
-int defenceAttack(UNIT* defenceUnit, UNIT* target)
+int defenceAttack(UNIT* defenceUnit)
 {
     int elapsedTime;
 
@@ -31,42 +31,39 @@ int defenceUpdate(UNIT* defenceUnit, UNIT* target)
 
     if((int)distanceToTarget <= defenceUnit->_attackRange){
         //Alvo está dentro do alcance da torre
-        return defenceUnit->attackFunction(defenceUnit, target);
+        return defenceAttack(defenceUnit);
     }
 
     return 0;
 }
 
-//TODO: Arrumar isso depois que o básico estiver funcionando
-/*
-void attackClosestUnits(UNIT* defenceUnit, std::vector<Archer>* archerList, std::vector<Horseman>* horsemanList, std::vector<Soldier>* soldierList, std::vector<Projectile>* projectileList)
+void attackClosestUnits(UNIT* defenceUnit, std::vector<UNIT>* archerList, std::vector<UNIT>* horsemanList, std::vector<UNIT>* soldierList, std::vector<PROJECTILE>* projectileList)
 {
     int i, j, attackDamage, chosenIndex;
     std::vector<struct CloseUnit> closeUnits;
     struct CloseUnit closeUnitBuffer;
 
+    // Preenche listas com as distâncias para cada unidade
     for(i = 0; (uint) i < archerList->size(); i++){
         closeUnitBuffer.index = i;
         closeUnitBuffer.type = ARCHER;
-        closeUnitBuffer.distance = sqrt(pow((_xPos - archerList->at(i).getXPos()), 2) + pow((_yPos - archerList->at(i).getYPos()), 2));
+        closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - archerList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - archerList->at(i)._yPos), 2));
         closeUnits.push_back(closeUnitBuffer);
     }
-
     for(i = 0; (uint) i < horsemanList->size(); i++){
         closeUnitBuffer.index = i;
         closeUnitBuffer.type = HORSEMAN;
-        closeUnitBuffer.distance = sqrt(pow((_xPos - horsemanList->at(i).getXPos()), 2) + pow((_yPos - horsemanList->at(i).getYPos()), 2));
+        closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - horsemanList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - horsemanList->at(i)._yPos), 2));
         closeUnits.push_back(closeUnitBuffer);
     }
-
     for(i = 0; (uint) i < soldierList->size(); i++){
         closeUnitBuffer.index = i;
         closeUnitBuffer.type = SOLDIER;
-        closeUnitBuffer.distance = sqrt(pow((_xPos - soldierList->at(i).getXPos()), 2) + pow((_yPos - soldierList->at(i).getYPos()), 2));
+        closeUnitBuffer.distance = sqrt(pow((defenceUnit->_xPos - soldierList->at(i)._xPos), 2) + pow((defenceUnit->_yPos - soldierList->at(i)._yPos), 2));
         closeUnits.push_back(closeUnitBuffer);
     }
-
-    for(i = 0; i < _numberOfTargets; i++){
+    // Ataca os alvos mais próximos
+    for(i = 0; i < defenceUnit->_numberOfTargets; i++){
         for(j = 0; (uint) j < closeUnits.size(); j++){
             //Encontra a unidade mais próxima
             if(closeUnits.at(j).distance <= closeUnitBuffer.distance){
@@ -78,23 +75,23 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<Archer>* archerList, std:
         //Ataca a unidade
         switch (closeUnitBuffer.type){
             case ARCHER:
-                attackDamage = update(&archerList->at(closeUnitBuffer.index));
+                attackDamage = defenceUpdate(defenceUnit, &archerList->at(closeUnitBuffer.index));
                 if(attackDamage > 0){
-                    Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &archerList->at(closeUnitBuffer.index));
+                    PROJECTILE projectileBuffer = createProjectile(&archerList->at(closeUnitBuffer.index), defenceUnit->_xPos, defenceUnit->_yPos, attackDamage);
                     projectileList->push_back(projectileBuffer);
                 }
                 break;
             case HORSEMAN:
-                attackDamage = update(&horsemanList->at(closeUnitBuffer.index));
+                attackDamage = defenceUpdate(defenceUnit, &horsemanList->at(closeUnitBuffer.index));
                 if(attackDamage > 0){
-                    Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &horsemanList->at(closeUnitBuffer.index));
+                    PROJECTILE projectileBuffer = createProjectile(&horsemanList->at(closeUnitBuffer.index), defenceUnit->_xPos, defenceUnit->_yPos, attackDamage);
                     projectileList->push_back(projectileBuffer);
                 }
                 break;
             case SOLDIER:
-                attackDamage = update(&horsemanList->at(closeUnitBuffer.index));
+                attackDamage = defenceUpdate(defenceUnit, &horsemanList->at(closeUnitBuffer.index));
                 if(attackDamage > 0){
-                    Projectile projectileBuffer(2, attackDamage, 4, 4, _xPos, _yPos, &soldierList->at(closeUnitBuffer.index));
+                    PROJECTILE projectileBuffer = createProjectile(&soldierList->at(closeUnitBuffer.index), defenceUnit->_xPos, defenceUnit->_yPos, attackDamage);
                     projectileList->push_back(projectileBuffer);
                 }
                 break;
@@ -106,7 +103,6 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<Archer>* archerList, std:
     }
 
 }
-*/
 
 void defenceSpawn(UNIT* defenceUnit, int screenWidth, int screenHeight)
 {
@@ -139,7 +135,6 @@ UNIT createDefenceUnit()
     defenceUnit._meleeDamage = 0;
     defenceUnit._unitType = DEFENCE;
     //Atribui as funções
-    defenceUnit.attackFunction = defenceAttack;
     defenceUnit.updateFunction = defenceUpdate;
     defenceUnit.spawnFunction = defenceSpawn;
     defenceUnit.renderFunction = render;

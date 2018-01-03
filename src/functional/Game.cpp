@@ -107,21 +107,21 @@ void gameHandleEvents(GAME* game)
 void gameUpdate(GAME* game)
 {
     uint i;
+    bool kill;
+    int killPos, projectileIndex=0, archerIndex=0, horsemanIndex=0;
 
     if(game->_archerList.size() == 0 && game->_horsemanList.size() == 0){
         game->_emptyList = true;
     }
 
     //Atualiza a torre de defesa
-    // TODO: Fazer isso funcionar
-    //attackClosestUnits(game->_defenceUnit, &game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
+    attackClosestUnits(&game->_defenceUnit, &game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
 
     //Atualiza os projéteis
-    /*
     for(i = 0; i < game->_projectileList.size(); i++){
 
         try{
-            kill = game->_projectileList.at(i).update();
+            kill = projectileUpdate(&game->_projectileList.at(i));
         }
         catch (const std::out_of_range& oor) {
             printf("[PROJECTILE] Out of Range error: %s\n", oor.what());
@@ -129,10 +129,9 @@ void gameUpdate(GAME* game)
 
         if(kill){
             //O projetil deve ser excluído das estruturas
-            gameAddToKillList(&game->_killList, i, PROJECTILE);
+            gameAddToKillList(&game->_killList, i, PROJ);
          }
     }
-    */
 
     //Atualiza os arqueiros
     /*
@@ -178,13 +177,12 @@ void gameUpdate(GAME* game)
     }
 
     // Elimina os objetos dentro da killList
-    /*
     for(i = 0; i < game->_killList.size(); i++){
 
         killPos = game->_killList.at(i)._pos;
         switch(game->_killList.at(i)._type){
 
-            case PROJECTILE:{
+            case PROJ:{
 
                 try{
                     game->_projectileList.erase(game->_projectileList.begin() + killPos - projectileIndex); projectileIndex++; break;
@@ -223,7 +221,6 @@ void gameUpdate(GAME* game)
      }
 
      game->_killList.clear();     // Desaloca toda a lista de unidades por matar
-     */
 }
 
 /* Adiciona um elemento a lista e unidades que devem ser desalocadas */
@@ -276,16 +273,14 @@ void gameRender(GAME* game)
         }
     }
 
-    /*
-    for(i = 0; i < _projectileList.size(); i++)
+    for(i = 0; i < game->_projectileList.size(); i++)
     {
-        if(!_projectileList.at(i).render(_renderer, _screenWidth, _screenHeight))
+        if(!projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
         {
             // Tenta novamente
-            _projectileList.at(i).render(_renderer, _screenWidth, _screenHeight);
+            projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
         }
     }
-    */
     gameDrawStats(game);
 
     SDL_RenderPresent(game->_renderer);

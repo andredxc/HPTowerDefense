@@ -1,43 +1,31 @@
+#include <SDL2/SDL_image.h>
 #include "Projectile.h"
 
-#include <SDL2/SDL_image.h>
-
-Projectile::Projectile()
+PROJECTILE createProjectile(UNIT* target, int xPos, int yPos, int attackDamage)
 {
-    _speed = -1;
-    _damage = -1;
-    _xPos = -1;
-    _yPos = -1;
-    _destXPos = -1;
-    _destYPos = -1;
-    _width = -1;
-    _height = -1;
-    _target = NULL;
-    _visualTex = NULL;
+    PROJECTILE proj;
+
+    proj._speed = 2;
+    proj._damage = attackDamage;
+    proj._xPos = xPos;
+    proj._yPos = yPos;
+    proj._destXPos = target->_xPos;
+    proj._destYPos = target->_yPos;
+    proj._width = 4;
+    proj._height = 4;
+    proj._visualTex = NULL;
+    proj._target = target;
+
+    return proj;
 }
 
-Projectile::Projectile(int speed, int damage, int width, int height, int xPos, int yPos, Unit* target)
+/* Desaloca os dados referentes a um projétil */
+void deleteProjectile(PROJECTILE* proj)
 {
-    _speed = speed;
-    _damage = damage;
-    _xPos = xPos;
-    _yPos = yPos;
-    _width = width;
-    _height = height;
-    _target = target;
-    _destXPos = target->getXPos();
-    _destYPos = target->getYPos();
-    _visualTex = NULL;
+    SDL_DestroyTexture(proj->_visualTex);
 }
 
-Projectile::~Projectile()
-{
-    if(_visualTex){
-        SDL_DestroyTexture(_visualTex);
-    }
-}
-
-int Projectile::update()
+int projectileUpdate(PROJECTILE* proj)
 {
     int distanceToMove, distanceToTarget;
     int defenceTargetX, defenceTargetY;
@@ -66,12 +54,12 @@ int Projectile::update()
     // fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
     // fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
     // fprintf(stderr, "DAMAGE: %d\n", _damage);
-    defenceTargetY = _target->getYPos() + _target->getWidth()/2;
-    defenceTargetX = _target->getXPos() + _target->getHeight()/2;
+    defenceTargetY = proj->_target->_yPos + proj->_target->_width/2;
+    defenceTargetX = proj->_target->_xPos + proj->_target->_height/2;
 
 
     //Calcula a distância entre a unidade e a torre
-    distanceToTarget = sqrt(pow((_xPos - defenceTargetX), 2) + pow((_yPos - defenceTargetY), 2));
+    distanceToTarget = sqrt(pow((proj->_xPos - defenceTargetX), 2) + pow((proj->_yPos - defenceTargetY), 2));
     // fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
 
     //Calcula a distância que a unidade deve percorrer
@@ -80,8 +68,6 @@ int Projectile::update()
     // _lastIterationTime = SDL_GetTicks();
 
     distanceToMove = 5;
-    // fprintf(stderr, "DISTANCE TO MOVE: %d\n", distanceToMove);
-    // fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
 
     if(distanceToMove >= distanceToTarget){
         //Caso a distância passe da torre
@@ -89,61 +75,58 @@ int Projectile::update()
     }
 
     //Define a ação da unidade
-    if(_xPos >= _target->getXPos() && _xPos <= _target->getXPos() + _target->getWidth()){
-        if(_yPos >= _target->getYPos() && _yPos <= _target->getYPos() + _target->getHeight()){
+    if(proj->_xPos >= proj->_target->_xPos && proj->_xPos <= proj->_target->_xPos + proj->_target->_width){
+        if(proj->_yPos >= proj->_target->_yPos && proj->_yPos <= proj->_target->_yPos + proj->_target->_height){
             //Projétil está dentro da área do seu alvo
-            attack();
+            projectileAttack(*proj, proj->_target);
             return 1;
         }
     }
     else{
         //Percorre distanceToMove
-        move(distanceToTarget, distanceToMove, defenceTargetX, defenceTargetY);
+        projectileMove(proj, distanceToTarget, distanceToMove, defenceTargetX, defenceTargetY);
     }
     return 0; // Não deve ser inserido na killList
 }
 
-void Projectile::move(int distanceToTarget, int distance, int directionX, int directionY)
+void projectileMove(PROJECTILE* proj, int distanceToTarget, int distance, int directionX, int directionY)
 {
-    //int proportion = 0;
-
     if(distance > 0)
     {
-         //proportion = distance / distanceToTarget ; // % que temos que andar em X e Y
-        _xPos = _xPos + (distance * (directionX - _xPos))/ distanceToTarget;
-        _yPos = _yPos + (distance * (directionY - _yPos))/ distanceToTarget;
+        proj->_xPos = proj->_xPos + (distance * (directionX - proj->_xPos))/ distanceToTarget;
+        proj->_yPos = proj->_yPos + (distance * (directionY - proj->_yPos))/ distanceToTarget;
     }
 }
 
-void Projectile::attack()
+void projectileAttack(PROJECTILE proj, UNIT* target)
 {
-    _target->takeDamage(_damage);
+    takeDamage(target, proj._damage);
 }
 
-bool Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeight)
+bool projectileRender(PROJECTILE* proj, SDL_Renderer* renderer, int screenWidth, int screenHeight)
 {
     SDL_Rect destRect;
     SDL_Surface* tempSurface;
 
-    if(_xPos == -1 || _yPos == -1){
+    if(proj->_xPos == -1 || proj->_yPos == -1){
         fprintf(stderr, "Error, projectile has X or Y set to -1\n");
         return false;
     }
 
-    destRect.w = _width;
-    destRect.h = _height;
-    destRect.x = _xPos;
-    destRect.y = _yPos;
+    destRect.w = proj->_width;
+    destRect.h = proj->_height;
+    destRect.x = proj->_xPos;
+    destRect.y = proj->_yPos;
 
     if(!renderer){
         fprintf(stderr, "Error rendering unit, renderer is NULL\n");
         return false;
     }
-    if(!_visualTex){
+    if(!proj->_visualTex){
         //Define a texture da unidade
         tempSurface = IMG_Load(PROJECTILE_BMP_FILE);
         if(tempSurface){
-            _visualTex = SDL_CreateTextureFromSurface(renderer, tempSurface);
+            proj->_visualTex = SDL_CreateTextureFromSurface(renderer, tempSurface);
         }
         else{
             fprintf(stderr, "Error loading file for projectile\n");
@@ -151,14 +134,12 @@ bool Projectile::render(SDL_Renderer* renderer, int screenWidth, int screenHeigh
         SDL_FreeSurface(tempSurface);
     }
 
-    if(SDL_RenderCopy(renderer, _visualTex, NULL, &destRect) < 0){
+    if(SDL_RenderCopy(renderer, proj->_visualTex, NULL, &destRect) < 0){
         // Caso de erro, pode ser causado por uma textura perdida, força a recriação
-        SDL_DestroyTexture(_visualTex);
-        _visualTex = NULL;
+        SDL_DestroyTexture(proj->_visualTex);
+        proj->_visualTex = NULL;
         return false;
     }
 
     return true;
 }
-
-Unit* Projectile::getTarget(){ return _target; }

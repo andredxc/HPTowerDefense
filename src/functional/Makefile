@@ -1,13 +1,13 @@
 GAME_NAME=hp
 CC=g++
 
-all: main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o
+all: main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o Projectile.o
 
-	$(CC) -o $(GAME_NAME) main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o -lSDL2 -lSDL2_image -lSDL2_ttf
+	$(CC) -o $(GAME_NAME) main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o Projectile.o -lSDL2 -lSDL2_image -lSDL2_ttf
 
-debug: main.cpp debugUnit debugAttackUnit debugDefenceUnit debugGame
+debug: main.cpp debugUnit debugAttackUnit debugDefenceUnit debugGame debugProjectile
 
-	$(CC) -o $(GAME_NAME) main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o -lSDL2 -lSDL2_image -lSDL2_ttf -g
+	$(CC) -o $(GAME_NAME) main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o Projectile.o -lSDL2 -lSDL2_image -lSDL2_ttf -g
 
 Unit.o:
 	$(CC) -c Unit.cpp -Wall -lSDL2
@@ -32,6 +32,12 @@ Game.o:
 
 debugGame:
 	$(CC) -c Game.cpp -Wall -lSDL2 -g
+
+Projectile.o:
+	$(CC) -c Projectile.cpp -Wall -lSDL2
+
+debugProjectile:
+	$(CC) -c Projectile.cpp -Wall -lSDL2 -g
 
 clean:
 	rm *.o $(GAME_NAME)

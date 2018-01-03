@@ -30,8 +30,7 @@ typedef struct game{
     std::vector<UNIT> _soldierList;
     std::vector<UNIT> _archerList;
     std::vector<UNIT> _horsemanList;
-    //TODO: adicionar projéteis
-    // std::vector<PROJECTILE> _projectileList;
+    std::vector<PROJECTILE> _projectileList;
     std::vector<KILL_ITEM> _killList;
     UNIT _defenceUnit;
 } GAME;

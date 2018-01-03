@@ -25,6 +25,12 @@ UNIT createUnit()
     return newUnit;
 }
 
+/* Desaloca os dados referentes a uma unidade */
+void deleteUnit(UNIT* unit)
+{
+    SDL_DestroyTexture(unit->_visualTex);
+}
+
 /* Recupera totalmente a vida de uma unidade */
 void recoverHealth(UNIT* unit)
 {

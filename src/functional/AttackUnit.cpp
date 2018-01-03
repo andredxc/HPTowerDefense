@@ -133,7 +133,6 @@ UNIT createArcher()
     archer._speed = 25;
     archer._unitType = ARCHER;
     //Atribui as funções
-    archer.attackFunction = attackAttack;
     archer.updateFunction = attackUpdate;
     archer.spawnFunction = attackSpawn;
     archer.renderFunction = render;
@@ -151,7 +150,6 @@ UNIT createSoldier()
     soldier._reward = 30;
     soldier._unitType = SOLDIER;
     //Atribui as funções
-    soldier.attackFunction = attackAttack;
     soldier.updateFunction = attackUpdate;
     soldier.spawnFunction = attackSpawn;
     soldier.renderFunction = render;
@@ -189,7 +187,6 @@ UNIT createHorseman()
     horseman._speed = 35;
     horseman._unitType = HORSEMAN;
     //Atribui as funções
-    horseman.attackFunction = attackAttack;
     horseman.updateFunction = attackUpdate;
     horseman.spawnFunction = attackSpawn;
     horseman.renderFunction = render;

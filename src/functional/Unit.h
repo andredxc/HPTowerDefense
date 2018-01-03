@@ -12,7 +12,7 @@
 #define HEALTHBAR_GREEN_BMP_FILE    "../../img/healthBarGreen.bmp"
 #define HEALTHBAR_RED_BMP_FILE 		"../../img/healthBarRed.bmp"
 
-enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER,PROJECTILE};
+enum UNIT_TYPE{DEFENCE, ARCHER, HORSEMAN, SOLDIER, PROJ};   // Abreviei para não dar conflito com a struct
 enum ATTRIBUTE{HEALTH, ARMOUR, DAMAGE, TARGETS, DELAY, RANGE};
 
 typedef struct Unit{
@@ -30,7 +30,6 @@ typedef struct Unit{
     SDL_Texture *_visualTex;
     UNIT_TYPE _unitType;
     // Ponteiros para funções
-    int (*attackFunction)(struct Unit* unit, struct Unit* target);
     int (*updateFunction)(struct Unit* unit, struct Unit* target);
     void (*spawnFunction)(struct Unit* unit, int screenWidth, int screenHeight);
     bool (*renderFunction)(struct Unit* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight);
@@ -39,6 +38,7 @@ typedef struct Unit{
 } UNIT;
 
 UNIT createUnit();
+void deleteUnit(UNIT* unit);
 void recoverHealth(UNIT* unit);
 bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight);
 void unitRenderHealthBar(UNIT unit, SDL_Renderer* renderer);

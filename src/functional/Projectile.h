@@ -7,27 +7,18 @@
 
 #define PROJECTILE_BMP_FILE "../../img/projectile.bmp"
 
-class Projectile{
-
-protected:
+typedef struct projectile{
     int _speed, _damage, _destXPos, _destYPos;
     int _width, _height, _xPos, _yPos;
     SDL_Texture* _visualTex;
-    Unit* _target;
+    UNIT* _target;
+} PROJECTILE;
 
-public:
-    Projectile();
-    Projectile(int speed, int damage, int witdh, int height, int xPos, int yPos, Unit* target);
-    ~Projectile();
-
-    int update();
-    bool render(SDL_Renderer* renderer, int screenWidth, int screenHeight);
-    void attack();
-
-    Unit* getTarget();
-
-protected:
-    void move(int distanceToTarget, int distance, int directionX, int directionY);
-};
+PROJECTILE createProjectile(UNIT* target, int xPos, int yPos, int attackDamage);
+void deleteProjectile(PROJECTILE* proj);
+int projectileUpdate(PROJECTILE* project);
+void projectileMove(PROJECTILE* proj, int distanceToTarget, int distance, int directionX, int directionY);
+void projectileAttack(PROJECTILE proj, UNIT* target);
+bool projectileRender(PROJECTILE* proj, SDL_Renderer* renderer, int screenWidth, int screenHeight);
 
 #endif
