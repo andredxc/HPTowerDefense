@@ -228,6 +228,36 @@ void gameClean(GAME* game)
     SDL_DestroyRenderer(game->_renderer);
 }
 
+std::vector<UNIT> createUnitList(int i, int unit, int size, GAME* game)
+{
+	std::vector<UNIT> lista;
+	if(i < size)
+	{
+		UNIT unidade;
+		switch(unit)
+		{
+			case 0:
+				unidade = createArcher();
+				break;
+			case 1:
+				unidade = createHorseman();
+				break;
+			case 2:
+				unidade = createSoldier();
+				break;
+		}	
+		
+		
+		unidade.spawnFunction(&unidade, game->_screenWidth, game->_screenHeight);
+		i++;
+		lista = createUnitList(i,unit,size, game);
+		lista.push_back(unidade);
+	}
+	return lista;
+	
+}
+
+
 /* Cria as unidades para um novo round */
 void gameNewRound(GAME* game)
 {
@@ -239,30 +269,36 @@ void gameNewRound(GAME* game)
     gameClearLists(game);
     // Recupera a vida da torre
     game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
+    
     // Coloca archers
     newUnits = rand() % round;
-    for (int i = 0; i < round + newUnits; i++)
-    {
-        UNIT archer = createArcher();
-        archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
-        game->_archerList.push_back(archer);
-    }
+    game->_archerList = createUnitList(0, 0, round + newUnits, game);
+    
+    //~ for (int i = 0; i < round + newUnits; i++)
+    //~ {
+        //~ UNIT archer = createArcher();
+        //~ archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
+        //~ game->_archerList.push_back(archer);
+    //~ }
     // Coloca horsemen
+    
     newUnits = rand() % round;
-    for (int i = 0; i < round + newUnits ; i++)
-    {
-        UNIT horseman = createHorseman();
-        horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
-        game->_horsemanList.push_back(horseman);
-    }
+    game->_horsemanList = createUnitList(0, 1, round + newUnits, game);
+    //~ for (int i = 0; i < round + newUnits ; i++)
+    //~ {
+        //~ UNIT horseman = createHorseman();
+        //~ horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
+        //~ game->_horsemanList.push_back(horseman);
+    //~ }
     // Coloca soldiers
     newUnits = rand() % round;
-    for (int i = 0; i < round + newUnits ; i++)
-    {
-        UNIT soldier = createSoldier();
-        soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
-        game->_soldierList.push_back(soldier);
-    }
+    game->_soldierList = createUnitList(0, 2, round + newUnits, game);
+    //~ for (int i = 0; i < round + newUnits ; i++)
+    //~ {
+        //~ UNIT soldier = createSoldier();
+        //~ soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
+        //~ game->_soldierList.push_back(soldier);
+    //~ }
 
     game->_emptyList = false;
 };
