@@ -112,9 +112,48 @@ void gameUpdate(GAME* game)
             projectileUpdate(&P);            
         }
     };
+    auto updateArcher = [&game]( UNIT& U ){
+        int rangedAttackDamage;
+         if(U._currentHealth > 0)
+                {
+                    rangedAttackDamage = U.updateFunction(&U, &game->_defenceUnit);
+                    if(rangedAttackDamage > 0)
+                    {
+                        // O arqueiro lança um projétil em diração a torre
+                        PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, game->_defenceUnit._xPos, game->_defenceUnit._yPos, rangedAttackDamage);
+            // Aqui devemos criar uma nova lista para inerir o novo projetil 
+                        game->_projectileList.push_back(projectileBuffer);
+                    }
+                }
+                else
+                {
+                    game->_bitCoins += unitGetReward(&U);
+                }        
 
-    uint i;
-    int rangedAttackDamage;
+    };    
+    auto updateHorseman = [&game]( UNIT& U ){
+         if(U._currentHealth > 0)
+        {
+            U.updateFunction(&U, &game->_defenceUnit);
+        }
+        else
+        {
+            game->_bitCoins += unitGetReward(&U);
+        }        
+
+    };
+    auto updateSoldier = [&game]( UNIT& U ){
+        if(U._currentHealth > 0)
+        {
+            U.updateFunction(&U, &game->_defenceUnit);
+        }
+        else
+        {
+            game->_bitCoins += unitGetReward(&U);
+        }
+    };
+   // uint i;
+    //int rangedAttackDamage;
 
     if(game->_archerList.size() == 0 && game->_horsemanList.size() == 0){
         game->_emptyList = true;
@@ -125,8 +164,8 @@ void gameUpdate(GAME* game)
 
     // Atualiza os projeteis
     std::for_each(game->_projectileList.begin(),game->_projectileList.end(),updateProjectile);
-/*
 
+/*
     //Atualiza os projéteis
     for(i = 0; i < game->_projectileList.size(); i++)
     {
@@ -140,6 +179,8 @@ void gameUpdate(GAME* game)
     }
 
 */
+    std::for_each(game->_archerList.begin(),game->_archerList.end(),updateArcher);
+/*
     //Atualiza os arqueiros
     for(i = 0; i < game->_archerList.size(); i++)
     {
@@ -148,6 +189,7 @@ void gameUpdate(GAME* game)
             rangedAttackDamage = game->_archerList.at(i).updateFunction(&game->_archerList.at(i), &game->_defenceUnit);
             if(rangedAttackDamage > 0)
             {
+                printf("Criando projetil \n");
                 // O arqueiro lança um projétil em diração a torre
                 PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, game->_defenceUnit._xPos, game->_defenceUnit._yPos, rangedAttackDamage);
                 game->_projectileList.push_back(projectileBuffer);
@@ -158,7 +200,10 @@ void gameUpdate(GAME* game)
             game->_bitCoins += unitGetReward(&game->_archerList.at(i));
         }
     }
-    // Atualiza os horsemen
+
+*/
+    std::for_each(game->_horsemanList.begin(),game->_horsemanList.end(),updateHorseman);
+/*    // Atualiza os horsemen
     for (i = 0; i < game->_horsemanList.size(); i++)
     {
         if(game->_horsemanList.at(i)._currentHealth > 0)
@@ -170,8 +215,10 @@ void gameUpdate(GAME* game)
             game->_bitCoins += unitGetReward(&game->_horsemanList.at(i));
         }
     }
+*/
+    std::for_each(game->_soldierList.begin(),game->_soldierList.end(),updateSoldier);
     // Atualiza soldiers
-    for (i = 0; i < game->_soldierList.size(); i++)
+/*    for (i = 0; i < game->_soldierList.size(); i++)
     {
         if(game->_soldierList.at(i)._currentHealth > 0)
         {
@@ -182,6 +229,7 @@ void gameUpdate(GAME* game)
             game->_bitCoins += unitGetReward(&game->_soldierList.at(i));
         }
     }
+*/
 }
 
 /* Adiciona um elemento a lista e unidades que devem ser desalocadas */
