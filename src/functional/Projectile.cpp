@@ -36,44 +36,13 @@ void projectileUpdate(PROJECTILE* proj)
         return;
     }
 
-    //Calculo da posição da torre deve levar em consideração o tamanho
-    //Para que a unidade não fique em cima ou embaixo dela
-
-    // if(_target->getXPos() > _xPos)
-    // {
-    //     defenceTargetX = _target->getXPos() - _target->getWidth()/2;
-    // }
-    // else
-    // {
-    //     defenceTargetX = _target->getXPos() + _target->getWidth()/2;
-    // }
-
-    // if(_target->getYPos() > _yPos)
-    // {
-    //     defenceTargetY = _target->getYPos() - _target->getHeight()/2;
-    // }
-    // else
-    // {
-    //     defenceTargetY = _target->getYPos() + _target->getHeight()/2;
-    // }
-
-    // fprintf(stderr, "TARGET width: %d, TARGET height: %d\n", _target->getWidth(), _target->getHeight());
-    // fprintf(stderr, "TARGET posx: %d, TARGET posy: %d\n", _target->getXPos(),_target->getYPos());
-    // fprintf(stderr, "DAMAGE: %d\n", _damage);
     defenceTargetY = proj->_target->_yPos + proj->_target->_width/2;
     defenceTargetX = proj->_target->_xPos + proj->_target->_height/2;
 
-
     //Calcula a distância entre a unidade e a torre
     distanceToTarget = sqrt(pow((proj->_xPos - defenceTargetX), 2) + pow((proj->_yPos - defenceTargetY), 2));
-    // fprintf(stderr, "DISTANCE TO TARGET: %d\n", distanceToTarget);
-
-    //Calcula a distância que a unidade deve percorrer
-    // elapsedTime = SDL_GetTicks() - _lastIterationTime;
-    // distanceToMove = elapsedTime*_speed/1000;
-    // _lastIterationTime = SDL_GetTicks();
-
     distanceToMove = 5;
+    //TODO: fazer o cálculo similar ao das unidades
 
     if(distanceToMove >= distanceToTarget){
         //Caso a distância passe da torre

@@ -102,134 +102,63 @@ void gameHandleEvents(GAME* game)
     }
 }
 
-
 /* Atualiza o renderer que será mostrado na tela */
 void gameUpdate(GAME* game)
 {
-    auto updateProjectile = []( PROJECTILE& P ){
-         
-        if(!P._isDead){
-            projectileUpdate(&P);            
+    auto updateProjectile = [](PROJECTILE& proj)
+    {
+        if(!proj._isDead)
+        {
+            projectileUpdate(&proj);
         }
     };
-    auto updateArcher = [&game]( UNIT& U ){
+    auto updateArcher = [&game](UNIT& archer){
         int rangedAttackDamage;
-         if(U._currentHealth > 0)
-                {
-                    rangedAttackDamage = U.updateFunction(&U, &game->_defenceUnit);
-                    if(rangedAttackDamage > 0)
-                    {
-                        // O arqueiro lança um projétil em diração a torre
-                        PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, game->_defenceUnit._xPos, game->_defenceUnit._yPos, rangedAttackDamage);
-            // Aqui devemos criar uma nova lista para inerir o novo projetil 
-                        game->_projectileList.push_back(projectileBuffer);
-                    }
-                }
-                else
-                {
-                    game->_bitCoins += unitGetReward(&U);
-                }        
-
-    };    
-    auto updateHorseman = [&game]( UNIT& U ){
-         if(U._currentHealth > 0)
+        if(archer._currentHealth > 0)
         {
-            U.updateFunction(&U, &game->_defenceUnit);
+            rangedAttackDamage = archer.updateFunction(&archer, &game->_defenceUnit);
+            if(rangedAttackDamage > 0)
+            {
+                // O arqueiro lança um projétil em diração a torre
+                // Aqui devemos criar uma nova lista para inerir o novo projetil
+                PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, archer._xPos, archer._yPos, rangedAttackDamage);
+                game->_projectileList.push_back(projectileBuffer);
+            }
+            else
+            {
+                game->_bitCoins += unitGetReward(&archer);
+            }
+        }
+    };
+    auto updateHorseman = [&game](UNIT& horseman){
+        if(horseman._currentHealth > 0)
+        {
+            horseman.updateFunction(&horseman, &game->_defenceUnit);
         }
         else
         {
-            game->_bitCoins += unitGetReward(&U);
-        }        
-
+            game->_bitCoins += unitGetReward(&horseman);
+        }
     };
-    auto updateSoldier = [&game]( UNIT& U ){
-        if(U._currentHealth > 0)
+    auto updateSoldier = [&game](UNIT& soldier){
+        if(soldier._currentHealth > 0)
         {
-            U.updateFunction(&U, &game->_defenceUnit);
+            soldier.updateFunction(&soldier, &game->_defenceUnit);
         }
         else
         {
-            game->_bitCoins += unitGetReward(&U);
+            game->_bitCoins += unitGetReward(&soldier);
         }
     };
-   // uint i;
-    //int rangedAttackDamage;
-
-    if(game->_archerList.size() == 0 && game->_horsemanList.size() == 0){
-        game->_emptyList = true;
-    }
 
     //Atualiza a torre de defesa
     attackClosestUnits(&game->_defenceUnit, &game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
-
-    // Atualiza os projeteis
+    // Atualiza os projéteis
     std::for_each(game->_projectileList.begin(),game->_projectileList.end(),updateProjectile);
-
-/*
-    //Atualiza os projéteis
-    for(i = 0; i < game->_projectileList.size(); i++)
-    {
-        // aqui podemos criar uma funcao lambda para chamar a cada elemento do vector 
-
-
-        if(!game->_projectileList.at(i)._isDead)
-        {
-            projectileUpdate(&game->_projectileList.at(i));
-        }
-    }
-
-*/
+    // Atualiza os inimigos
     std::for_each(game->_archerList.begin(),game->_archerList.end(),updateArcher);
-/*
-    //Atualiza os arqueiros
-    for(i = 0; i < game->_archerList.size(); i++)
-    {
-        if(game->_archerList.at(i)._currentHealth > 0)
-        {
-            rangedAttackDamage = game->_archerList.at(i).updateFunction(&game->_archerList.at(i), &game->_defenceUnit);
-            if(rangedAttackDamage > 0)
-            {
-                printf("Criando projetil \n");
-                // O arqueiro lança um projétil em diração a torre
-                PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, game->_defenceUnit._xPos, game->_defenceUnit._yPos, rangedAttackDamage);
-                game->_projectileList.push_back(projectileBuffer);
-            }
-        }
-        else
-        {
-            game->_bitCoins += unitGetReward(&game->_archerList.at(i));
-        }
-    }
-
-*/
     std::for_each(game->_horsemanList.begin(),game->_horsemanList.end(),updateHorseman);
-/*    // Atualiza os horsemen
-    for (i = 0; i < game->_horsemanList.size(); i++)
-    {
-        if(game->_horsemanList.at(i)._currentHealth > 0)
-        {
-            game->_horsemanList.at(i).updateFunction(&game->_horsemanList.at(i), &game->_defenceUnit);
-        }
-        else
-        {
-            game->_bitCoins += unitGetReward(&game->_horsemanList.at(i));
-        }
-    }
-*/
     std::for_each(game->_soldierList.begin(),game->_soldierList.end(),updateSoldier);
-    // Atualiza soldiers
-/*    for (i = 0; i < game->_soldierList.size(); i++)
-    {
-        if(game->_soldierList.at(i)._currentHealth > 0)
-        {
-            game->_soldierList.at(i).updateFunction(&game->_soldierList.at(i), &game->_defenceUnit);
-        }
-        else
-        {
-            game->_bitCoins += unitGetReward(&game->_soldierList.at(i));
-        }
-    }
-*/
 }
 
 /* Adiciona um elemento a lista e unidades que devem ser desalocadas */
@@ -257,75 +186,38 @@ void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE
 /* Coloca coisas na tela */
 void gameRender(GAME* game)
 {
-    auto renderUnit = [&game]( UNIT& U ){
+    auto renderUnit = [&game](UNIT& U){
         if(U._currentHealth > 0){
             if(!U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight))
             {
                 // Tenta novamente
                 U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight);
             }
-        }       
+        }
 
     };
-    auto renderProjectile = [&game]( PROJECTILE& P ){
+    auto renderProjectile = [&game](PROJECTILE& P){
         if(!P._isDead){
             if(!projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight))
             {
                 // Tenta novamente
                 projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight);
             }
-        }      
+        }
 
     };
-   // uint i;
 
     SDL_RenderClear(game->_renderer);
     // Renderiza a defence unit
     game->_defenceUnit.renderFunction(&game->_defenceUnit, game->_renderer, game->_screenWidth, game->_screenHeight);
-    // Renderiza os archers
-    std::for_each(game->_archerList.begin(),game->_archerList.end(),renderUnit);    
-
-    // Renderiza os horsemen
+    // Renderiza os inimigos
+    std::for_each(game->_archerList.begin(),game->_archerList.end(),renderUnit);
     std::for_each(game->_horsemanList.begin(),game->_horsemanList.end(),renderUnit);
-/*    for(i = 0; i < game->_horsemanList.size(); i++)
-    {
-        if(game->_horsemanList.at(i)._currentHealth > 0){
-            if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
-            {
-                // Tenta novamente
-                game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
-            }
-        }
-    }
-    */
     std::for_each(game->_soldierList.begin(),game->_soldierList.end(),renderUnit);
-    // Renderiza os soldiers
-/*    for(i = 0; i < game->_soldierList.size(); i++)
-    {
-        if(game->_soldierList.at(i)._currentHealth > 0){
-            if(!game->_soldierList.at(i).renderFunction(&game->_soldierList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
-            {
-                // Tenta novamente
-                game->_soldierList.at(i).renderFunction(&game->_soldierList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
-            }
-        }
-    }
-    */
+    // Renderiza os projéteis
     std::for_each(game->_projectileList.begin(),game->_projectileList.end(),renderProjectile);
-    // Renderiza os projectiles
-/*    for(i = 0; i < game->_projectileList.size(); i++)
-    {
-        if(!game->_projectileList.at(i)._isDead){
-            if(!projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
-            {
-                // Tenta novamente
-                projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
-            }
-        }
-    }
-    */
-    gameDrawStats(game);
 
+    gameDrawStats(game);
     SDL_RenderPresent(game->_renderer);
 }
 
