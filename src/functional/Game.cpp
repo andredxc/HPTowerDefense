@@ -257,24 +257,37 @@ void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE
 /* Coloca coisas na tela */
 void gameRender(GAME* game)
 {
-    uint i;
+    auto renderUnit = [&game]( UNIT& U ){
+        if(U._currentHealth > 0){
+            if(!U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight))
+            {
+                // Tenta novamente
+                U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight);
+            }
+        }       
+
+    };
+    auto renderProjectile = [&game]( PROJECTILE& P ){
+        if(!P._isDead){
+            if(!projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight))
+            {
+                // Tenta novamente
+                projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight);
+            }
+        }      
+
+    };
+   // uint i;
 
     SDL_RenderClear(game->_renderer);
     // Renderiza a defence unit
     game->_defenceUnit.renderFunction(&game->_defenceUnit, game->_renderer, game->_screenWidth, game->_screenHeight);
     // Renderiza os archers
-    for(i = 0; i < game->_archerList.size(); i++)
-    {
-        if(game->_archerList.at(i)._currentHealth > 0){
-            if(!game->_archerList.at(i).renderFunction(&game->_archerList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
-            {
-                // Tenta novamente
-                game->_archerList.at(i).renderFunction(&game->_archerList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight);
-            }
-        }
-    }
+    std::for_each(game->_archerList.begin(),game->_archerList.end(),renderUnit);    
+
     // Renderiza os horsemen
-    for(i = 0; i < game->_horsemanList.size(); i++)
+    std::for_each(game->_horsemanList.begin(),game->_horsemanList.end(),renderUnit);
+/*    for(i = 0; i < game->_horsemanList.size(); i++)
     {
         if(game->_horsemanList.at(i)._currentHealth > 0){
             if(!game->_horsemanList.at(i).renderFunction(&game->_horsemanList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
@@ -284,8 +297,10 @@ void gameRender(GAME* game)
             }
         }
     }
+    */
+    std::for_each(game->_soldierList.begin(),game->_soldierList.end(),renderUnit);
     // Renderiza os soldiers
-    for(i = 0; i < game->_soldierList.size(); i++)
+/*    for(i = 0; i < game->_soldierList.size(); i++)
     {
         if(game->_soldierList.at(i)._currentHealth > 0){
             if(!game->_soldierList.at(i).renderFunction(&game->_soldierList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
@@ -295,8 +310,10 @@ void gameRender(GAME* game)
             }
         }
     }
+    */
+    std::for_each(game->_projectileList.begin(),game->_projectileList.end(),renderProjectile);
     // Renderiza os projectiles
-    for(i = 0; i < game->_projectileList.size(); i++)
+/*    for(i = 0; i < game->_projectileList.size(); i++)
     {
         if(!game->_projectileList.at(i)._isDead){
             if(!projectileRender(&game->_projectileList.at(i), game->_renderer, game->_screenWidth, game->_screenHeight))
@@ -306,6 +323,7 @@ void gameRender(GAME* game)
             }
         }
     }
+    */
     gameDrawStats(game);
 
     SDL_RenderPresent(game->_renderer);
@@ -429,7 +447,7 @@ void gamePurchaseUpgrade(GAME* game, ATTRIBUTE attr)
 void gameClearLists(GAME* game)
 {
     uint i;
-
+// AQUI PODEMOS COLOCAR FUNCOES LAMBDA
     for(i = 0; i < game->_archerList.size(); i++)
     {
         deleteUnit(&game->_archerList.at(i));
