@@ -1,5 +1,5 @@
 GAME_NAME=hp
-CC=g++
+CC=g++ -std=c++11
 
 all: main.cpp Unit.o AttackUnit.o DefenceUnit.o Game.o Projectile.o
 

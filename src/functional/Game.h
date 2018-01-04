@@ -9,7 +9,8 @@
 #include "AttackUnit.h"
 #include "DefenceUnit.h"
 #include "Projectile.h"
-
+#include <algorithm>
+#include <functional>
 #define FONT_TTF_FILE "../../fonts/SpectralSC-Regular.ttf"
 
 typedef struct killItem{

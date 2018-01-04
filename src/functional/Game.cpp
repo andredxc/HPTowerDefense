@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "Game.h"
 
+
 /* Inicializa SDL_Window, SDL_Renderer e tudo mais */
 bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width, int height, bool fullscreen)
 {
@@ -101,9 +102,17 @@ void gameHandleEvents(GAME* game)
     }
 }
 
+
 /* Atualiza o renderer que será mostrado na tela */
 void gameUpdate(GAME* game)
 {
+    auto updateProjectile = []( PROJECTILE& P ){
+         
+        if(!P._isDead){
+            projectileUpdate(&P);            
+        }
+    };
+
     uint i;
     int rangedAttackDamage;
 
@@ -114,14 +123,23 @@ void gameUpdate(GAME* game)
     //Atualiza a torre de defesa
     attackClosestUnits(&game->_defenceUnit, &game->_archerList, &game->_horsemanList, &game->_soldierList, &game->_projectileList);
 
+    // Atualiza os projeteis
+    std::for_each(game->_projectileList.begin(),game->_projectileList.end(),updateProjectile);
+/*
+
     //Atualiza os projéteis
     for(i = 0; i < game->_projectileList.size(); i++)
     {
+        // aqui podemos criar uma funcao lambda para chamar a cada elemento do vector 
+
+
         if(!game->_projectileList.at(i)._isDead)
         {
             projectileUpdate(&game->_projectileList.at(i));
         }
     }
+
+*/
     //Atualiza os arqueiros
     for(i = 0; i < game->_archerList.size(); i++)
     {
