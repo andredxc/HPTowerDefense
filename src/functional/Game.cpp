@@ -135,6 +135,12 @@ void gameHandleEvents(GAME* game)
     }
 }
 
+std::vector<PROJECTILE> insertList(std::vector<PROJECTILE> list,PROJECTILE newP){
+
+    std::vector<PROJECTILE> newL(list); // Cria um vetor igual ao passdo como parametro
+    newL.push_back(newP); // Insere novo projetil
+    return newL;
+}    
 /* Atualiza o renderer que será mostrado na tela */
 void gameUpdate(GAME* game)
 {
@@ -155,7 +161,9 @@ void gameUpdate(GAME* game)
                 // O arqueiro lança um projétil em diração a torre
                 // Aqui devemos criar uma nova lista para inerir o novo projetil
                 PROJECTILE projectileBuffer = createProjectile(&game->_defenceUnit, archer._xPos, archer._yPos, rangedAttackDamage);
-                game->_projectileList.push_back(projectileBuffer);
+
+                game->_projectileList = insertList(game->_projectileList,projectileBuffer);
+               // game->_projectileList.push_back(projectileBuffer);
             }
             else
             {
