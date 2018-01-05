@@ -15,15 +15,14 @@ int main(int argc, char **argv){
 
         frameStart = SDL_GetTicks();
 
-        // Se todas as listas de enimigos estão vazias -> new round
         if(gameEndOfRound(game)){
             gameNewRound(&game);
         }
-
         gameHandleEvents(&game);
-        gameUpdate(&game);
-        gameRender(&game);
-
+        if(!gameEndOfGame(game)){
+            gameUpdate(&game);
+            gameRender(&game);
+        }
         //Mantém o framerate constante em 60 fps
        frameTime = SDL_GetTicks() - frameStart;
        if(frameDelay > frameTime){

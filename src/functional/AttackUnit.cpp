@@ -118,7 +118,7 @@ UNIT createArcher()
     archer._baseRangedDamage = 10;
     archer._baseNumberOfTargets = 1;
     archer._baseAttackDelay = 500;
-    archer._baseAttackRange = 300;
+    archer._baseAttackRange = 60;
     //Determina os valores dos atributos
     archer._totalHealth = getAttributeValue(archer, HEALTH, archer._healthLevel);
     archer._armour = getAttributeValue(archer, ARMOUR, archer._healthLevel);

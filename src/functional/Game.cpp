@@ -36,9 +36,6 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
         SDL_DestroyWindow(game->_window);
         return false;
     }
-    game->_isRunning = true;
-    game->_emptyList = true;
-    game->_bitCoins = 0;
     //Dimensões da tela podem ser alteradas para acomodar os menus
     SDL_GetWindowSize(game->_window, &game->_screenWidth, &game->_screenHeight);
     //Define o tamanho da tela jogável
@@ -48,12 +45,16 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     game->_defenceUnit = createDefenceUnit();
     game->_defenceUnit.spawnFunction(&game->_defenceUnit, game->_screenWidth, game->_screenHeight);
     unitSetHealthBar(&game->_defenceUnit, 20, game->_screenHeight+4, game->_screenWidth - 40, 20);
-    //Define o tamanho e posicionamento da barra de vida da torre de defesa
+    //Define o tamanho e posici- Tirar as coisas relacionadas a variável _emptyListonamento da barra de vida da torre de defesa
     game->_textAreaY = game->_screenHeight + 28;    //Soma a altura da health bar
     game->_textFont = TTF_OpenFont(FONT_TTF_FILE, 18);
     game->_textColor.r = 255;
     game->_textColor.g = 255;
     game->_textColor.b = 255;
+    //Inicializa variáveis do jogo
+    game->_isRunning = true;
+    game->_bitCoins = 0;
+    game->_round = 0;
 
     return true;
 }
@@ -94,6 +95,18 @@ void gameHandleEvents(GAME* game)
                 case SDLK_6:    //Attack delay
                     gamePurchaseUpgrade(game, DELAY);
                     return;
+                case SDLK_y:
+                    if(gameEndOfGame(*game)){
+                        // Trata o botão para começar um novo jogo
+                        gameStartNewGame(game);
+                    }
+                    break;
+                case SDLK_n:
+                    if(gameEndOfGame(*game)){
+                        // Trata o botão para dispensar o novo jogo
+                        game->_isRunning = false;
+                    }
+                    break;
                 case SDLK_ESCAPE:
                     game->_isRunning = false;
                     return;
@@ -161,31 +174,10 @@ void gameUpdate(GAME* game)
     std::for_each(game->_soldierList.begin(),game->_soldierList.end(),updateSoldier);
 }
 
-/* Adiciona um elemento a lista e unidades que devem ser desalocadas */
-void gameAddToKillList(std::vector<KILL_ITEM>* killList, int position, UNIT_TYPE unit)
-{
-    uint i;
-    bool itemFound = false;
-    KILL_ITEM item;
-
-    for(i = 0; i < killList->size(); i++){
-        // Verifica se o elemento já existe
-        if(killList->at(i)._pos == position && killList->at(i)._type == unit){
-            itemFound = true;
-        }
-    }
-
-    if(!itemFound){
-        // Adiciona um nodo não existente
-        item._pos = position;
-        item._type = unit;
-        killList->push_back(item);
-    }
-}
-
 /* Coloca coisas na tela */
 void gameRender(GAME* game)
 {
+    char roundStr[10];
     auto renderUnit = [&game](UNIT& U){
         if(U._currentHealth > 0){
             if(!U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight))
@@ -194,7 +186,6 @@ void gameRender(GAME* game)
                 U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight);
             }
         }
-
     };
     auto renderProjectile = [&game](PROJECTILE& P){
         if(!P._isDead){
@@ -204,7 +195,6 @@ void gameRender(GAME* game)
                 projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight);
             }
         }
-
     };
 
     SDL_RenderClear(game->_renderer);
@@ -216,8 +206,18 @@ void gameRender(GAME* game)
     std::for_each(game->_soldierList.begin(),game->_soldierList.end(),renderUnit);
     // Renderiza os projéteis
     std::for_each(game->_projectileList.begin(),game->_projectileList.end(),renderProjectile);
-
+    // Desenha os dados da torre
     gameDrawStats(game);
+    // Verifica se o jogo acabou
+    if(gameEndOfGame(*game))
+    {
+        // Mostra mensagem de fim de jogo
+        gameDrawText(game, "YOU LOST", 30, 30);
+        gameDrawText(game, "Try again? (y/n)", 30, 50);
+    }
+    // Escreve a onda atual na tela
+    snprintf(roundStr, sizeof(roundStr), "Wave %d", game->_round);
+    gameDrawText(game, roundStr, game->_screenWidth-100, 30);
     SDL_RenderPresent(game->_renderer);
 }
 
@@ -231,40 +231,38 @@ void gameClean(GAME* game)
 /* Cria as unidades para um novo round */
 void gameNewRound(GAME* game)
 {
-    static int round = 0;
-    round = round +1;
     int newUnits;
+
+    game->_round++;
 
     // Remove todos os inimigos e projéteis
     gameClearLists(game);
     // Recupera a vida da torre
     game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
     // Coloca archers
-    newUnits = rand() % round;
-    for (int i = 0; i < round + newUnits; i++)
+    newUnits = rand() % game->_round;
+    for (int i = 0; i < game->_round + newUnits; i++)
     {
         UNIT archer = createArcher();
         archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
         game->_archerList.push_back(archer);
     }
     // Coloca horsemen
-    newUnits = rand() % round;
-    for (int i = 0; i < round + newUnits ; i++)
+    newUnits = rand() % game->_round;
+    for (int i = 0; i < game->_round + newUnits ; i++)
     {
         UNIT horseman = createHorseman();
         horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
         game->_horsemanList.push_back(horseman);
     }
     // Coloca soldiers
-    newUnits = rand() % round;
-    for (int i = 0; i < round + newUnits ; i++)
+    newUnits = rand() % game->_round;
+    for (int i = 0; i < game->_round + newUnits ; i++)
     {
         UNIT soldier = createSoldier();
         soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
         game->_soldierList.push_back(soldier);
     }
-
-    game->_emptyList = false;
 };
 
 /* Desenha os textos referentes aos upgrades */
@@ -339,7 +337,7 @@ void gamePurchaseUpgrade(GAME* game, ATTRIBUTE attr)
 void gameClearLists(GAME* game)
 {
     uint i;
-// AQUI PODEMOS COLOCAR FUNCOES LAMBDA
+    // AQUI PODEMOS COLOCAR FUNCOES LAMBDA
     for(i = 0; i < game->_archerList.size(); i++)
     {
         deleteUnit(&game->_archerList.at(i));
@@ -352,6 +350,11 @@ void gameClearLists(GAME* game)
     {
         deleteProjectile(&game->_projectileList.at(i));
     }
+
+    game->_archerList.clear();
+    game->_horsemanList.clear();
+    game->_soldierList.clear();
+    game->_projectileList.clear();
 }
 
 /* Verifica se o round já chegou ao fim */
@@ -384,4 +387,28 @@ bool gameEndOfRound(GAME game)
         }
     }
     return true;
+}
+
+/* Verifica se o jogo já chegou ao fim */
+bool gameEndOfGame(GAME game)
+{
+    if(game._defenceUnit._currentHealth > 0)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+/* Começa um novo jogo */
+void gameStartNewGame(GAME* game)
+{
+    game->_defenceUnit = createDefenceUnit();
+    game->_defenceUnit.spawnFunction(&game->_defenceUnit, game->_screenWidth, game->_screenHeight);
+    unitSetHealthBar(&game->_defenceUnit, 20, game->_screenHeight+4, game->_screenWidth - 40, 20);
+    game->_bitCoins = 0;
+    game->_round = 0;
+    gameClearLists(game);
 }

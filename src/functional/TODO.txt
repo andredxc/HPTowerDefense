@@ -1,11 +1,9 @@
 - Verificar a desalocação de coisas e a finalização do SDL
 - Adicionar todos os tipos de unidades
 - Fazer upgrades funcionarem
-- Sinalizar a onde em que o jogo se encontra
-- Encerrar o jogo quando a torre morrer
+- Sinalizar a onda em que o jogo se encontra
 - Alterar o método update do projétil para que fique similar ao da unidade
 - Aumentar o valor dos atributos das unidades com o decorrer do jogo (talvez)
-- Botão para pausar o jogo (talvez mas seria fácil)
 
 - BUGS: (boa parte já existia na versão orientada a objetos)
     - Tiros aleatórios no início de algumas ondas

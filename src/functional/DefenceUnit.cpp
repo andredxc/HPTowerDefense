@@ -72,6 +72,9 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<UNIT>* archerList, std::v
         }
     }
     // Ataca os alvos mais próximos
+    if(closeUnits.size() == 0){
+        return;
+    }
     for(i = 0; i < defenceUnit->_numberOfTargets; i++){
         for(j = 0; (uint) j < closeUnits.size(); j++){
             //Encontra a unidade mais próxima
@@ -110,7 +113,6 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<UNIT>* archerList, std::v
             closeUnits.erase(closeUnits.begin() + chosenIndex);
         }
     }
-
 }
 
 void defenceSpawn(UNIT* defenceUnit, int screenWidth, int screenHeight)
