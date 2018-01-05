@@ -12,17 +12,20 @@
 #include <algorithm>
 #include <functional>
 #define FONT_TTF_FILE "../../fonts/SpectralSC-Regular.ttf"
+#define SOUNDTRACK_PATH "../../soundtrack/song2.wav"
 
 typedef struct game{
     SDL_Window *_window;
     SDL_Renderer *_renderer;
-    bool _isRunning;
+    bool _isRunning, _audioPaused;
     int _troops;	// Bixinhos que estão ativos na rodada
     int _screenWidth, _screenHeight, _textAreaY, _textAreaHeight;
     int _bitCoins;
     int _round;
     TTF_Font* _textFont;
     SDL_Color _textColor;
+    SDL_AudioDeviceID _deviceId;
+    Uint8 *_wavBuffer;
     std::vector<UNIT> _soldierList;
     std::vector<UNIT> _archerList;
     std::vector<UNIT> _horsemanList;

@@ -12,7 +12,7 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
     srand (time(NULL));
 
     if(fullscreen){
-        flags = SDL_WINDOW_FULLSCREEN;
+        flags = SDL_WINDOW_FULLSCREEN | SDL_INIT_AUDIO;
     }
 
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
@@ -36,6 +36,16 @@ bool gameInitialize(GAME* game, const char* title, int xPos, int yPos, int width
         SDL_DestroyWindow(game->_window);
         return false;
     }
+    // Inicia a música
+    SDL_AudioSpec wavSpec;
+    Uint32 wavLength;
+    if(!SDL_LoadWAV(SOUNDTRACK_PATH, &wavSpec, &game->_wavBuffer, &wavLength)){
+        fprintf(stderr, "Couldn't load soundtrack\n");
+    }
+    game->_audioPaused = true;
+    game->_deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+    SDL_QueueAudio(game->_deviceId, game->_wavBuffer, wavLength);
+    SDL_PauseAudioDevice(game->_deviceId, 1);
     //Dimensões da tela podem ser alteradas para acomodar os menus
     SDL_GetWindowSize(game->_window, &game->_screenWidth, &game->_screenHeight);
     //Define o tamanho da tela jogável
@@ -105,6 +115,16 @@ void gameHandleEvents(GAME* game)
                     if(gameEndOfGame(*game)){
                         // Trata o botão para dispensar o novo jogo
                         game->_isRunning = false;
+                    }
+                    break;
+                case SDLK_m:
+                    if(game->_audioPaused){
+                        SDL_PauseAudioDevice(game->_deviceId, 0);
+                        game->_audioPaused = false;
+                    }
+                    else{
+                        SDL_PauseAudioDevice(game->_deviceId, 1);
+                        game->_audioPaused = true;
                     }
                     break;
                 case SDLK_ESCAPE:
@@ -224,8 +244,13 @@ void gameRender(GAME* game)
 /* Desaloca coisas */
 void gameClean(GAME* game)
 {
+    SDL_CloseAudioDevice(game->_deviceId);
+    SDL_FreeWAV(game->_wavBuffer);
     SDL_DestroyWindow(game->_window);
     SDL_DestroyRenderer(game->_renderer);
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
 }
 
 std::vector<UNIT> createUnitList(int i, UNIT_TYPE unit, int size, GAME* game)
