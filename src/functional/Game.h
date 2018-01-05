@@ -12,7 +12,7 @@
 #include <algorithm>
 #include <functional>
 #define FONT_TTF_FILE "../../fonts/SpectralSC-Regular.ttf"
-#define SOUNDTRACK_PATH "../../soundtrack/song2.wav"
+#define SOUNDTRACK_PATH "../../soundtrack/song1.wav"
 
 typedef struct game{
     SDL_Window *_window;
