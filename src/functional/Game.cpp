@@ -228,6 +228,35 @@ void gameClean(GAME* game)
     SDL_DestroyRenderer(game->_renderer);
 }
 
+std::vector<UNIT> createUnitList(int i, UNIT_TYPE unit, int size, GAME* game)
+{
+	std::vector<UNIT> list;
+	if(i < size)
+	{
+		UNIT newUnit;
+		switch(unit)
+		{
+			case ARCHER:
+				newUnit = createArcher();
+				break;
+			case HORSEMAN:
+				newUnit = createHorseman();
+				break;
+			case SOLDIER:
+				newUnit = createSoldier();
+				break;
+            default:
+                fprintf(stderr, "Error, DEFENCE should not be used in this function\n");
+		}
+
+		newUnit.spawnFunction(&newUnit, game->_screenWidth, game->_screenHeight);
+		i++;
+		list = createUnitList(i,unit,size, game);
+		list.push_back(newUnit);
+	}
+	return list;
+}
+
 /* Cria as unidades para um novo round */
 void gameNewRound(GAME* game)
 {
@@ -239,30 +268,36 @@ void gameNewRound(GAME* game)
     gameClearLists(game);
     // Recupera a vida da torre
     game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
+
     // Coloca archers
     newUnits = rand() % game->_round;
-    for (int i = 0; i < game->_round + newUnits; i++)
-    {
-        UNIT archer = createArcher();
-        archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
-        game->_archerList.push_back(archer);
-    }
+    game->_archerList = createUnitList(0, ARCHER, game->_round + newUnits, game);
+
+    //~ for (int i = 0; i < game->_round + newUnits; i++)
+    //~ {
+        //~ UNIT archer = createArcher();
+        //~ archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
+        //~ game->_archerList.push_back(archer);
+    //~ }
     // Coloca horsemen
+
     newUnits = rand() % game->_round;
-    for (int i = 0; i < game->_round + newUnits ; i++)
-    {
-        UNIT horseman = createHorseman();
-        horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
-        game->_horsemanList.push_back(horseman);
-    }
+    game->_horsemanList = createUnitList(0, HORSEMAN, game->_round + newUnits, game);
+    //~ for (int i = 0; i < game->_round + newUnits ; i++)
+    //~ {
+        //~ UNIT horseman = createHorseman();
+        //~ horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
+        //~ game->_horsemanList.push_back(horseman);
+    //~ }
     // Coloca soldiers
     newUnits = rand() % game->_round;
-    for (int i = 0; i < game->_round + newUnits ; i++)
-    {
-        UNIT soldier = createSoldier();
-        soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
-        game->_soldierList.push_back(soldier);
-    }
+    game->_soldierList = createUnitList(0, SOLDIER, game->_round + newUnits, game);
+    //~ for (int i = 0; i < game->_round + newUnits ; i++)
+    //~ {
+        //~ UNIT soldier = createSoldier();
+        //~ soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
+        //~ game->_soldierList.push_back(soldier);
+    //~ }
 };
 
 /* Desenha os textos referentes aos upgrades */
