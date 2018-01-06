@@ -70,7 +70,7 @@
 %%%%%%%%%%%%%%
 
 % título
-\title{Projeto Inicial  do Trabalho Final para a Disciplina de MLP do Instituto de Informática da UFRGS} 
+\title{Uma Comparação entre o Paradigma\\ Funcional e Orientado a Objetos para Solução do Problema "Tower Defence" utilizando C++ \\ \vspace{0.4cm} Grupo HP} 
 
 % autor
 \author{Dexheimer}{André}
@@ -128,8 +128,8 @@
 
 
 \chapter{Introdução} \label{intro}
-Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Logo após, serão abordados os temas diretamente relacionados ao trabalho. 
-
+Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Logo após, serão abordados os temas diretamente relacionados á implementação, para maiores detalhes a implementação OO e funcional estão disponíveis em \\ https://github.com/andredxc/HPTowerDefense e podem ser utilizadas sempre e quando a respectiva citação seja incluida. 
+Caso seja necesário podemos fornecer uma maquina virtual do sistema de desenvolvimento. 
 \section{Historia das Linguagens de Programação}
 As primeiras linguagens de programação eram simples códigos utilizados para automatizar processos nem sempre relacionadas à computação. Na década de 1940, com a criação do primeiro computador moderno, eram utilizados cartões perfurados para facilitar o processo de programação e diminuir a quantidade de erros introduzidos pelo programador. Não foi até meados de 1950 que surgiu a primeira linguagem de programação moderna: FORTRAN, criada por John Backus. Os seguintes anos foram frutíferos, vieram acompanhados de duas novas linguagens de programação: LISP - John McCarthy e COBOL - Grace Hopper.
 
@@ -149,10 +149,11 @@ A intenção inicial foi a de resolver um problema que já fosse conhecido pelos
 
 \chapter{A Linguagem C++} \label{C++}
 
-A linguagem de programação C++ foi criada por Bjarne Stroustrup nos anos de 1980, vindo a ter sua padronização ISO apenas 18 anos depois em 1998. Ela é uma linguagem compilada multi-paradigma, com suporte ao modelo imperativo, ao orientado a objetos, ao genérico, entre outros. Por causa disso, é de uso amplo entre as linguagens comerciais e acadêmicas.
+A linguagem de programação C++ foi criada por Bjarne Stroustrup nos anos de 1980, vindo a ter sua padronização ISO apenas 18 anos depois em 1998. Ela é uma linguagem compilada multi-paradigma, com suporte ao modelo imperativo, ao orientado a objetos, ao genérico, entre outros. Por causa disso, é de uso amplo entre as linguagens comerciais e acadêmicas. Pode-se dizer que C++ é uma linguagem que tem um dominio amplo de aplicação, já que pode ser utilizada para programar micro-controladores(Baixo Nivel), configurar interfaces de rede e desenvolver soluções para os mais variados problemas. Atualmente é utilizada para desenvolver compiladores, editores de texto, jogos, ferramentas de programação, bibliotecas entre outros\cite{stroustrup2000c++}.
+
 
 \section{Algumas características do C++}
-
+ 
 	\textbf{Operadores:} O C++ possui todo o conjunto de operadores do C, além de alguns implementados apenas no C++, que dizem respeito à conversão entre tipos, os quais que podem ser const\_cast, static\_cast, dynamic\_cast e reinterpret\_cast. Além disso, a linguagem possui sobrecarga de operadores, permitindo que um mesmo operador tenha mais do que 1 significado dependendo do contexto em que é utilizado.
 
 	\textbf{	Pré-Processador:} antes da compilação propriamente dita, o C++ passa pelo seu pré-processador, gerando modificações léxicas que servem como entrada para a compilação.
@@ -162,6 +163,8 @@ A linguagem de programação C++ foi criada por Bjarne Stroustrup nos anos de 19
 	\textbf{	Tratamento de Exceções:} Erros podem ser tratados pelo sistema, permitindo que a aplicação se recupere de algum erro sem travar ou ter de ser fechada.
 
 	\textbf{Espaço de Nomes:} Permite uma melhor organização das bibliotecas, de forma que cada uma pode criar o seu próprio espaço de nomes para que não existam conflitos.
+	
+	Maiores informações podem ser encontradas em "International Standard ISO/IEC 14882:2017(E) – Programming Language C++"
 
 \chapter{Tower Defence} \label{Tower Defence}
 É um estilo de jogo de estratégia que consiste em defender uma determinada entidade de inimigos. No nosso jogo, a entidade em questão é uma torre que se encontra no centro da tela. Esta torre possui uma certa quantidade de vida, velocidade de ataque, penetração de armadura, dano e alcance de ataque. Tais características podem ser melhoradas e outras habilidades podem ser adquiridas por meio de compras com a unidade monetária do jogo, obtida matando os inimigos.
