@@ -425,8 +425,9 @@ void gameClearLists(GAME* game)
     game->_projectileList.clear();
 }
 
+// AQUI PODEMOS TER UMA FUNCAO PURA
 /* Verifica se o round já chegou ao fim */
-bool gameEndOfRound(GAME game)
+__attribute__((pure)) bool gameEndOfRound(GAME game)
 {
     uint i;
 
@@ -456,9 +457,9 @@ bool gameEndOfRound(GAME game)
     }
     return true;
 }
-
+// AQUI PODEMOS TER UMA FUNCAO PURA
 /* Verifica se o jogo já chegou ao fim */
-bool gameEndOfGame(GAME game)
+__attribute__((pure)) bool gameEndOfGame(GAME game)
 {
     if(game._defenceUnit._currentHealth > 0)
     {
