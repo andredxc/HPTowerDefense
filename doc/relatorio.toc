@@ -21,5 +21,7 @@
 \contentsline {section}{\numberline {4.3}Encapsulamento}{10}{section.4.3}
 \contentsline {section}{\numberline {4.4}Delegates}{11}{section.4.4}
 \contentsline {section}{\numberline {4.5}An\IeC {\'a}lise Cr\IeC {\'\i }tica}{12}{section.4.5}
-\contentsline {chapter}{\xspace {}Refer{\^e}ncias}{15}{schapter.2}
+\contentsline {section}{\numberline {4.6}Fun\IeC {\c c}\IeC {\~o}es como elementos de 1\IeC {\textordfeminine } ordem}{14}{section.4.6}
+\contentsline {section}{\numberline {4.7}Fun\IeC {\c c}\IeC {\~o}es de ordem superior}{15}{section.4.7}
+\contentsline {chapter}{\xspace {}Refer{\^e}ncias}{16}{schapter.2}
 \contentsfinish 

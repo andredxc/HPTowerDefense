@@ -324,10 +324,19 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
 \end{tabular}
 \end{center}
  
+ \section{Funções como elementos de 1ª ordem}
  
- 
- 
- 
+	Consiste na manipulação de funções como se fossem variáveis no paradigma imperativo, o que permite atribuí-las a variáveis, listas, \textit{structs}, etc.. No nosso projeto, utilizamos este mecanismo como uma alternativa às funções virtuais da etapa anterior. Para tanto, criamos uma \textit{struct} com diversos campos que descrevem atributos de unidades de ataque e defesa, sendo quatro desses campos usados para funções, as quais podem variar entre os diferentes tipos de unidades. Assim, ao inicializar uma nova entidade, podemos definir qual método deve ser chamado para atualizar o comportamento, inicializar as variáveis de posição (X e Y), renderizar e recuperar a vida.
+
+ \section{Funções de ordem superior}
+	
+	Funções de ordem superior são rotinas que usam funções como valor de retorno ou como parâmetro.
+	
+		O uso mais típico desse mecanismo é a substituição de laços iterativos por uma única chamada que tem como parâmetros uma lista de elementos e uma função a ser aplicada a cada nodo. Esse mesmo caso foi utilizado no nosso trabalho nas funções \textit{gameUpate} e \textit{gameRender}, no arquivo \textit{Game.cpp}, para aplicar as funções de atualização do comportamento e de renderização para todas as entidades presentes no jogo. Para tanto, utilizamos a função \textit{for\_each}	definida na biblioteca \textit{iostream}.
+	
+	Além disso, criamos a nossa própria função de ordem superior como uma maneira de criar unidade inimigas (arqueiros, cavaleiros e soldados, criados pela rotina \textit{createAttackUnit}). Essa função recebe como seu único parâmetro uma outra que será utilizada para a inicialização dos atributos específicos da unidade escolhida. Assim, conseguimos separar a definição das variáveis padrões para qualquer unidade daquela para o tipo específico de inimigo escolhido.
+
+
  
 %%%%%%%%%%%
 % Referências 
@@ -350,11 +359,6 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
 \noindent FURASTÉ, Pedro Augusto. {\bf Normas Técnicas para o Trabalho Científico}: explicitação das normas da ABNT. Porto Alegre: [s.n.], 2002. p. 49-56.
 
 \noindent BRADLEY, N. {\bf The XML Companion}. 3${}^{rd}$ ed. Boston: Addison-Wesley, 2002.
-
-
-
-
-
 
 \noindent {\bf \underbar{Norma}}\\
 
