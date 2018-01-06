@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.28)  1 DEC 2017 23:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.5)  6 JAN 2018 17:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1215,6 +1215,27 @@ text indent calculated (toc, 1): 21.0pt
 number indent calculated (toc, 1): 18.0pt
 text noindent (toc, 1): 30.0pt
 number noindent (toc, 1): 0.0pt
+number indent by \l@... (toc, 2):  45.60004pt
+text indent by \l@... (toc, 2):  38.39996pt
+number indent by parent (toc, 2):  39.0pt
+text indent calculated (toc, 2): 30.0pt
+number indent calculated (toc, 2): 39.0pt
+text noindent (toc, 2): 30.0pt
+number noindent (toc, 2): 0.0pt
+number indent by \l@... (toc, 2):  45.60004pt
+text indent by \l@... (toc, 2):  38.39996pt
+number indent by parent (toc, 2):  39.0pt
+text indent calculated (toc, 2): 30.0pt
+number indent calculated (toc, 2): 39.0pt
+text noindent (toc, 2): 30.0pt
+number noindent (toc, 2): 0.0pt
+number indent by \l@... (toc, 1):  18.0pt
+text indent by \l@... (toc, 1):  27.60004pt
+number indent by parent (toc, 1):  18.0pt
+text indent calculated (toc, 1): 21.0pt
+number indent calculated (toc, 1): 18.0pt
+text noindent (toc, 1): 30.0pt
+number noindent (toc, 1): 0.0pt
 number indent by \l@... (toc, 1):  18.0pt
 text indent by \l@... (toc, 1):  27.60004pt
 number indent by parent (toc, 1):  18.0pt
@@ -1309,7 +1330,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 178.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 181.
- <images/class_diagram.png, id=137, 480.79625pt x 283.0575pt>
+ <images/class_diagram.png, id=153, 480.79625pt x 283.0575pt>
 File: images/class_diagram.png Graphic file (type png)
 
 <use images/class_diagram.png>
@@ -1336,7 +1357,7 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 205.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 215.
- <images/heranca_unica.png, id=146, 173.64874pt x 194.7275pt>
+ <images/heranca_unica.png, id=161, 173.64874pt x 194.7275pt>
 File: images/heranca_unica.png Graphic file (type png)
 
 <use images/heranca_unica.png>
@@ -1345,7 +1366,7 @@ Package pdftex.def Info: images/heranca_unica.png used on input line 222.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 229.
 
-<images/diamante.png, id=147, 220.825pt x 331.2375pt>
+<images/diamante.png, id=162, 220.825pt x 331.2375pt>
 File: images/diamante.png Graphic file (type png)
 
 <use images/diamante.png>
@@ -1362,82 +1383,101 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 243.
 [8 <./images/heranca_unica.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 252.
+(babel)             in language  on input line 250.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 261.
+(babel)             in language  on input line 255.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 264.
+(babel)             in language  on input line 263.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 264.
+(babel)             in language  on input line 263.
  [9 <./images/diamante.png>]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 268.
-
-Overfull \hbox (88.1325pt too wide) in paragraph at lines 271--285
- [] 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+(babel)             in language  on input line 266.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 276.
 
 Underfull \hbox (badness 10000) has occurred while \output is active
 \T1/ptm/m/n/10.95 10
  []
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 285.
+(babel)             in language  on input line 280.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 280.
+[10]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 285.
-[10]
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 292.
+
+Overfull \hbox (88.1325pt too wide) in paragraph at lines 295--309
+ [] 
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 301.
+(babel)             in language  on input line 309.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 301.
+(babel)             in language  on input line 309.
  [11]
-(./relatorio.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Underfull \hbox (badness 10000) has occurred while \output is active
 \T1/ptm/m/n/10.95 12
+ []
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 309.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 309.
+[12]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 325.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 325.
+ [13]
+(./relatorio.bbl
+Underfull \hbox (badness 10000) has occurred while \output is active
+\T1/ptm/m/n/10.95 14
  []
 
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 3.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 3.
-[12]
+[14]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 3.
 ) 
 AED: lastpage setting LastPage
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 361.
+(babel)             in language  on input line 385.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 361.
-[13
+(babel)             in language  on input line 385.
+[15
 
 ]
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 361.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 361.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 361.
+(babel)             in language  on input line 385.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 385.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 385.
  (./relatorio.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 361.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 361.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 385.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 385.
 Package rerunfilecheck Info: File `relatorio.out' has not changed.
-(rerunfilecheck)             Checksum: D34A33DDF9F86461D138F9325E481EA2;3276.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 361.
+(rerunfilecheck)             Checksum: 2AB08DCE88B5F66DB7AFCE0586FBD5DD;3810.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 385.
  ) 
 Here is how much of TeX's memory you used:
- 20878 strings out of 494888
- 337029 string characters out of 6179126
- 408808 words of memory out of 5000000
- 23900 multiletter control sequences out of 15000+600000
+ 20886 strings out of 494888
+ 337135 string characters out of 6179128
+ 408811 words of memory out of 5000000
+ 23903 multiletter control sequences out of 15000+600000
  28631 words of font info for 46 fonts, out of 8000000 for 9000
  38 hyphenation exceptions out of 8191
  48i,9n,45p,10365b,449s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1446,10 +1486,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on relatorio.pdf (13 pages, 100479 bytes).
+Output written on relatorio.pdf (15 pages, 104100 bytes).
 PDF statistics:
- 207 PDF objects out of 1000 (max. 8388607)
- 182 compressed objects within 2 object streams
- 41 named destinations out of 1000 (max. 500000)
- 176 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 232 PDF objects out of 1000 (max. 8388607)
+ 204 compressed objects within 3 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 200 words of extra memory for PDF output out of 10000 (max. 10000000)
 

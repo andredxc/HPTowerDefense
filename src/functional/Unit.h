@@ -37,7 +37,7 @@ typedef struct Unit{
 
 } UNIT;
 
-UNIT createUnit();
+UNIT createUnit(UNIT (*createFunction)(UNIT unit));
 void deleteUnit(UNIT* unit);
 void recoverHealth(UNIT* unit);
 bool render(UNIT* unit, SDL_Renderer* renderer, int screenWidth, int screenHeight);

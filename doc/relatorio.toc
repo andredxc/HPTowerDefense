@@ -15,8 +15,11 @@
 \contentsline {subsection}{\numberline {4.1.2}Heran\IeC {\c c}a}{8}{subsection.4.1.2}
 \contentsline {subsection}{\numberline {4.1.3}Heran\IeC {\c c}a Unica}{8}{subsection.4.1.3}
 \contentsline {subsection}{\numberline {4.1.4}Heran\IeC {\c c}a Multipla}{8}{subsection.4.1.4}
-\contentsline {section}{\numberline {4.2}Encapsulamento}{9}{section.4.2}
-\contentsline {section}{\numberline {4.3}Delegates}{10}{section.4.3}
-\contentsline {section}{\numberline {4.4}An\IeC {\'a}lise Cr\IeC {\'\i }tica}{10}{section.4.4}
-\contentsline {chapter}{\xspace {}Refer{\^e}ncias}{13}{schapter.2}
+\contentsline {section}{\numberline {4.2}Polimorfismo}{9}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Polimorfismo Adhoc}{9}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Polimorfismo Universal}{10}{subsection.4.2.2}
+\contentsline {section}{\numberline {4.3}Encapsulamento}{10}{section.4.3}
+\contentsline {section}{\numberline {4.4}Delegates}{11}{section.4.4}
+\contentsline {section}{\numberline {4.5}An\IeC {\'a}lise Cr\IeC {\'\i }tica}{12}{section.4.5}
+\contentsline {chapter}{\xspace {}Refer{\^e}ncias}{15}{schapter.2}
 \contentsfinish 
