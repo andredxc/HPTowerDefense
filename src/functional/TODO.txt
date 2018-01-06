@@ -1,7 +1,3 @@
-- Verificar a desalocação de coisas e a finalização do SDL
-- Adicionar todos os tipos de unidades
-- Fazer upgrades funcionarem
-- Sinalizar a onda em que o jogo se encontra
 - Alterar o método update do projétil para que fique similar ao da unidade
 - Aumentar o valor dos atributos das unidades com o decorrer do jogo (talvez)
 
@@ -9,5 +5,3 @@
     - Tiros aleatórios no início de algumas ondas
     - Tiro as vezes fica parado depois que seu alvo morre
     - Colisão com a torre
-    - Torre para de atacar as vezes
-    - Torre nem sempre ataca o mais próximos

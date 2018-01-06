@@ -140,7 +140,7 @@ std::vector<PROJECTILE> insertList(std::vector<PROJECTILE> list,PROJECTILE newP)
     std::vector<PROJECTILE> newL(list); // Cria um vetor igual ao passdo como parametro
     newL.push_back(newP); // Insere novo projetil
     return newL;
-}    
+}
 /* Atualiza o renderer que será mostrado na tela */
 void gameUpdate(GAME* game)
 {
@@ -252,6 +252,7 @@ void gameRender(GAME* game)
 /* Desaloca coisas */
 void gameClean(GAME* game)
 {
+    gameClearLists(game);
     SDL_CloseAudioDevice(game->_deviceId);
     SDL_FreeWAV(game->_wavBuffer);
     SDL_DestroyWindow(game->_window);
@@ -270,13 +271,13 @@ std::vector<UNIT> createUnitList(int i, UNIT_TYPE unit, int size, GAME* game)
 		switch(unit)
 		{
 			case ARCHER:
-				newUnit = createArcher();
+				newUnit = createAttackUnit(ARCHER);
 				break;
 			case HORSEMAN:
-				newUnit = createHorseman();
+				newUnit = createAttackUnit(HORSEMAN);
 				break;
 			case SOLDIER:
-				newUnit = createSoldier();
+				newUnit = createAttackUnit(SOLDIER);
 				break;
             default:
                 fprintf(stderr, "Error, DEFENCE should not be used in this function\n");
@@ -301,36 +302,15 @@ void gameNewRound(GAME* game)
     gameClearLists(game);
     // Recupera a vida da torre
     game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
-
     // Coloca archers
     newUnits = rand() % game->_round;
     game->_archerList = createUnitList(0, ARCHER, game->_round + newUnits, game);
-
-    //~ for (int i = 0; i < game->_round + newUnits; i++)
-    //~ {
-        //~ UNIT archer = createArcher();
-        //~ archer.spawnFunction(&archer, game->_screenWidth, game->_screenHeight);
-        //~ game->_archerList.push_back(archer);
-    //~ }
     // Coloca horsemen
-
     newUnits = rand() % game->_round;
     game->_horsemanList = createUnitList(0, HORSEMAN, game->_round + newUnits, game);
-    //~ for (int i = 0; i < game->_round + newUnits ; i++)
-    //~ {
-        //~ UNIT horseman = createHorseman();
-        //~ horseman.spawnFunction(&horseman, game->_screenWidth, game->_screenHeight);
-        //~ game->_horsemanList.push_back(horseman);
-    //~ }
     // Coloca soldiers
     newUnits = rand() % game->_round;
     game->_soldierList = createUnitList(0, SOLDIER, game->_round + newUnits, game);
-    //~ for (int i = 0; i < game->_round + newUnits ; i++)
-    //~ {
-        //~ UNIT soldier = createSoldier();
-        //~ soldier.spawnFunction(&soldier, game->_screenWidth, game->_screenHeight);
-        //~ game->_soldierList.push_back(soldier);
-    //~ }
 };
 
 /* Desenha os textos referentes aos upgrades */

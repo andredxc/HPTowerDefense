@@ -2,11 +2,11 @@
 #include <SDL2/SDL_image.h>
 #include "Unit.h"
 
-/* Inicializa uma unidade */
-UNIT createUnit()
+/* Inicializa uma unidade com função de ordem superior */
+UNIT createUnit(UNIT (*createFunction)(UNIT unit))
 {
     UNIT newUnit;
-
+    // Inicializa os valores para unidades padrão
     newUnit._xPos = -1;
     newUnit._yPos = -1;
     newUnit._visualTex = NULL;
@@ -14,7 +14,6 @@ UNIT createUnit()
     newUnit._lastAttackTime = newUnit._lastIterationTime;
     newUnit._healthBarWidth = -1;
     newUnit._healthBarHeight = -1;
-    //Inicializa o nível dos atributos
     newUnit._healthLevel = 1;
     newUnit._armourLevel = 1;
     newUnit._damageLevel = 1;
@@ -22,7 +21,7 @@ UNIT createUnit()
     newUnit._delayLevel = 1;
     newUnit._rangeLevel = 1;
 
-    return newUnit;
+    return createFunction(newUnit);
 }
 
 /* Desaloca os dados referentes a uma unidade */

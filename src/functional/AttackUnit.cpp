@@ -105,12 +105,28 @@ int attackUpdate(UNIT* unit, UNIT* target)
     return rangedAttackDamage;
 }
 
-/* Cria um arqueiro */
-UNIT createArcher()
+/* Cria unidade de ataque */
+UNIT createAttackUnit(UNIT_TYPE type)
 {
-    UNIT archer;
+    switch(type){
+        case ARCHER:
+            return createUnit(createArcher);
+        case HORSEMAN:
+            return createUnit(createHorseman);
+            break;
+        case SOLDIER:
+            return createUnit(createSoldier);
+            break;
+        default:
+            fprintf(stderr, "Error, createAttackUnit() should not be called with thus unit type\n");
+            UNIT unit;
+            return unit;
+    }
+}
 
-    archer = createUnit();
+/* Cria um arqueiro */
+UNIT createArcher(UNIT archer)
+{
     //Determina os valores base de atributos
     archer._meleeDamage = 0;
     archer._baseHealth = 20;
@@ -142,12 +158,8 @@ UNIT createArcher()
 }
 
 /* Cria um soldado */
-UNIT createSoldier()
+UNIT createSoldier(UNIT soldier)
 {
-    UNIT soldier;
-
-    soldier = createUnit();
-
     //Determina os valores base de atributos
     soldier._meleeDamage = 5;
     soldier._baseHealth = 30;
@@ -175,17 +187,12 @@ UNIT createSoldier()
     soldier.renderFunction = render;
     soldier.recoverHealthFunction = recoverHealth;
 
-
     return soldier;
 }
 
 /* Cria um cara com cavalo */
-UNIT createHorseman()
+UNIT createHorseman(UNIT horseman)
 {
-    UNIT horseman;
-
-    horseman = createUnit();
-
     //Determina os valores base de atributos
     horseman._meleeDamage = 10;
     horseman._baseHealth = 40;

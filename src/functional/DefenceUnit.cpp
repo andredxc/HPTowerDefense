@@ -81,7 +81,6 @@ void attackClosestUnits(UNIT* defenceUnit, std::vector<UNIT>* archerList, std::v
             if(closeUnits.at(j).distance <= closeUnitBuffer.distance){
                 closeUnitBuffer = closeUnits.at(j);
                 chosenIndex = j;
-                break;
             }
         }
         //Ataca a unidade
@@ -124,8 +123,21 @@ void defenceSpawn(UNIT* defenceUnit, int screenWidth, int screenHeight)
 UNIT createDefenceUnit()
 {
     UNIT defenceUnit;
-
-    defenceUnit= createUnit();
+    // Inicializa os valores para unidades padrão
+    defenceUnit._xPos = -1;
+    defenceUnit._yPos = -1;
+    defenceUnit._visualTex = NULL;
+    defenceUnit._lastIterationTime = SDL_GetTicks();
+    defenceUnit._lastAttackTime = defenceUnit._lastIterationTime;
+    defenceUnit._healthBarWidth = -1;
+    defenceUnit._healthBarHeight = -1;
+    defenceUnit._healthLevel = 1;
+    defenceUnit._armourLevel = 1;
+    defenceUnit._damageLevel = 1;
+    defenceUnit._targetsLevel = 1;
+    defenceUnit._delayLevel = 1;
+    defenceUnit._rangeLevel = 1;
+    // Inicializa atributos específicos da torre
     defenceUnit._meleeDamage = 0;
     defenceUnit._baseHealth = 100;
     defenceUnit._baseArmour = 5;
