@@ -452,11 +452,13 @@ As funções lambda foram usadas como parâmetro das funções de primeira ordem
 
 	Funções de ordem superior são rotinas que usam funções como valor de retorno ou como parâmetro.
 
-		O uso mais típico desse mecanismo é a substituição de laços iterativos por uma única chamada que tem como parâmetros uma lista de elementos e uma função a ser aplicada a cada nodo. Esse mesmo caso foi utilizado no nosso trabalho nas funções \textit{gameUpate} e \textit{gameRender}, no arquivo \textit{Game.cpp}, para aplicar as funções de atualização do comportamento e de renderização para todas as entidades presentes no jogo. Para tanto, utilizamos a função \textit{for\_each}	definida na biblioteca \textit{iostream}.
+	O uso mais típico desse mecanismo é a substituição de laços iterativos por uma única chamada que tem como parâmetros uma lista de elementos e uma função a ser aplicada a cada nodo. Esse mesmo caso foi utilizado no nosso trabalho nas funções \textit{gameUpate} e \textit{gameRender}, no arquivo \textit{Game.cpp}, para aplicar as funções de atualização do comportamento e de renderização para todas as entidades presentes no jogo. Para tanto, utilizamos a função \textit{for\_each}	definida na biblioteca \textit{iostream}.
 
 	Além disso, criamos a nossa própria função de ordem superior como uma maneira de criar unidade inimigas (arqueiros, cavaleiros e soldados, criados pela rotina \textit{createAttackUnit}). Essa função recebe como seu único parâmetro uma outra que será utilizada para a inicialização dos atributos específicos da unidade escolhida. Assim, conseguimos separar a definição das variáveis padrões para qualquer unidade daquela para o tipo específico de inimigo escolhido.
 
-
+ \section{Currying}
+ 
+	Permite que diversas funções, de um único parâmetro cada, sejam criadas a partir de uma outra com diversos parâmetros, afim de atingir uma computação equivalente à desta. A nós, isto não especialmente útil pois conseguimos resolver todos os nossos problemas utilizando outros mecanismos funcionais, entretanto incluímos um exemplo deste mecanismo na função \textit{gameHandleEvents}, dentro do arquivo \textit{Game.cpp}, apenas para demonstrar como seria implementado em C++ e em que tipo de caso poderia ser utilizado.
 
 %%%%%%%%%%%
 % Referências
