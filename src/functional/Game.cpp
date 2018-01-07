@@ -88,23 +88,57 @@ void gameHandleEvents(GAME* game)
 
             switch(event.key.keysym.sym){
                 case SDLK_1:    //Health
-                    gamePurchaseUpgrade(game, HEALTH);
+                {
+                    auto purchaseUpgrade = [](GAME* game)
+                    {
+                        gamePurchaseUpgrade(game, HEALTH);
+                    };
+                    purchaseUpgrade(game);
+                    game->_defenceUnit.recoverHealthFunction(&game->_defenceUnit);
                     return;
+                }
                 case SDLK_2:    //Armour
-                    gamePurchaseUpgrade(game, ARMOUR);
+                {
+                    auto purchaseUpgrade = [](GAME* game)
+                    {
+                        gamePurchaseUpgrade(game, ARMOUR);
+                    };
+                    purchaseUpgrade(game);
                     return;
+                }
                 case SDLK_3:    //Damage
-                    gamePurchaseUpgrade(game, DAMAGE);
+                {
+                    auto purchaseUpgrade = [](GAME* game)
+                    {
+                        gamePurchaseUpgrade(game, DAMAGE);
+                    };
+                    purchaseUpgrade(game);
                     return;
+                }
                 case SDLK_4:    //Attack range
-                    gamePurchaseUpgrade(game, RANGE);
+                {    auto purchaseUpgrade = [](GAME* game)
+                    {
+                        gamePurchaseUpgrade(game, RANGE);
+                    };
+                    purchaseUpgrade(game);
                     return;
+                }
                 case SDLK_5:    //Number of targets
-                    gamePurchaseUpgrade(game, TARGETS);
+                {    auto purchaseUpgrade = [](GAME* game)
+                    {
+                        gamePurchaseUpgrade(game, TARGETS);
+                    };
+                    purchaseUpgrade(game);
                     return;
+                }
                 case SDLK_6:    //Attack delay
-                    gamePurchaseUpgrade(game, DELAY);
+                {    auto purchaseUpgrade = [](GAME* game)
+                    {
+                        gamePurchaseUpgrade(game, DELAY);
+                    };
+                    purchaseUpgrade(game);
                     return;
+                }
                 case SDLK_y:
                     if(gameEndOfGame(*game)){
                         // Trata o botão para começar um novo jogo
@@ -247,7 +281,7 @@ void gameRender(GAME* game)
     //     }
     // };
 
-    
+
 
     SDL_RenderClear(game->_renderer);
     // Renderiza a defence unit
