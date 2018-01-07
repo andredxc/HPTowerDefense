@@ -459,6 +459,73 @@ As funções lambda foram usadas como parâmetro das funções de primeira ordem
  \section{Currying}
  
 	Permite que diversas funções, de um único parâmetro cada, sejam criadas a partir de uma outra com diversos parâmetros, afim de atingir uma computação equivalente à desta. A nós, isto não especialmente útil pois conseguimos resolver todos os nossos problemas utilizando outros mecanismos funcionais, entretanto incluímos um exemplo deste mecanismo na função \textit{gameHandleEvents}, dentro do arquivo \textit{Game.cpp}, apenas para demonstrar como seria implementado em C++ e em que tipo de caso poderia ser utilizado.
+ \section{Recursao}
+ 
+ A recursão é a ocorrência de uma chamada de função dentro dela mesma, essa funcionalidade é comumente utilizada em situações onde temos um caso base que define o problema e passos de recursão que ocorrem sobre este caso base, um exemplo disto é a sequência de  Fibonacci onde o caso 0 e o caso 1 são definidos como casos base, e seus casos subsequentes são o passo recursivo dos dois casos anteriores, se fossemos criar um laço for para resolver este problema, a solução seria muito mais complexa em comparação com a solução recursiva, assim, a recursão pode ser útil para resolver problemas complexos de maneira mais simples e rápida.
+ 
+	Voltando ao exemplo da sequência de Fibonacci, para utilizarmos a recursão é muito simples, basta efetuarmos a chamada da função que estamos criando dentro dela mesma, sempre atendado para a ocorrência de parada. O uso da recursão requer alguns cuidados na hora de programarmos, pois temos que atendar à condição de parada, bem como à sequência de chamadas para garantir que tudo irá funcionar corretamente.
+	
+	\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/recursao1.png}
+    }
+    \label{fig:figura1}
+    \caption{Recursao.}
+    %\fonte{xxxxxx}
+\end{figure}
+
+	Outro exemplo de uso da recursão é a criação de listas encadeadas, onde cada passo de recursão gera um elemento e apenda o mesmo em uma lista, e logo após, retorna essa lista para o passo de recursão anterior, que cria o seu elemento, apenda ele, e retorna novamente a lista, ao final da recursão teremos a lista com todos os elementos dentro ela prontos para serem utilizados.
+
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/recursao2.png}
+    }
+    \label{fig:figura1}
+    \caption{Recursao.}
+    %\fonte{xxxxxx}
+\end{figure}
+
+\section{Pattern Matching}
+
+O casamento de padrões, ou, pattern matching, é o ato de checar se uma certa sequencia de valores combina ou coencide com um padrão desejado, permitindo assim que diferentes desisão sejam tomadas de acordo com o padrão encontrado.
+
+	Um exemplo do uso de pattern maching é a verificacao da entrada de parametros de uma função, o uso de tal técnica pelo compilador permite o mesmo avaliar e decidir se os valores passados por parametros para uma função realmente satisfazer o que aquela função está esperando, caso contrário, o mesmo pode avisar o programador sobre o erro para que ele seja corrigido.
+
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/pattern1.png}
+    }
+    \label{fig:figura1}
+    \caption{Pattern Matching.}
+    %\fonte{xxxxxx}
+\end{figure}
+
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/pattern2.png}
+    }
+    \label{fig:figura1}
+    \caption{Pattern Matching.}
+    %\fonte{xxxxxx}
+\end{figure}
+
+	Nas imagens acima podemos ver que o compilador acusa o erro de que não pôde converter a variavel double c em String, acusando assim um erro de combinação pois a funcao exemplo espera que sejam passados para ela um int e uma string.
+
+	Outro exemplo mais explissito do qual o programador pode tirar proveito é o Overload ou sobrecarga de funções, onde, a partir o pattern matching, o compilador decide qual intancia da funcao usar de acordo com o parametros que foram passador para ele, permitindo assim que o programador utilize um unico nome de funcao para diferentes tipos de dados.
+	
+	\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/pattern3.png}
+    }
+    \label{fig:figura1}
+    \caption{Pattern Matching.}
+    %\fonte{xxxxxx}
+\end{figure}
 
 %%%%%%%%%%%
 % Referências
