@@ -21,7 +21,7 @@
 \usepackage{breakcites}
 \usepackage{titlesec}
 \usepackage{enumitem}
-\usepackage{titletoc}               
+\usepackage{titletoc}
 \usepackage{listings}			    % para listagens de código-fonte
 \usepackage{mathptmx}               % p/ usar fonte Adobe Times nas formulas matematicas
 \usepackage{url}                    % para formatar URLs
@@ -66,11 +66,11 @@
 %\interfootnotelinepenalty=10000
 
 %%%%%%%%%%%%%%
-% Informações gerais                                   
+% Informações gerais
 %%%%%%%%%%%%%%
 
 % título
-\title{Uma Comparação entre o Paradigma\\ Funcional e Orientado a Objetos para Solução do Problema "Tower Defence" utilizando C++ \\ \vspace{0.4cm} Grupo HP} 
+\title{Uma Comparação entre o Paradigma\\ Funcional e Orientado a Objetos para Solução do Problema "Tower Defence" utilizando C++ \\ \vspace{0.4cm} Grupo HP}
 
 % autor
 \author{Dexheimer}{André}
@@ -83,8 +83,8 @@
 % Nome do(s) curso(s):
 \course{Curso de Graduação em Ciência da Computa{\c{c}}{\~a}o e Engenharia de Computação}
 
-% local da realização do trabalho 
-\location{Porto Alegre}{RS} 
+% local da realização do trabalho
+\location{Porto Alegre}{RS}
 
 % data da entrega do trabalho (mês e ano)
 \date{12}{2017}
@@ -103,8 +103,8 @@
 % Declara início do documento
 \begin{document}
 
-% inclui folha de rosto 
-\maketitle      
+% inclui folha de rosto
+\maketitle
 
 \selectlanguage{brazilian}
 
@@ -115,7 +115,7 @@
 \bibliographystyle{abntex2-alf}
 
 
-%\bibliography{biblio} % arquivo que contém as referências (no formato bib). Colocar as suas 
+%\bibliography{biblio} % arquivo que contém as referências (no formato bib). Colocar as suas
 %%%%%%%%%%%%%
 % Aqui comeca o texto propriamente dito
 %%%%%%%%%%%%%
@@ -128,8 +128,8 @@
 
 
 \chapter{Introdução} \label{intro}
-Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Logo após, serão abordados os temas diretamente relacionados á implementação, para maiores detalhes a implementação OO e funcional estão disponíveis em \\ https://github.com/andredxc/HPTowerDefense e podem ser utilizadas sempre e quando a respectiva citação seja incluida. 
-Caso seja necesário podemos fornecer uma maquina virtual do sistema de desenvolvimento. 
+Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Logo após, serão abordados os temas diretamente relacionados á implementação, para maiores detalhes a implementação OO e funcional estão disponíveis em \\ https://github.com/andredxc/HPTowerDefense e podem ser utilizadas sempre e quando a respectiva citação seja incluida.
+Caso seja necesário podemos fornecer uma maquina virtual do sistema de desenvolvimento.
 \section{Historia das Linguagens de Programação}
 As primeiras linguagens de programação eram simples códigos utilizados para automatizar processos nem sempre relacionadas à computação. Na década de 1940, com a criação do primeiro computador moderno, eram utilizados cartões perfurados para facilitar o processo de programação e diminuir a quantidade de erros introduzidos pelo programador. Não foi até meados de 1950 que surgiu a primeira linguagem de programação moderna: FORTRAN, criada por John Backus. Os seguintes anos foram frutíferos, vieram acompanhados de duas novas linguagens de programação: LISP - John McCarthy e COBOL - Grace Hopper.
 
@@ -153,7 +153,7 @@ A linguagem de programação C++ foi criada por Bjarne Stroustrup nos anos de 19
 
 
 \section{Algumas características do C++}
- 
+
 	\textbf{Operadores:} O C++ possui todo o conjunto de operadores do C, além de alguns implementados apenas no C++, que dizem respeito à conversão entre tipos, os quais que podem ser const\_cast, static\_cast, dynamic\_cast e reinterpret\_cast. Além disso, a linguagem possui sobrecarga de operadores, permitindo que um mesmo operador tenha mais do que 1 significado dependendo do contexto em que é utilizado.
 
 	\textbf{	Pré-Processador:} antes da compilação propriamente dita, o C++ passa pelo seu pré-processador, gerando modificações léxicas que servem como entrada para a compilação.
@@ -163,7 +163,7 @@ A linguagem de programação C++ foi criada por Bjarne Stroustrup nos anos de 19
 	\textbf{	Tratamento de Exceções:} Erros podem ser tratados pelo sistema, permitindo que a aplicação se recupere de algum erro sem travar ou ter de ser fechada.
 
 	\textbf{Espaço de Nomes:} Permite uma melhor organização das bibliotecas, de forma que cada uma pode criar o seu próprio espaço de nomes para que não existam conflitos.
-	
+
 	Maiores informações podem ser encontradas em "International Standard ISO/IEC 14882:2017(E) – Programming Language C++"
 
 \chapter{Tower Defence} \label{Tower Defence}
@@ -176,13 +176,13 @@ Defender a sua torre de ondas progressivamente maiores de inimigos progressivame
 Eles têm como objetivo atacar a torre até que sua vida chegue a 0 pontos, surgem de pontos aleatórios nas bordas da tela e vão em direção a torre. Eles possuem atributos definidos pelo nível do jogo, como: velocidade de ataque e de movimento, poder de ataque, quantidade de vida e de defesa.
 	Existem 3 classes de inimigos: a classe "Soldier" se trata de um soldado que anda a pé e possui apenas armas de curto alcance. Ele vai em direção ao centro da tela e somente danifica a torre ao chegar nela.
 	A classe "Horseman" se comporta de maneira semelhante ao soldier, porém possui mais defesa, dano de ataque e velocidade de movimento.
-	A classe "Archer" é a que mais se diferencia das outras pois consegue atacar a torre de longas distâncias, tendo em suas características algo que as outras classes não têm, a distância de ataque, que indica a distância da qual o inimigo deve estar da torre para poder atacá-la. 
+	A classe "Archer" é a que mais se diferencia das outras pois consegue atacar a torre de longas distâncias, tendo em suas características algo que as outras classes não têm, a distância de ataque, que indica a distância da qual o inimigo deve estar da torre para poder atacá-la.
 
 \chapter{ Implementação Orientada a Objetos} \label{Implementação OO}
 Na linguagem C++, o paradigma orientado a objetos é o mais conhecido, logo é o mais utilizado entre os programadores.
 Serão introduzidos os conceitos principais abordados neste trabalho para depois realizar uma breve discução sobre quando e onde devem ser utilizados.
 \section{Classes}
-O propósito principal da programação em C++ é a acrescentar orientação a objetos à linguagem C. Classes são a característica principal da linguagem C++ que suporta orientação a objetos, também são chamadas de tipos definidos pelo usuário. A diferença das estruturas de dados presentes em C, as classes combinam a representação dos dados com métodos associados, formando assim uma unidade compacta. 
+O propósito principal da programação em C++ é a acrescentar orientação a objetos à linguagem C. Classes são a característica principal da linguagem C++ que suporta orientação a objetos, também são chamadas de tipos definidos pelo usuário. A diferença das estruturas de dados presentes em C, as classes combinam a representação dos dados com métodos associados, formando assim uma unidade compacta.
 \bigbreak
 
 \begin{figure}[htb]
@@ -197,13 +197,13 @@ O propósito principal da programação em C++ é a acrescentar orientação a o
 
 
 \subsection{Classes Abstratas}
-As classes abstratas são um tipo de classes que agem como expressões de conceitos gerais das quais classes mais específicas podem ser derivadas. Não está permitido instanciar objetos de classes abstratas. 
+As classes abstratas são um tipo de classes que agem como expressões de conceitos gerais das quais classes mais específicas podem ser derivadas. Não está permitido instanciar objetos de classes abstratas.
 Uma classe derivada de uma classe abstrata deve implementar o método virtual puro ou também será considerada uma classe abstrata.
 
 \noindent {Métodos virtuais puros são declarados da seguinte forma:}
  \begin{itemize}
- \item virtual void pureVirtualFunction() = 0  
- \end{itemize}  	
+ \item virtual void pureVirtualFunction() = 0
+ \end{itemize}
 A classe \textbf{Unit} é uma classe abstrata já que define metodos virtuáis puros que são implementados nas classes derivadas correspondentes( AttackUnit e DefenceUnit).
 \subsection{Herança}
 Herança é fundamental na programação orientada a objetos, já que fornece meios para promover a extensibilidade do codigo, reutilização e maior coerência lógica no modelo de implementação. As classes que são usadas para derivação são chamadas de classes base de uma classe derivada específica.Na herança a classe derivada contém os membros da classe base mais os novos mebros que sejam adicionados na declaração da classe derivada.
@@ -211,11 +211,11 @@ Herança é fundamental na programação orientada a objetos, já que fornece me
  \begin{itemize}
  \item class Derived :[virtual] [access-specifier] Base
  \{ \bigbreak
- 	\hspace{1cm} // Member List		
+ 	\hspace{1cm} // Member List
 	\bigbreak
- \};  
- \end{itemize}  	
-\subsection{Herança Unica} 	
+ \};
+ \end{itemize}
+\subsection{Herança Unica}
 As classes tem apenas uma classe base, gerando assim uma árvore de derivação.
 
 \begin{figure}[htb]
@@ -229,11 +229,11 @@ As classes tem apenas uma classe base, gerando assim uma árvore de derivação.
 \end{figure}
 
 
-\subsection{Herança Multipla} 	
+\subsection{Herança Multipla}
 As classes podem herdar de mais de uma classe base, gerando assim um grafo de derivação.
 \noindent {Herança multipla apresenta diversos problemas de implementação:}
  \begin{itemize}
-   \item Problema do Diamante: Uma classe D herda de duas classes B e C. B e C herdam de A. Os atributos de A serão duplicados em D gerando   assim conflitos e ambiguidades no momento do acesso. 
+   \item Problema do Diamante: Uma classe D herda de duas classes B e C. B e C herdam de A. Os atributos de A serão duplicados em D gerando   assim conflitos e ambiguidades no momento do acesso.
 \begin{figure}[htb]
     \centering
     \fbox{
@@ -243,19 +243,19 @@ As classes podem herdar de mais de uma classe base, gerando assim um grafo de de
     \caption{Problema do Diamante.}
     %\fonte{xxxxxx}
 \end{figure}
-   
-   
-   
+
+
+
    Uma solução para este problema  é utilizar herança virtual nas classes B e C.
- \end{itemize}  	
+ \end{itemize}
  A planificação inicial foi feita de modo a evitar o uso de Herança Multipla.
- 
+
 \section{Polimorfismo}
 Polimorfismo é a capacidade de objetos se comportarem de forma diferenciada em face de suas características ou do ambiente ao qual estejam submetidos,mesmo quando executando ação que detenha, semânticamente, a mesma designação.
 
-O polimorfismo está fortemente conectado ao sistema de tipos. Já que é o sistema de tipos que define se este mecanismo é realmente implementável ou não.  Uma tipagem dinâmica permite obter todos os beneficios que o polimorfismo traz assim como as desvantagens em relação aa eficiência. 
+O polimorfismo está fortemente conectado ao sistema de tipos. Já que é o sistema de tipos que define se este mecanismo é realmente implementável ou não.  Uma tipagem dinâmica permite obter todos os beneficios que o polimorfismo traz assim como as desvantagens em relação aa eficiência.
 
-\subsection{Polimorfismo Adhoc} 
+\subsection{Polimorfismo Adhoc}
 Este tipo de polimorfismo atua somente sobre abstrações de controle, também conhecido como polimorfismo de aparência já que não faz reuso.
 \bigbreak
 \noindent{Tipos de polimorfismo Adhoc}
@@ -264,44 +264,115 @@ Este tipo de polimorfismo atua somente sobre abstrações de controle, também c
 Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é muito simples de utilizar, ao realizar uma operação binaria entre dois operandos de tipos diferentes mas compatíveis por coersão. Ex: Somar um int com un float.
 }
 \item Sobrecarga: Redifinição de itens já existentes. O mesmo operador comporta-se de maneiras diferentes dependendo dos operandos. C++ oferece total versatibilidade neste sentido, já que permite sobreescrever grande quantidade dos operadores.No projeto podemos encontrar este tipo de polimorfismo nas funções spawn() e update().
- \end{itemize}  	
- 
+ \end{itemize}
+
 \subsection{Polimorfismo Universal}
  Também conhecido como polimorfismo verdadeiro, aplica-se o mesmo codigo sobre elementos de tipos diversos. Permite a programação genérica.
  \noindent{Tipos de polimorfismo Universal}
   \begin{itemize}
-	\item Inclusão: Elemento de um subtipo também é um elemento do supertipo, logo os metodos da superclasse podem ser chamados com elementos da subclasse. A vinculaçao tardia permite este tipo de polimorfismo que também pode ser atingido via Downcasting ou Upcasting. 
+	\item Inclusão: Elemento de um subtipo também é um elemento do supertipo, logo os metodos da superclasse podem ser chamados com elementos da subclasse. A vinculaçao tardia permite este tipo de polimorfismo que também pode ser atingido via Downcasting ou Upcasting.
 	Este tipo de polimorfismo pode encontrar-se no metodo render() da classe Unit, este método é chamado pelos objetos das classes AttackUnit e DefenceUnit, ambas são classes derivadas de Unit.
-	\item Paramêtrico: Permite o desenvolvimento de algortimos genéricos, aumentando assim a reusabilidade de codigo. A linguagem C++ oferece diversas estruturas genêricas, chamadas de templates. É importante destacar que o compilador geraŕa codigo diferente para cada tipo do algoritmo generico  que seja instanciado. Podemos encontrar este tipo de polimorfismo nas listas que contém as diferentes unidades do jogo. Utilizamos a classe std::vector<type> do próprio C++. 
- \end{itemize}   
- 
- 
-\section{Encapsulamento} 
- 
+	\item Paramêtrico: Permite o desenvolvimento de algortimos genéricos, aumentando assim a reusabilidade de codigo. A linguagem C++ oferece diversas estruturas genêricas, chamadas de templates. É importante destacar que o compilador geraŕa codigo diferente para cada tipo do algoritmo generico  que seja instanciado. Podemos encontrar este tipo de polimorfismo nas listas que contém as diferentes unidades do jogo. Utilizamos a classe std::vector<type> do próprio C++.
+ \end{itemize}
+
+
+\section{Encapsulamento}
+
 	O encapsulamento consiste em isolar atributos e métodos afim de progê-los de qualquer uso indevido, isto, junto com a devida documentação, favorece em muito a reusabilidade do código, uma vez que facilita sua correta instanciação.
-	
+
 	Na nossa implementação, fizemos com que quase, senão todos, os atributos das classes fossem protegidos, isto permite que eventuais classes que herdem destas ainda consigam utilizá-los. Aliando isso aos métodos de acesso (\textit{getters} e \textit{setters}), temos uma camada que torna mais difícil o assinalamento de dados inválidos ou inesperados a variáveis internas, assim tornando o código mais robusto e seguro.
-	
+
  	No nosso código, o trecho onde essa propriede se torna mais visível é na classe \textit{Unit}, a qual possui dados sobre todas as unidades de ataque e de defesa presentes no jogo. Aqui, todas as variáveis são protegidas para que nenhum contexto de fora possa fazer alterações diretas. Isto se tornou importante não só para manter a integridade dos dados, mas também porque todos os atributos de ataque de defesa devem se manter consistentes com seus níveis já que, apenas assim, o sistema de \textit{upgrades} pode funcionar corretamente. Portanto, todas as alterações a esses atributos só podem ser feitas por meio dos métodos que levam em consideranção os seus valores base e seus níveis atuais.
- 	
- 	
+
+
  \section{Delegates}
- 
- 	Delegates consistem em uma maneira de generalizar tarefas que possuem diferentes rotinas e/ou entradas para um mesmo fim. No nosso código, encontramos dificuldades em implementar Delegates como normalmente são feitos em C++, com classes ou structs específicas para este fim. Portanto, tentamos utilizar caracteríscas desse modelo em algumas funções específicas. Os melhores exemplos disso a serem citados na nossa implementação desta etapa do trabalho estão na classe \textit{Unit} e dizem respeito ao sistema de \textit{upgrades}. 
- 	
+
+ 	Delegates consistem em uma maneira de generalizar tarefas que possuem diferentes rotinas e/ou entradas para um mesmo fim. No nosso código, encontramos dificuldades em implementar Delegates como normalmente são feitos em C++, com classes ou structs específicas para este fim. Portanto, tentamos utilizar caracteríscas desse modelo em algumas funções específicas. Os melhores exemplos disso a serem citados na nossa implementação desta etapa do trabalho estão na classe \textit{Unit} e dizem respeito ao sistema de \textit{upgrades}.
+
  	Esse sistema necessita de três informações básicas: o nível de um atributo, o seu valor base (inicial) e um coeficiente de aumento. Então juntamos estas três informações em três chamadas que realizam as seguintes operações sobre todos os atributos: consultar um valor, verificar e incrementar seu nível atual. Estas funções possuem em comum um parâmetro que consiste em uma \textit{enum} que define o nome de um dado (vida, armadura, dano de ataque, número de alvos, velocidade de ataque e alcance de ataque). Desta forma, cada função pode realizar seis ações diferentes, sendo uma para cada atributo.
- 
- 
+
+    \section{Espaço de Nomes}
+   Espaço de nomes é o nome dado para o do contexto de onde vem uma variável ou função de um programa, comumente utilizado para resolver problemas de ambiguidade de um programa complexo. O espaço de nomes(“namespace”) serve para permitir que 2 identificadores idênticos possam existir em diferentes contextos do sistema, um exemplo disto é o sistema de arquivos do computador, podemos pensar no namespace como sendo uma pasta, dentro dela, não podemos ter mais do que 1 arquivo com o mesmo nome, porém, podemos ter vários arquivos com o mesmo nome, desde que eles existam apenas em pastas(namespaces) diferentes, o mesmo vale para a linguagem C++, podemos ter várias ou métodos com o mesmo nome, desde que cada uma esteja dentro do seu namespace.
+
+   	O uso no namespace é bem simples de ser entendido, uma vez definido, basta utilizar o nome escolhido seguido de “::” antes do nome da variável ou método que você pretende identificar.
+
+   \begin{figure}[htb]
+       \centering
+       \fbox{
+           \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao1.png}
+       }
+       \label{fig:figura4}
+       \caption{Espaço de nomes exemplo.}
+       %\fonte{xxxxxx}
+   \end{figure}
+
+   Um exemplo de uso desse recurso para a programação orientada a objetos é poder definir uma classe em um arquivo .h e implementar seus métodos em outro arquivo.cpp, permitindo assim que o programador forneça acesso aos “Headers” das funções sem ter que mostrar suas implementações, e também, tornando o programa mais “legível” e organizado.
+   	Na primeira foto, temos o arquivo AttackUnit.h onde ocorre a declaração da classe AttackUnit e a definição de alguns métodos como seu destrutor: “~AttackUnit()” e “update()”.
+
+   	Na segunda fotos, temos o arquivo AttackUnit.cpp, onde temos a implementação dos métodos já definidos no arquivo .h. Aqui podemos ver o uso do namespace “AttackUnit” para indicar ao compilador que os métodos ali implementados pertencem ao contexto da classe AttackUnit.
+   	Esse tipo de estruturação do código nos permite definir diferentes classe com os mesmos métodos em diferentes arquivos.h  e implementar todos esses métodos no mesmo arquivo.cpp, pois o namespace resolve o problema de ambiguidade entre os nomes dos métodos.
+
+
+   \begin{figure}[htb]
+       \centering
+       \fbox{
+           \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao2.png}
+       }
+       \label{fig:figura5}
+       \caption{Espaço de nomes exemplo.}
+       %\fonte{xxxxxx}
+   \end{figure}
+
+   \begin{figure}[htb]
+       \centering
+       \fbox{
+           \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao3.png}
+       }
+       \label{fig:figura6}
+       \caption{Espaço de nomes.}
+       %\fonte{xxxxxx}
+   \end{figure}
+
+    \section{Construtores e Destrutores}
+   Construtores e Destrutores são outra característica da programação orientada a objetos, eles são métodos que são chamados, como o próprio nome já diz, quando uma classe é “construída” e “destruída”, explicando melhor, quando uma nova instância da classe é criada, logo após é chamado seu construtor, que normalmente é usado para a inicialização de valores do objeto, bem como alocação de memória e chama de outros métodos necessários para aquele objeto. O seu destrutor, por outro lado, é chamado imediatamente antes desta instância deixar de existir, liberando a memória que foi alocada pelo objeto e efetuando alguma outra operação antes que o objeto seja destruído.
+
+   	Um construtor é facilmente identificado por carregar consigo o mesmo nome da sua classe, e seu destrutor, da mesma maneira, apenas tendo o símbolo “~” precedendo sua definição. Como o construtor da classe é um método como qualquer outro, ele pode ser sobrecarregado, permitindo que uma classe tenha diferentes construtores para cada situação desejada no código. Abaixo temos um exemplo da sintaxe de uma classe com 2 construtores e seu destrutor.
+
+
+   	\begin{figure}[htb]
+       \centering
+       \fbox{
+           \includegraphics[width=8cm,height=5cm,keepaspectratio]{images/alemao4.png}
+       }
+       \label{fig:figura7}
+       \caption{Construtores e destrutores.}
+       %\fonte{xxxxxx}
+   \end{figure}
+
+   	Um exemplo de uso de construtores é inicializar os valores de um objeto para que o mesmo seja usado na execução do problema. Abaixo temos a classe Archer, que representa um dos inimigos da torre dentro do jogo TowerDefence. Aqui, podemos identificar com facilidade quem é o construtor e quem é seu destrutor devido ao til(~). No construtor do exemplo abaixo podemos ver que vários valores do objeto são inicializados, para que o mesmo possa ser usado no futuro, incluísse alguns utilizando da chamada de outros métodos do programa.
+   	No destrutor podemos ver que ele efetua uma liberação de memória que foi alocada durante a execução do programa e que não será mais necessária agora que o objeto está sendo destruído.
+
+
+   \begin{figure}[htb]
+       \centering
+       \fbox{
+           \includegraphics[width=12cm,height=8cm,keepaspectratio]{images/alemao5.png}
+       }
+       \label{fig:figura8}
+       \caption{Construtores e destrutores.}
+       %\fonte{xxxxxx}
+   \end{figure}		 
+
  \section{Análise Crítica}
- 
+
  \begin{center}
-\begin{tabular}{ |c|c|p{80mm} } 
+\begin{tabular}{ |c|c|p{80mm} }
 \hline
 	\textbf{Critérios} & \textbf{Nota} & \textbf{Justificativas} \\
 \hline
-\textbf{Simplicidade} & 6 & Pode se tornar bastante complexa uma vez que é necessário administrar ponteiros para listas e alocação de memória, como foi feito na classe Game para controlar todos os inimigos presentes no jogo.\\ 
-\textbf{Ortogonalidade} & 6 & Não permite muita extensão das funcionalidades dos operadores e tipos básicos, assim sendo necessárias diversas funções aparentemente básicas através de includes, como a biblioteca string.h.\\ 
-\textbf{Expressividade} & 5 & Por ser mais baixo nível, são necessárias mais linhas de código para fazer menos, como exemplo podemos citar as várias linhas de código utilizadas para manejar as listas de unidades mostradas na tela bem como os vários cálculos utilizados para mover unidades. \\ 
+\textbf{Simplicidade} & 6 & Pode se tornar bastante complexa uma vez que é necessário administrar ponteiros para listas e alocação de memória, como foi feito na classe Game para controlar todos os inimigos presentes no jogo.\\
+\textbf{Ortogonalidade} & 6 & Não permite muita extensão das funcionalidades dos operadores e tipos básicos, assim sendo necessárias diversas funções aparentemente básicas através de includes, como a biblioteca string.h.\\
+\textbf{Expressividade} & 5 & Por ser mais baixo nível, são necessárias mais linhas de código para fazer menos, como exemplo podemos citar as várias linhas de código utilizadas para manejar as listas de unidades mostradas na tela bem como os vários cálculos utilizados para mover unidades. \\
 \textbf{Adequabilidade} & 9 &  \\
 \textbf{Variedade de estruturas de controle} & 10 & Tem todas as estruturas de controle necessárias presentes nas linguagens de programação atuais. \\
 \textbf{Mecanismos de definição de tipos} & 10 & Permite a declaração de structs, enums bem como a redefinição de nomes com typedefs. Esses mecanismos foram muito utilizados na classe Unit, com a definição de enums para todos os tipos de unidades, por exemplo.\\
@@ -313,13 +384,13 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
 
 
  \begin{center}
-\begin{tabular}{ |c|c|p{80mm} } 
+\begin{tabular}{ |c|c|p{80mm} }
 \hline
 	\textbf{Critérios} & \textbf{Nota} & \textbf{Justificativas} \\
 \hline
 \textbf{Portabilidade} & 10 & É uma linguagem muito portável, possui compiladores para uma vasta quantidade de arquiteturas de processadores e sistemas operacionais. \\
 \textbf{Reusabilidade} & 10 & É bastante reusável pois permite fácil importação das mais variadas bibliotecas. \\
-\textbf{Suporte e documentação} & 10 & Microsoft oferece uma ampla documentação, rica em exemplos e conteúdo confiável, fora toda a documentação produzida por usuários em fórums na internet. \\ 
+\textbf{Suporte e documentação} & 10 & Microsoft oferece uma ampla documentação, rica em exemplos e conteúdo confiável, fora toda a documentação produzida por usuários em fórums na internet. \\
 \textbf{Tamanho de código} & 7 & Permite o uso de templates para a criação de algoritmos e estruturas genéricas. Facilita a programação, mas o codigo é replicado quando passa pelo compilador. \\
 \textbf{Generalidade} & 7 & a \\
 \textbf{Eficiência e custo} & 10 & A diferença da maioria das linguaguens Orientadas a objetos, é uma linguagem compilada, o que outorga um alto desempenho, também permite utilizar vinculação tardia para permitir polimorfismo. \\
@@ -327,32 +398,32 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
 \end{tabular}
 \end{center}
 
-\chapter{ Implementação Funcional} \label{Implementação Funcional} 
+\chapter{ Implementação Funcional} \label{Implementação Funcional}
 
-Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi adaptava para convertir-se numa linguagem multiparadigma, adicionando suporte e estrutas do paradigma funcional, mas sem perder as principais caracteristicas que a definem. 
+Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi adaptava para convertir-se numa linguagem multiparadigma, adicionando suporte e estrutas do paradigma funcional, mas sem perder as principais caracteristicas que a definem.
 
  \section{Funções Puras}
-bla bla puro 
+bla bla puro
 
  \section{Funções Lambda}
 bla bla lambda
 
  \section{Funções como elementos de 1ª ordem}
- 
+
 	Consiste na manipulação de funções como se fossem variáveis no paradigma imperativo, o que permite atribuí-las a variáveis, listas, \textit{structs}, etc.. No nosso projeto, utilizamos este mecanismo como uma alternativa às funções virtuais da etapa anterior. Para tanto, criamos uma \textit{struct} com diversos campos que descrevem atributos de unidades de ataque e defesa, sendo quatro desses campos usados para funções, as quais podem variar entre os diferentes tipos de unidades. Assim, ao inicializar uma nova entidade, podemos definir qual método deve ser chamado para atualizar o comportamento, inicializar as variáveis de posição (X e Y), renderizar e recuperar a vida.
 
  \section{Funções de ordem superior}
-	
+
 	Funções de ordem superior são rotinas que usam funções como valor de retorno ou como parâmetro.
-	
+
 		O uso mais típico desse mecanismo é a substituição de laços iterativos por uma única chamada que tem como parâmetros uma lista de elementos e uma função a ser aplicada a cada nodo. Esse mesmo caso foi utilizado no nosso trabalho nas funções \textit{gameUpate} e \textit{gameRender}, no arquivo \textit{Game.cpp}, para aplicar as funções de atualização do comportamento e de renderização para todas as entidades presentes no jogo. Para tanto, utilizamos a função \textit{for\_each}	definida na biblioteca \textit{iostream}.
-	
+
 	Além disso, criamos a nossa própria função de ordem superior como uma maneira de criar unidade inimigas (arqueiros, cavaleiros e soldados, criados pela rotina \textit{createAttackUnit}). Essa função recebe como seu único parâmetro uma outra que será utilizada para a inicialização dos atributos específicos da unidade escolhida. Assim, conseguimos separar a definição das variáveis padrões para qualquer unidade daquela para o tipo específico de inimigo escolhido.
 
 
- 
+
 %%%%%%%%%%%
-% Referências 
+% Referências
 %%%%%%%%%%%
 
 %\bibliographystyle{abnt}
@@ -400,4 +471,3 @@ Quando o local e a editora não puderem ser identificados, utilizam-se [S.l.:s.n
 \end{comment}
 
 \end{document}
-
