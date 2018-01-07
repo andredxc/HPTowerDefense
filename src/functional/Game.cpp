@@ -202,38 +202,76 @@ void gameUpdate(GAME* game)
     std::for_each(game->_soldierList.begin(),game->_soldierList.end(),updateSoldier);
 }
 
+void render(UNIT& U, GAME* game)
+{
+    if(U._currentHealth > 0){
+        if(!U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight))
+        {
+            // Tenta novamente
+            U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight);
+        }
+    }
+}
+
+void render(PROJECTILE& P, GAME* game)
+{
+    if(!P._isDead){
+        if(!projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight))
+        {
+            // Tenta novamente
+            projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight);
+        }
+    }
+}
+
 /* Coloca coisas na tela */
 void gameRender(GAME* game)
 {
-    char roundStr[10];
-    auto renderUnit = [&game](UNIT& U){
-        if(U._currentHealth > 0){
-            if(!U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight))
-            {
-                // Tenta novamente
-                U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight);
-            }
-        }
-    };
-    auto renderProjectile = [&game](PROJECTILE& P){
-        if(!P._isDead){
-            if(!projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight))
-            {
-                // Tenta novamente
-                projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight);
-            }
-        }
-    };
+     char roundStr[10];
+    // auto renderUnit = [&game](UNIT& U){
+    //     if(U._currentHealth > 0){
+    //         if(!U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight))
+    //         {
+    //             // Tenta novamente
+    //             U.renderFunction(&U, game->_renderer, game->_screenWidth, game->_screenHeight);
+    //         }
+    //     }
+    // };
+    // auto renderProjectile = [&game](PROJECTILE& P){
+    //     if(!P._isDead){
+    //         if(!projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight))
+    //         {
+    //             // Tenta novamente
+    //             projectileRender(&P, game->_renderer, game->_screenWidth, game->_screenHeight);
+    //         }
+    //     }
+    // };
+
+    
 
     SDL_RenderClear(game->_renderer);
     // Renderiza a defence unit
     game->_defenceUnit.renderFunction(&game->_defenceUnit, game->_renderer, game->_screenWidth, game->_screenHeight);
     // Renderiza os inimigos
-    std::for_each(game->_archerList.begin(),game->_archerList.end(),renderUnit);
-    std::for_each(game->_horsemanList.begin(),game->_horsemanList.end(),renderUnit);
-    std::for_each(game->_soldierList.begin(),game->_soldierList.end(),renderUnit);
-    // Renderiza os projéteis
-    std::for_each(game->_projectileList.begin(),game->_projectileList.end(),renderProjectile);
+
+    for (std::vector<UNIT>::iterator it = game->_archerList.begin() ; it != game->_archerList.end(); ++it)
+        render(*it, game);
+
+    for (std::vector<UNIT>::iterator it = game->_horsemanList.begin() ; it != game->_horsemanList.end(); ++it)
+        render(*it, game);
+
+    for (std::vector<UNIT>::iterator it = game->_soldierList.begin() ; it != game->_soldierList.end(); ++it)
+        render(*it, game);
+    //Renderiza os projectiles
+    for (std::vector<PROJECTILE>::iterator it = game->_projectileList.begin() ; it != game->_projectileList.end(); ++it)
+        render(*it, game);
+
+
+    // std::for_each(game->_archerList.begin(),game->_archerList.end(),render);
+    // std::for_each(game->_horsemanList.begin(),game->_horsemanList.end(),render);
+    // std::for_each(game->_soldierList.begin(),game->_soldierList.end(),render);
+    // // Renderiza os projéteis
+    // std::for_each(game->_projectileList.begin(),game->_projectileList.end(),render);
     // Desenha os dados da torre
     gameDrawStats(game);
     // Verifica se o jogo acabou
