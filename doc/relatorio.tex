@@ -398,15 +398,29 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
 \end{tabular}
 \end{center}
 
-\chapter{ Implementação Funcional} \label{Implementação Funcional}
+\chapter{ Implementação Funcional} \label{Implementação Funcional} 
 
-Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi adaptava para convertir-se numa linguagem multiparadigma, adicionando suporte e estrutas do paradigma funcional, mas sem perder as principais caracteristicas que a definem.
+Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi adaptava para convertir-se numa linguagem multiparadigma, adicionando suporte e estrutas do paradigma funcional, mas sem perder as principais caracteristicas que a definem. 
 
  \section{Funções Puras}
-bla bla puro
+	As funções puras sempre retornam o mesmo resultado para o mesmo argumento independentemente do ambiente e momento de execução. Para considerar uma função como pura, esta não deve ter efeitos colaterais no programa como modificar uma variável global, imprimir no I/O ou transmitir um pacote pela rede. Em poucas palavras, uma função pura depende exclusivamente de sus parâmetros.
+	Funções que tem efeito colateral são chamadas de funções impuras, entre elas temos rand(), time(), printf() entre outras.
+	Se uma função é marcada como pura, o compilador pode aplicar otimizações especiais como otimizações de laço além de eliminação de subexpressões, melhorando o tempo de execução do programa.
+	Este recurso foi utilziado nas funções gameEndOfGame e gameStartNewGame. Na sintaxe de C++, devemos marcar a função como pura como pode ser observado na figura xx 
+	
+	\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/pure_function.png}
+    }
+    \label{fig:figura1}
+    \caption{Funções Puras.}
+    %\fonte{xxxxxx}
+\end{figure}
 
  \section{Funções Lambda}
 bla bla lambda
+
 
  \section{Funções como elementos de 1ª ordem}
 
