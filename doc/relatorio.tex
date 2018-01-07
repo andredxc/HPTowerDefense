@@ -128,7 +128,7 @@
 
 
 \chapter{Introdução} \label{intro}
-Este a capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Logo após, serão abordados os temas diretamente relacionados á implementação, para maiores detalhes a implementação OO e funcional estão disponíveis em \\ https://github.com/andredxc/HPTowerDefense e podem ser utilizadas sempre e quando a respectiva citação seja incluida. 
+Este capítulo tem o objetivo de descrever de forma sucinta a historia das linguagens de programação e os principais tópicos envolvidos na realização deste trabalho. Logo após, serão abordados os temas diretamente relacionados á implementação, para maiores detalhes a implementação OO e funcional estão disponíveis em \\ https://github.com/andredxc/HPTowerDefense e podem ser utilizadas sempre e quando a respectiva citação seja incluida. 
 Caso seja necesário podemos fornecer uma maquina virtual do sistema de desenvolvimento. 
 \section{Historia das Linguagens de Programação}
 As primeiras linguagens de programação eram simples códigos utilizados para automatizar processos nem sempre relacionadas à computação. Na década de 1940, com a criação do primeiro computador moderno, eram utilizados cartões perfurados para facilitar o processo de programação e diminuir a quantidade de erros introduzidos pelo programador. Não foi até meados de 1950 que surgiu a primeira linguagem de programação moderna: FORTRAN, criada por John Backus. Os seguintes anos foram frutíferos, vieram acompanhados de duas novas linguagens de programação: LISP - John McCarthy e COBOL - Grace Hopper.
@@ -326,7 +326,17 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
 \hline
 \end{tabular}
 \end{center}
- 
+
+\chapter{ Implementação Funcional} \label{Implementação Funcional} 
+
+Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi adaptava para convertir-se numa linguagem multiparadigma, adicionando suporte e estrutas do paradigma funcional, mas sem perder as principais caracteristicas que a definem. 
+
+ \section{Funções Puras}
+bla bla puro 
+
+ \section{Funções Lambda}
+bla bla lambda
+
  \section{Funções como elementos de 1ª ordem}
  
 	Consiste na manipulação de funções como se fossem variáveis no paradigma imperativo, o que permite atribuí-las a variáveis, listas, \textit{structs}, etc.. No nosso projeto, utilizamos este mecanismo como uma alternativa às funções virtuais da etapa anterior. Para tanto, criamos uma \textit{struct} com diversos campos que descrevem atributos de unidades de ataque e defesa, sendo quatro desses campos usados para funções, as quais podem variar entre os diferentes tipos de unidades. Assim, ao inicializar uma nova entidade, podemos definir qual método deve ser chamado para atualizar o comportamento, inicializar as variáveis de posição (X e Y), renderizar e recuperar a vida.
