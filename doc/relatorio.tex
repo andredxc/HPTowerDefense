@@ -406,9 +406,9 @@ Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi
 	As funções puras sempre retornam o mesmo resultado para o mesmo argumento independentemente do ambiente e momento de execução. Para considerar uma função como pura, esta não deve ter efeitos colaterais no programa como modificar uma variável global, imprimir no I/O ou transmitir um pacote pela rede. Em poucas palavras, uma função pura depende exclusivamente de sus parâmetros.
 	Funções que tem efeito colateral são chamadas de funções impuras, entre elas temos rand(), time(), printf() entre outras.
 	Se uma função é marcada como pura, o compilador pode aplicar otimizações especiais como otimizações de laço além de eliminação de subexpressões, melhorando o tempo de execução do programa.
-	Este recurso foi utilziado nas funções gameEndOfGame e gameStartNewGame. Na sintaxe de C++, devemos marcar a função como pura como pode ser observado na figura xx 
+	Este recurso foi utilziado nas funções gameEndOfGame e gameStartNewGame. Na sintaxe de C++, devemos marcar a função como pura como pode ser observado na figura 5. 
 	
-	\begin{figure}[htb]
+\begin{figure}[htb]
     \centering
     \fbox{
         \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/pure_function.png}
@@ -417,11 +417,33 @@ Devido ás intensas e constantes mudanças que ocorrem com a tecnologia, C++ foi
     \caption{Funções Puras.}
     %\fonte{xxxxxx}
 \end{figure}
+Também utilizamos objetos inmutáveis, especificamente listas,isto pode ser observado nas funções que adicionam novos elementos ás listas, já que sempre que a lista é modificada, uma nova lista é criada, modificada e devolvida ao usuario.
 
  \section{Funções Lambda}
-bla bla lambda
 
+	As funções lambda são o elemento principal do Calculo lambda, criado por Alonzo Church na decada de 1930  e são fundamentais para a computação teorica. A sintaxe para definir funções  Lambda em C++ tem suas peculiaridades.
+	
+	[]() mutable throw() -> int \{ \}
 
+ \begin{itemize}
+	\item{Clausula de Captura: 
+		Indica quais variáveis do escopo do chamador serão acesíveis dentro do corpo da função lambda, esta captura pode ser dada por valor ou por referência}
+	\item{Lista de parâmetros: Como em uma função normal, os parâmetros que serão utilizados.}
+	\item{Indicador de mutabilidade: Permite modificar as variáveis que são passadas por valor. }
+	\item{Exception:Tratamento de exceções}
+	\item{ Tipo de retorno:	Se não é epecificado é automaticamente inferido pelo compilador.}
+	\item{Corpo da função}
+ \end{itemize}
+As funções lambda foram usadas como parâmetro das funções de primeira ordem na função gameUpdate()
+\begin{figure}[htb]
+    \centering
+    \fbox{
+        \includegraphics[width=10cm,height=7cm,keepaspectratio]{images/lambda.png}
+    }
+    \label{fig:figura1}
+    \caption{Funções Lambda.}
+    %\fonte{xxxxxx}
+\end{figure}
  \section{Funções como elementos de 1ª ordem}
 
 	Consiste na manipulação de funções como se fossem variáveis no paradigma imperativo, o que permite atribuí-las a variáveis, listas, \textit{structs}, etc.. No nosso projeto, utilizamos este mecanismo como uma alternativa às funções virtuais da etapa anterior. Para tanto, criamos uma \textit{struct} com diversos campos que descrevem atributos de unidades de ataque e defesa, sendo quatro desses campos usados para funções, as quais podem variar entre os diferentes tipos de unidades. Assim, ao inicializar uma nova entidade, podemos definir qual método deve ser chamado para atualizar o comportamento, inicializar as variáveis de posição (X e Y), renderizar e recuperar a vida.
