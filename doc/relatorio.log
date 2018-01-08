@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.5)  7 JAN 2018 23:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.1.5)  8 JAN 2018 00:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1605,15 +1605,18 @@ Package pdftex.def Info: images/alemao5.png used on input line 361.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 367.
 
-Overfull \hbox (88.1325pt too wide) in paragraph at lines 370--384
- [] 
+Underfull \hbox (badness 2970) in paragraph at lines 380--380
+[]|\T1/ptm/b/n/12 Suporte a abs-tra-ção
  []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 384.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 384.
-[15 <./images/alemao4.png> <./images/alemao5.png>]
+ [15 <./images/alemao4.png> <./images/alemao5.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1622,20 +1625,32 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 400.
+(babel)             in language  on input line 384.
 Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 400.
+(babel)             in language  on input line 384.
 [16]
+Overfull \vbox (32.04297pt too high) has occurred while \output is active []
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 384.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 384.
+
+[17]
+Underfull \hbox (badness 10000) has occurred while \output is active
+\T1/ptm/m/n/10.95 18
+ []
+
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 402.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 402.
- [17]
+[18]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 402.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 406.
- <images/pure_function.png, id=279, 438.63875pt x 24.09pt>
+ <images/pure_function.png, id=283, 438.63875pt x 24.09pt>
 File: images/pure_function.png Graphic file (type png)
 
 <use images/pure_function.png>
@@ -1643,19 +1658,14 @@ Package pdftex.def Info: images/pure_function.png used on input line 416.
 (pdftex.def)             Requested size: 284.5295pt x 15.62631pt.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 423.
-
-Underfull \hbox (badness 10000) has occurred while \output is active
-\T1/ptm/m/n/10.95 18
- []
-
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 432.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 432.
-[18
+ [19
 
  <./images/pure_function.png>]
-<images/lambda.png, id=285, 374.39874pt x 110.4125pt>
+<images/lambda.png, id=291, 374.39874pt x 110.4125pt>
 File: images/lambda.png Graphic file (type png)
  <use images/lambda.png>
 Package pdftex.def Info: images/lambda.png used on input line 443.
@@ -1664,12 +1674,16 @@ Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 448.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 452.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 456.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 456.
 
-[19 <./images/lambda.png>]
+Underfull \hbox (badness 10000) has occurred while \output is active
+\T1/ptm/m/n/10.95 20
+ []
+
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 456.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 456.
+[20 <./images/lambda.png>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 460.
 Package babel Info: Redefining portuges shorthand "|
@@ -1677,23 +1691,19 @@ Package babel Info: Redefining portuges shorthand "|
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-Underfull \hbox (badness 10000) has occurred while \output is active
-\T1/ptm/m/n/10.95 20
- []
-
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 467.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 467.
-[20] <images/recursao1.png, id=297, 466.74374pt x 132.495pt>
+ [21]
+<images/recursao1.png, id=301, 466.74374pt x 132.495pt>
 File: images/recursao1.png Graphic file (type png)
 
 <use images/recursao1.png>
 Package pdftex.def Info: images/recursao1.png used on input line 474.
 (pdftex.def)             Requested size: 284.53522pt x 80.77127pt.
 
-<images/recursao2.png, id=298, 730.22812pt x 403.5075pt>
+<images/recursao2.png, id=302, 730.22812pt x 403.5075pt>
 File: images/recursao2.png Graphic file (type png)
 
 <use images/recursao2.png>
@@ -1701,46 +1711,50 @@ Package pdftex.def Info: images/recursao2.png used on input line 486.
 (pdftex.def)             Requested size: 284.5204pt x 157.21951pt.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 492.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 496.
-Package babel Info: Redefining portuges shorthand "|
-(babel)             in language  on input line 496.
- [21 <./images/recursao1.png> <./images/recursao2.png>] <images/pattern1.png, i
-d=307, 546.54187pt x 64.74188pt>
-File: images/pattern1.png Graphic file (type png)
-
-<use images/pattern1.png>
-Package pdftex.def Info: images/pattern1.png used on input line 502.
-(pdftex.def)             Requested size: 284.52864pt x 33.70448pt.
-
-<images/pattern2.png, id=308, 310.91156pt x 288.3272pt>
-File: images/pattern2.png Graphic file (type png)
-
-<use images/pattern2.png>
-Package pdftex.def Info: images/pattern2.png used on input line 512.
-(pdftex.def)             Requested size: 214.77588pt x 199.17474pt.
-
-<images/pattern3.png, id=309, 755.82375pt x 315.42844pt>
-File: images/pattern3.png Graphic file (type png)
-
-<use images/pattern3.png>
-Package pdftex.def Info: images/pattern3.png used on input line 526.
-(pdftex.def)             Requested size: 284.52884pt x 118.7426pt.
 
 Underfull \hbox (badness 10000) has occurred while \output is active
 \T1/ptm/m/n/10.95 22
  []
 
 Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 496.
+Package babel Info: Redefining portuges shorthand "|
+(babel)             in language  on input line 496.
+[22 <./images/recursao1.png> <./images/recursao2.png>]
+<images/pattern1.png, id=311, 546.54187pt x 64.74188pt>
+File: images/pattern1.png Graphic file (type png)
+
+<use images/pattern1.png>
+Package pdftex.def Info: images/pattern1.png used on input line 502.
+(pdftex.def)             Requested size: 284.52864pt x 33.70448pt.
+
+<images/pattern2.png, id=312, 310.91156pt x 288.3272pt>
+File: images/pattern2.png Graphic file (type png)
+
+<use images/pattern2.png>
+Package pdftex.def Info: images/pattern2.png used on input line 512.
+(pdftex.def)             Requested size: 214.77588pt x 199.17474pt.
+
+<images/pattern3.png, id=313, 755.82375pt x 315.42844pt>
+File: images/pattern3.png Graphic file (type png)
+
+<use images/pattern3.png>
+Package pdftex.def Info: images/pattern3.png used on input line 526.
+(pdftex.def)             Requested size: 284.52884pt x 118.7426pt.
+Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 532.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 532.
-[22 <./images/pattern1.png> <./images/pattern2.png>]
+ [23 <./images/pattern1.png> <./images/pattern2.png>]
+Underfull \hbox (badness 10000) has occurred while \output is active
+\T1/ptm/m/n/10.95 24
+ []
+
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 532.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 532.
- [23 <./images/pattern3.png>]
+[24 <./images/pattern3.png>]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 532.
 
@@ -1750,26 +1764,27 @@ Overfull \hbox (2.07059pt too wide) in paragraph at lines 534--535
  []
 
 (./relatorio.bbl
-Underfull \hbox (badness 10000) has occurred while \output is active
-\T1/ptm/m/n/10.95 24
- []
-
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 3.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 3.
-[24
+ [25
 
 ]
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 3.
 ) 
 AED: lastpage setting LastPage
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+\T1/ptm/m/n/10.95 26
+ []
+
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 593.
 Package babel Info: Redefining portuges shorthand "|
 (babel)             in language  on input line 593.
-[25
+[26
 
 ]
 Package babel Info: Redefining portuges shorthand "|
@@ -1791,8 +1806,8 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 593.
  ) 
 Here is how much of TeX's memory you used:
- 21006 strings out of 494888
- 339114 string characters out of 6179128
+ 21007 strings out of 494888
+ 339121 string characters out of 6179128
  409232 words of memory out of 5000000
  23978 multiletter control sequences out of 15000+600000
  31434 words of font info for 48 fonts, out of 8000000 for 9000
@@ -1803,10 +1818,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmri8a.pfb>
-Output written on relatorio.pdf (25 pages, 652477 bytes).
+Output written on relatorio.pdf (26 pages, 652732 bytes).
 PDF statistics:
- 371 PDF objects out of 1000 (max. 8388607)
- 310 compressed objects within 4 object streams
- 79 named destinations out of 1000 (max. 500000)
+ 375 PDF objects out of 1000 (max. 8388607)
+ 313 compressed objects within 4 object streams
+ 80 named destinations out of 1000 (max. 500000)
  348 words of extra memory for PDF output out of 10000 (max. 10000000)
 
