@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%
 % Modelo de relatório de Disciplina de MLP a partir da
 % classe latex iiufrgs disponivel em http://github.com/schnorr/iiufrgs
 %%%%%%%%%%%%%%%%%
@@ -272,7 +272,8 @@ Este tipo de polimorfismo encontra-se em quase todos os projétos, já que é mu
   \begin{itemize}
 	\item Inclusão: Elemento de um subtipo também é um elemento do supertipo, logo os metodos da superclasse podem ser chamados com elementos da subclasse. A vinculaçao tardia permite este tipo de polimorfismo que também pode ser atingido via Downcasting ou Upcasting.
 	Este tipo de polimorfismo pode encontrar-se no metodo render() da classe Unit, este método é chamado pelos objetos das classes AttackUnit e DefenceUnit, ambas são classes derivadas de Unit.
-	\item Paramêtrico: Permite o desenvolvimento de algortimos genéricos, aumentando assim a reusabilidade de codigo. A linguagem C++ oferece diversas estruturas genêricas, chamadas de templates. É importante destacar que o compilador geraŕa codigo diferente para cada tipo do algoritmo generico  que seja instanciado. Podemos encontrar este tipo de polimorfismo nas listas que contém as diferentes unidades do jogo. Utilizamos a classe std::vector<type> do próprio C++.
+	\item Paramétrico: Permite o desenvolvimento de algortimos genéricos, aumentando assim a reusabilidade de codigo. A linguagem C++ oferece diversas estruturas genêricas, chamadas de templates. O nome paramétrico tem relação direta a que tipos dentro da função são parametrizáveis. É importante destacar que o compilador gerará codigo diferente para cada tipo do algoritmo genérico que seja instanciado. Podemos encontrar este tipo de polimorfismo nas listas que contém as diferentes unidades do jogo. Utilizamos a classe std::vector<type> do próprio C++. Os templates são uma forma pouco poderosa de reusabilidade de código, já que em linguagens puramente orientadas a objetos existe maior quantidade de mecanismos que permitem maior liberdade relacionada aos tipos.	
+	
  \end{itemize}
 
 
@@ -454,11 +455,12 @@ As funções lambda foram usadas como parâmetro das funções de primeira ordem
 
 	O uso mais típico desse mecanismo é a substituição de laços iterativos por uma única chamada que tem como parâmetros uma lista de elementos e uma função a ser aplicada a cada nodo. Esse mesmo caso foi utilizado no nosso trabalho nas funções \textit{gameUpate} e \textit{gameRender}, no arquivo \textit{Game.cpp}, para aplicar as funções de atualização do comportamento e de renderização para todas as entidades presentes no jogo. Para tanto, utilizamos a função \textit{for\_each}	definida na biblioteca \textit{iostream}.
 
-	Além disso, criamos a nossa própria função de ordem superior como uma maneira de criar unidade inimigas (arqueiros, cavaleiros e soldados, criados pela rotina \textit{createAttackUnit}). Essa função recebe como seu único parâmetro uma outra que será utilizada para a inicialização dos atributos específicos da unidade escolhida. Assim, conseguimos separar a definição das variáveis padrões para qualquer unidade daquela para o tipo específico de inimigo escolhido.
+	Além disso, usamos uma função própria de ordem superior como uma maneira de criar unidades inimigas (arqueiros, cavaleiros e soldados, criados pela rotina \textit{createAttackUnit}). Essa função recebe como seu único parâmetro uma outra que será utilizada para a inicialização dos atributos específicos da unidade escolhida. Assim, conseguimos separar a definição das variáveis padrões para qualquer unidade daquela para o tipo específico de inimigo escolhido.
 
  \section{Currying}
  
 	Permite que diversas funções, de um único parâmetro cada, sejam criadas a partir de uma outra com diversos parâmetros, afim de atingir uma computação equivalente à desta. A nós, isto não especialmente útil pois conseguimos resolver todos os nossos problemas utilizando outros mecanismos funcionais, entretanto incluímos um exemplo deste mecanismo na função \textit{gameHandleEvents}, dentro do arquivo \textit{Game.cpp}, apenas para demonstrar como seria implementado em C++ e em que tipo de caso poderia ser utilizado.
+	
  \section{Recursao}
  
  A recursão é a ocorrência de uma chamada de função dentro dela mesma, essa funcionalidade é comumente utilizada em situações onde temos um caso base que define o problema e passos de recursão que ocorrem sobre este caso base, um exemplo disto é a sequência de  Fibonacci onde o caso 0 e o caso 1 são definidos como casos base, e seus casos subsequentes são o passo recursivo dos dois casos anteriores, se fossemos criar um laço for para resolver este problema, a solução seria muito mais complexa em comparação com a solução recursiva, assim, a recursão pode ser útil para resolver problemas complexos de maneira mais simples e rápida.
@@ -515,7 +517,7 @@ O casamento de padrões, ou, pattern matching, é o ato de checar se uma certa s
 
 	Nas imagens acima podemos ver que o compilador acusa o erro de que não pôde converter a variavel double c em String, acusando assim um erro de combinação pois a funcao exemplo espera que sejam passados para ela um int e uma string.
 
-	Outro exemplo mais explissito do qual o programador pode tirar proveito é o Overload ou sobrecarga de funções, onde, a partir o pattern matching, o compilador decide qual intancia da funcao usar de acordo com o parametros que foram passador para ele, permitindo assim que o programador utilize um unico nome de funcao para diferentes tipos de dados.
+	Outro exemplo mais explícito do qual o programador pode tirar proveito é o Overload ou sobrecarga de funções, onde, a partir o pattern matching, o compilador decide qual intancia da funcao usar de acordo com o parametros que foram passador para ele, permitindo assim que o programador utilize um unico nome de funcao para diferentes tipos de dados.
 	
 	\begin{figure}[htb]
     \centering
@@ -527,11 +529,24 @@ O casamento de padrões, ou, pattern matching, é o ato de checar se uma certa s
     %\fonte{xxxxxx}
 \end{figure}
 
+ \chapter{Conclusão} \label{Conclusão} 
+
+	Após aprofundar nossos conhecimentos da linguagem C++ e solucionar um mesmo problema utilizando duas abordagens totalmente diferentes, podemos concluir que cada paradigma tem um dominio específico e, embora cada um tenha seus pontos fortes e fracos, acreditamos que uma combinação de ambos fornece a solução mais adequada.
+	
+	A solução orientada a objetos foi responsável por um código mais limpo e claro em termos de estrutura devido à hierarquia de classes simples e intuitiva e à facilidade na definição de \textit{namespaces}. Entretanto, também resultou em mais trabalho para obedecer as regras impostas por estas facilidades estruturais no momento de definir a interação entre as classes e a posição de todas as funções e atributos.
+	
+	O modelo funcional nos permitiu reduzir significativamente certos trechos de código, especialmente aqueles em que empregamos funções de ordem superior aliadas a funções lambda (por exemplo, as rotinas \textit{render} e \textit{update} no arquivo \textit{Game.cpp}) e torná-los mais facilmente compreensíveis por meio de funções como \textit{for\_each}. Isto porque foram quebradas algumas das barreiras entre funções e variáveis. O que, por outro lado, exigiu maior complexidade sintática e um conhecimento mais aprofundado das especificidades da linguagem escolhida, conhecimento esse que não seria diretamente transferido para outras liguagens.
+	
+	A linguagem de programação escolhida facilitou muito a implementação das duas etapas do trabalho pois é muito popular e ampla, o que é um fator determinante para a vasta quantidade de material disponível. Entretanto, a usabilidade do C++ para o paradigma orientado a objetos é muito superior àquela para o funcional. Isto porque é uma linguegem nascida para a orientação a objetos que sofreu alterações posteriores à sua criação que permitiram e facilitaram o uso em múltiplos paradigmas.
+	
+	Portanto, não surpreendentemente, pensamos ser possível criar um código melhor aliando perspectivas de diferentes paradigmas de programação. Isto, entretanto, não é uma dica de ouro que permite a todos programar melhor instantaneamente, mas sim serve como mais uma demonstração e que são necessárias profundas pesquisas e testes para melhorar as habilidades de codificação. Além disso, o conhecimento geral teórico não é suficiente, é necessário que cada linguagem a ser empregada seja conhecida e experimentada afim de atingir o melhor equilíbrio para trabalho em questão.
+
+
 %%%%%%%%%%%
 % Referências
 %%%%%%%%%%%
 
-%\bibliographystyle{abnt}
+%phystyle{abnt}
 
 %\bibliographystyle{abntex2-alf}
 
